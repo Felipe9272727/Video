@@ -2,3 +2,5 @@ scratch/
 *.raw
 *.npy
 *.npz
+__pycache__/
+*.pyc
