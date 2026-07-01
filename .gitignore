@@ -8,3 +8,5 @@ charlie_inferno_animacao.mp4
 
 # raw mocap data (large, re-downloadable)
 mocap/*.bvh
+mocap/*.png
+mocap/*.json
