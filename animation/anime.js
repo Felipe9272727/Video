@@ -16,6 +16,7 @@
   const easeOut = t => 1 - (1 - t) * (1 - t);
   const easeInOut = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   function hash(n) { let t = (n * 2654435761) >>> 0; t ^= t >>> 15; t = Math.imul(t, 2246822519); t ^= t >>> 13; t = Math.imul(t, 3266489917); t ^= t >>> 16; return (t >>> 0) / 4294967296; }
+  function lerp255(c0, c1, t) { const h = x => [parseInt(x.slice(1, 3), 16), parseInt(x.slice(3, 5), 16), parseInt(x.slice(5, 7), 16)]; const a = h(c0), b = h(c1); return `rgb(${lerp(a[0], b[0], t) | 0},${lerp(a[1], b[1], t) | 0},${lerp(a[2], b[2], t) | 0})`; }
   // keyframe interp: keys = [[t, v], ...] (t seconds), eased
   function kf(t, keys, ease = smooth) {
     if (t <= keys[0][0]) return keys[0][1];
@@ -258,6 +259,100 @@
     return { handL, handR };
   }
 
+  // ---------- props & secondary characters (literal storytelling) ----------
+  function rose(ctx, x, y, ang, s) {
+    s = s || 1; ctx.save(); ctx.translate(x, y); ctx.rotate(ang || 0); ctx.scale(s, s);
+    ctx.strokeStyle = '#2f6b2f'; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(0, 2); ctx.lineTo(0, 40); ctx.stroke();
+    ctx.fillStyle = '#3a7a3a'; ctx.beginPath(); ctx.ellipse(-7, 22, 8, 3.5, -0.5, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.ellipse(7, 28, 8, 3.5, 0.5, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#9c2a20'; for (let i = 0; i < 6; i++) { const a = i / 6 * TAU; ctx.beginPath(); ctx.ellipse(Math.cos(a) * 5, -2 + Math.sin(a) * 5, 6, 4.5, a, 0, TAU); ctx.fill(); }
+    ctx.fillStyle = '#c0392b'; ctx.beginPath(); ctx.arc(0, -2, 7, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#d94b3a'; ctx.beginPath(); ctx.arc(-1, -3, 3.5, 0, TAU); ctx.fill();
+    ctx.restore();
+  }
+  function grave(ctx, x, y, s) {
+    s = s || 1; ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+    ctx.fillStyle = 'rgba(30,26,20,0.8)'; ctx.beginPath(); ctx.ellipse(0, 4, 96, 20, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#8a8f96'; ctx.strokeStyle = '#33383e'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(-46, 0); ctx.lineTo(-46, -86); ctx.arc(0, -86, 46, Math.PI, 0); ctx.lineTo(46, 0); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.save(); ctx.clip(); ctx.fillStyle = '#767b82'; ctx.fillRect(6, -132, 60, 140); ctx.restore();
+    ctx.strokeStyle = '#5a5f66'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0, -58); ctx.lineTo(0, -104); ctx.moveTo(-16, -90); ctx.lineTo(16, -90); ctx.stroke();
+    ctx.fillStyle = '#4a4f55'; ctx.font = 'bold 22px Georgia'; ctx.textAlign = 'center'; ctx.fillText('R.I.P.', 0, -26);
+    ctx.restore();
+  }
+  function wife(ctx, p) {
+    const s = p.s || 1; ctx.save(); ctx.translate(p.x, p.y); ctx.scale((p.flip ? -1 : 1) * s, s);
+    const LINE = '#141018', DRESS = '#7a4a6a', DRESS_S = '#5e3852', SKIN = '#ecb98f', HAIR = '#4a2f1e';
+    const ay = -104; const reach = p.reach || 0;
+    // arms reaching to receive the rose
+    limb(ctx, [[-18, ay], [-40, -74], [-56 - reach * 8, -52 - reach * 6]], 13, DRESS, LINE); circle(ctx, -56 - reach * 8, -52 - reach * 6, 8, SKIN, LINE, 3);
+    // dress
+    fillShape(ctx, [[-34, 2], [34, 2], [22, -118], [-22, -118]], DRESS, LINE, 4);
+    ctx.save(); smoothPoly(ctx, [[-34, 2], [34, 2], [22, -118], [-22, -118]]); ctx.clip(); fillShape(ctx, [[4, 2], [34, 2], [22, -118], [4, -118]], DRESS_S, null, 0); ctx.restore();
+    limb(ctx, [[18, ay], [42, -74], [58 + reach * 8, -52 - reach * 6]], 13, DRESS, LINE); circle(ctx, 58 + reach * 8, -52 - reach * 6, 8, SKIN, LINE, 3);
+    // neck + head
+    limb(ctx, [[0, -116], [0, -146]], 15, SKIN, LINE);
+    ctx.save(); ctx.translate(0, -170);
+    ctx.fillStyle = HAIR; ctx.beginPath(); ctx.arc(0, 2, 40, Math.PI * 0.9, Math.PI * 2.1); ctx.quadraticCurveTo(30, 44, 0, 40); ctx.quadraticCurveTo(-30, 44, -40, 8); ctx.closePath(); ctx.fill();
+    circle(ctx, 0, 0, 32, SKIN, LINE, 3.2);
+    ctx.fillStyle = HAIR; ctx.beginPath(); ctx.moveTo(-32, -8); ctx.quadraticCurveTo(-18, -36, 4, -30); ctx.quadraticCurveTo(24, -34, 32, -6); ctx.quadraticCurveTo(10, -20, -32, -8); ctx.fill();
+    for (const ex of [-11, 11]) { ellipse(ctx, ex, 2, 4.5, 5, 0, '#fff', LINE, 1.4); circle(ctx, ex, 3, 2.4, LINE, null); }
+    ctx.strokeStyle = LINE; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(-7, 17); ctx.quadraticCurveTo(0, 22, 7, 17); ctx.stroke();
+    ctx.restore(); ctx.restore();
+  }
+  // Charlie from BEHIND, kneeling (for the low-angle judgment shot)
+  function charlieBackKneel(ctx, p) {
+    const s = p.s || 1; const reach = p.reach || 0; const lookUp = p.lookUp || 0;
+    const COAT = '#38506b', COAT_S = '#2a3c52', HAIR = '#3b2a22', PANT = '#2a2f39', SKIN = '#e8b48c', LINE = '#141018';
+    ctx.save(); ctx.translate(p.x, p.y); ctx.scale(s, s);
+    // kneeling legs from behind (thigh -> knee on ground -> shin/sole back)
+    for (const dx of [-26, 26]) {
+      limb(ctx, [[dx * 0.62, -150], [dx, -40], [dx * 1.25, -70]], 24, PANT, LINE);
+      fillShape(ctx, [[dx * 1.25 - 16, -74], [dx * 1.25 + 18, -78], [dx * 1.25 + 18, -60], [dx * 1.25 - 16, -58]], '#15100c', LINE, 3, false);
+    }
+    // coat back
+    const torso = [[-44, -150], [44, -150], [40, -38], [-40, -38]];
+    fillShape(ctx, torso, COAT, LINE, 4);
+    ctx.save(); smoothPoly(ctx, torso); ctx.clip(); fillShape(ctx, [[2, -150], [44, -150], [40, -38], [2, -38]], COAT_S, null, 0); ctx.restore();
+    ctx.strokeStyle = COAT_S; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, -150); ctx.lineTo(0, -44); ctx.stroke();
+    // arms (raised pleading up toward the angel)
+    for (const dir of [-1, 1]) {
+      limb(ctx, [[dir * 40, -142], [dir * (56 + reach * 6), -120 - reach * 46], [dir * (52 + reach * 14), -96 - reach * 104]], 16, COAT, LINE);
+      circle(ctx, dir * (52 + reach * 14), -96 - reach * 104, 9, SKIN, LINE, 3);
+    }
+    // neck + head (back of head; tilts up so a sliver of face shows)
+    limb(ctx, [[0, -150], [0, -178]], 20, SKIN, LINE);
+    ctx.save(); ctx.translate(0, -196); ctx.rotate(0);
+    circle(ctx, 0, -2, 37, SKIN, LINE, 3.5);
+    // hair covering the back of the head
+    ctx.fillStyle = HAIR; ctx.beginPath(); ctx.arc(0, -2, 38, Math.PI * 0.06, Math.PI * 0.94, false); ctx.quadraticCurveTo(0, -2 + 34 - lookUp * 14, -34, -2 + 22); ctx.quadraticCurveTo(0, -2 + 30 - lookUp * 18, 34, -2 + 22); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.restore();
+  }
+  // Towering angel seen from a LOW ANGLE (imposing), holding the ledger down
+  function angelTower(ctx, p) {
+    const s = p.s || 1, t = p.t || 0; ctx.save(); ctx.translate(p.x, p.y); ctx.scale(s, s);
+    const ROBE = '#eae0c0', ROBE_S = '#cdbf95', LINE = '#8a7c52', SKIN = '#f0d6b0';
+    // wings
+    ctx.fillStyle = 'rgba(248,243,224,0.92)'; ctx.strokeStyle = ROBE_S; ctx.lineWidth = 2;
+    for (const sx of [-1, 1]) { ctx.save(); ctx.scale(sx, 1); const fl = Math.sin(t * 1.2) * 14; ctx.beginPath(); ctx.moveTo(40, -250); ctx.quadraticCurveTo(230, -350 - fl, 300, -180); ctx.quadraticCurveTo(180, -220, 150, -140); ctx.quadraticCurveTo(120, -200, 40, -195); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
+    // robe (wide at bottom = low angle)
+    const robe = [[-58, -240], [58, -240], [155, 30], [-155, 30]];
+    fillShape(ctx, robe, ROBE, LINE, 4);
+    ctx.save(); smoothPoly(ctx, robe); ctx.clip(); fillShape(ctx, [[12, -240], [58, -240], [155, 30], [40, 30]], ROBE_S, null, 0); ctx.restore();
+    // arm holding ledger down toward Charlie
+    limb(ctx, [[42, -222], [104, -168], [116, -96]], 22, ROBE, LINE);
+    ctx.save(); ctx.translate(120, -78); ctx.rotate(0.22); fillShape(ctx, [[-40, 0], [42, -6], [48, 74], [-34, 82]], '#f6efda', '#3a3020', 3, false); ctx.strokeStyle = '#3a3020'; ctx.lineWidth = 2; for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.moveTo(-30, 14 + i * 13); ctx.lineTo(40, 8 + i * 13); ctx.stroke(); } ctx.strokeStyle = '#a01818'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(-26, 42); ctx.lineTo(38, 32); ctx.moveTo(-22, 32); ctx.lineTo(34, 44); ctx.stroke(); ctx.restore();
+    // small head high up + halo (reinforces the height)
+    circle(ctx, 0, -286, 30, SKIN, LINE, 3);
+    ctx.fillStyle = SKIN; // pointing chin down (looking down at Charlie)
+    ctx.fillStyle = '#3b2f1a'; ctx.beginPath(); ctx.arc(0, -292, 31, Math.PI * 0.15, Math.PI * 0.85, false); ctx.fill();
+    for (const ex of [-9, 9]) { ellipse(ctx, ex, -282, 4, 3.4, 0, '#fff', '#8a7c52', 1); circle(ctx, ex, -281, 2, '#333', null); }
+    ctx.strokeStyle = '#8a7c52'; ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(-8, -270); ctx.lineTo(8, -270); ctx.stroke();
+    ctx.strokeStyle = '#f5e08a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.ellipse(0, -320, 33, 9, 0, 0, TAU); ctx.stroke();
+    ctx.restore();
+  }
+
   // ============================ SCENES ============================
   // Each scene: draw(t, f) with t absolute seconds. Camera handled inside.
   const SC = [];
@@ -278,12 +373,26 @@
     // church steeple with cross (irony)
     const cx = 900; ctx.fillStyle = '#6d6258'; poly(ctx, [[cx, 560], [cx, 300], [cx + 45, 250], [cx + 90, 300], [cx + 90, 560]]); ctx.fill(); ctx.strokeStyle = '#efe7d0'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(cx + 45, 250); ctx.lineTo(cx + 45, 210); ctx.moveTo(cx + 28, 226); ctx.lineTo(cx + 62, 226); ctx.stroke();
     ctx.restore();
-    // foreground: Charlie walking with umbrella, cel
-    const wx = W * 0.5 + Math.sin(t * 2) * 0, wy = 600 + Math.sin(t * 4) * 3;
+    // foreground
+    const wx = W * 0.5, wy = 600 + Math.sin(t * 4) * 3;
     const cyc = t * 3.4; const step = 0.5 * Math.sin(cyc);
-    charlie(ctx, { gesture: gestureAt(t, f), x: wx, y: wy, s: 1.0, lean: 0.02 * Math.sin(cyc), head: -0.05, mouth: f.v * 0.7, eye: 1, brow: 0.2, smile: p < 0.6, armL: [Math.PI / 2 + 0.5, -0.7], armR: [Math.PI / 2 - 0.5 + step, 0.5], legL: [Math.PI / 2 + step, -0.3 - 0.2 * Math.max(0, Math.sin(cyc))], legR: [Math.PI / 2 - step, -0.3 - 0.2 * Math.max(0, -Math.sin(cyc))] });
-    // umbrella
-    ctx.save(); ctx.translate(wx - 34, wy - 250); ctx.fillStyle = '#2a2f39'; ctx.beginPath(); ctx.arc(0, 0, 70, Math.PI, 0); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#141018'; ctx.lineWidth = 3; ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 60); ctx.stroke(); ctx.restore();
+    if (t < 45.4) {
+      charlie(ctx, { gesture: gestureAt(t, f), x: wx, y: wy, s: 1.0, lean: 0.02 * Math.sin(cyc), head: -0.05, mouth: f.v * 0.7, eye: 1, brow: 0.2, smile: p < 0.6, armL: [Math.PI / 2 + 0.5, -0.7], armR: [Math.PI / 2 - 0.5 + step, 0.5], legL: [Math.PI / 2 + step, -0.3 - 0.2 * Math.max(0, Math.sin(cyc))], legR: [Math.PI / 2 - step, -0.3 - 0.2 * Math.max(0, -Math.sin(cyc))] });
+      // umbrella (hidden while offering the rose)
+      if (!(t >= 34.3 && t < 38.6)) { ctx.save(); ctx.translate(wx - 34, wy - 250); ctx.fillStyle = '#2a2f39'; ctx.beginPath(); ctx.arc(0, 0, 70, Math.PI, 0); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#141018'; ctx.lineWidth = 3; ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 60); ctx.stroke(); ctx.restore(); }
+      // "dava rosa pra esposa" — a wife appears and he actually hands her the rose
+      if (t >= 34.3 && t < 38.6) {
+        const e = smooth(clamp((t - 34.3) / 1.0)) * smooth(clamp((38.6 - t) / 0.9));
+        wife(ctx, { x: wx + 172, y: wy + 2, flip: true, reach: e });
+        rose(ctx, wx + lerp(78, 150, e), wy - 120 + Math.sin(t * 3) * 2, -0.6 - e * 0.25, 1.05);
+      }
+    } else {
+      // DEATH — "todos orando, juntos do caído": grave + mourners praying in the rain
+      grave(ctx, wx, 588, 1.05);
+      for (const m of [[wx - 200, 616, false, 0.82], [wx + 196, 610, true, 0.86], [wx - 96, 636, false, 0.72]]) {
+        charlie(ctx, { x: m[0], y: m[1], s: m[3], flip: m[2], silh: true, silhCol: '#1c1f27', idle: false, head: 0.34, brow: 0.3, armL: [Math.PI / 2 - 1.0, -1.0], armR: [Math.PI / 2 - 1.0, 1.0] });
+      }
+    }
     stepRain(f); drawRain(ctx, 0.5);
     grade(ctx, 60, 80, 120, 0.28, 'multiply'); vignette(ctx, 0.5); letterbox(ctx, 1);
     if (t > 2 && t < 10) titleCard(ctx, t);
@@ -297,31 +406,42 @@
     godRays(ctx, W / 2, -60, 1100, 40, '255,250,220', 0.5 + 0.3 * Math.sin(t * 2), 0, TAU);
     // clouds rising (parallax down)
     for (let i = 0; i < 6; i++) { const cy = ((i * 160 + p * 500) % (H + 200)) - 100; const cx = 150 + hash(i) * 900; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ellipse(ctx, cx, cy, 130, 46, 0, null); ctx.fill(); ellipse(ctx, cx + 70, cy + 12, 90, 36, 0, 'rgba(255,255,255,0.7)', null); ctx.fill(); }
-    // escalator implied by light steps; Charlie rising small -> bigger, hopeful looking up
+    // the grave he rose from, receding below
+    if (p < 0.6) { ctx.save(); ctx.globalAlpha = (0.6 - p) / 0.6; grave(ctx, W / 2, lerp(600, 860, p), lerp(0.9, 1.5, p)); ctx.restore(); }
+    // his spirit rising — small -> bigger, hopeful, looking up (soft glow)
     const cs = lerp(0.7, 1.05, p), cyy = lerp(560, 470, smooth(p));
+    ctx.save(); const gl = ctx.createRadialGradient(W / 2, cyy - 120, 10, W / 2, cyy - 120, 220); gl.addColorStop(0, 'rgba(255,252,235,0.5)'); gl.addColorStop(1, 'rgba(255,252,235,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H); ctx.restore();
     charlie(ctx, { gesture: gestureAt(t, f), x: W / 2, y: cyy, s: cs, head: -0.25, brow: 0.4, eye: 1, mouth: f.v * 0.6, smile: true, armL: [Math.PI / 2 - 0.6, -0.4], armR: [Math.PI / 2 + 0.6, 0.4], legL: [Math.PI / 2 + 0.05, -0.1], legR: [Math.PI / 2 - 0.05, -0.1] });
     flash(ctx, easeIn(clamp((t - 56.6) / 0.9)) * 0.9); // whiteout into next
     vignette(ctx, 0.25); letterbox(ctx, 1);
   });
 
-  // ---- S3: The list — angel gate, rejection (57.5–70.7) ----
+  // ---- S3: The judgment — LOW ANGLE, Charlie kneeling with back to us, small &
+  //         beneath a towering angel who checks the list. Position of inferiority. ----
   scene(57.5, 70.7, (t, f) => {
     const p = clamp((t - 57.5) / 13.2);
-    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#f3ecd6'); g.addColorStop(1, '#cdb589'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-    godRays(ctx, W * 0.5, -40, 900, 30, '255,248,210', 0.4, 0, TAU);
-    gate(ctx, W * 0.5, 250, 1.15, '#efe6cc', ['#fffdf2', '#f0dca6']);
-    // towering angel gatekeeper silhouette with ledger
-    const ax = W * 0.34;
-    charlie(ctx, { x: ax, y: 470, s: 1.5, silh: true, silhCol: '#b9a473', rim: '#fffbe6', head: 0.06, armL: [Math.PI / 2 - 0.7, -0.5], armR: [Math.PI / 2 - 1.0, 0.3] });
-    // wings hint
-    ctx.save(); ctx.globalAlpha = 0.8; ctx.fillStyle = '#e9dcb4'; smoothPoly(ctx, [[ax - 40, 300], [ax - 180, 250], [ax - 120, 360], [ax - 190, 420], [ax - 60, 400]]); ctx.fill(); ctx.restore();
-    // ledger / list
-    ctx.save(); ctx.translate(ax + 70, 400); ctx.rotate(-0.15); ctx.fillStyle = '#efe7cf'; fillShape(ctx, [[0, 0], [120, -14], [130, 90], [10, 104]], '#efe7cf', '#3a3020', 3, false); ctx.strokeStyle = '#3a3020'; ctx.lineWidth = 2; for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.moveTo(14, 12 + i * 14); ctx.lineTo(116, 12 + i * 14 - 6); ctx.stroke(); } if (p > 0.5) { ctx.strokeStyle = '#a01818'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(20, 40); ctx.lineTo(110, 30); ctx.moveTo(24, 30); ctx.lineTo(106, 44); ctx.stroke(); } ctx.restore();
-    // Charlie small, hopeful -> horror
-    const horror = clamp((t - 64) / 3);
-    charlie(ctx, { gesture: gestureAt(t, f), x: W * 0.72, y: 560, s: 0.95, head: lerp(-0.1, 0.15, horror), brow: lerp(0.4, -0.8, horror), eye: 1, look: 0, mouth: lerp(0.1, 0.9, horror * f.v + horror * 0.4), armL: [Math.PI / 2 - 0.2 - horror * 0.5, -0.3], armR: [Math.PI / 2 + 0.2 + horror * 0.3, 0.3] });
-    if (horror > 0.5) speedLines(ctx, W * 0.72, 420, (horror - 0.5) * 2 * (0.5 + f.beat), '40,30,30', 0.25);
-    grade(ctx, 90, 70, 60, 0.15, 'multiply'); vignette(ctx, 0.4); letterbox(ctx, 1);
+    // heavenly light, but tilting cold as the verdict lands
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, lerp255('#f6efd8', '#cdb6d0', p)); g.addColorStop(1, lerp255('#d8c79a', '#7a6f86', p)); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // floor plane (low angle → we look slightly up; horizon high)
+    ctx.fillStyle = 'rgba(120,110,90,0.5)'; ctx.beginPath(); ctx.moveTo(0, 470); ctx.lineTo(W, 470); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fill();
+    // backlight halo behind the angel
+    const bl = ctx.createRadialGradient(W / 2, 150, 20, W / 2, 150, 620); bl.addColorStop(0, 'rgba(255,250,225,0.95)'); bl.addColorStop(1, 'rgba(255,250,225,0)'); ctx.fillStyle = bl; ctx.fillRect(0, 0, W, H);
+    godRays(ctx, W / 2, 60, 1000, 34, '255,248,215', 0.5 + 0.2 * Math.sin(t * 1.5), 0, TAU);
+    // slow push-in
+    const zoom = lerp(1.0, 1.12, smooth(p)); ctx.save(); ctx.translate(W / 2, 470); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -470);
+    // TOWERING angel, filling the frame from above
+    angelTower(ctx, { x: W / 2, y: 470, s: 1.16, t });
+    // long cast shadow of the angel over Charlie
+    ctx.save(); ctx.globalAlpha = 0.18; ctx.fillStyle = '#20180f'; ctx.beginPath(); ctx.ellipse(W / 2, 690, 320, 40, 0, 0, TAU); ctx.fill(); ctx.restore();
+    // Charlie: small, back to camera, kneeling; bows then looks up pleading
+    const rise = smooth(clamp((t - 61) / 3));           // starts kneeling low, lifts arms
+    const gaze = smooth(clamp((t - 64) / 2));            // looks up when rejected
+    charlieBackKneel(ctx, { x: W / 2, y: 700, s: 0.62 + 0.05 * gaze, reach: 0.2 + 0.8 * rise, lookUp: gaze });
+    ctx.restore();
+    // the red rejection stroke flares on the ledger at the verdict
+    if (p > 0.5) flash(ctx, clamp((t - 64) / 0.4) * (1 - clamp((t - 64.6) / 0.6)) * 0.25, '180,40,40');
+    speedLines(ctx, W / 2, 300, clamp((t - 64) / 2) * (0.4 + f.beat), '80,60,70', 0.14);
+    grade(ctx, 90, 74, 88, 0.16 * p, 'multiply'); vignette(ctx, 0.45); letterbox(ctx, 1);
   });
 
   // ---- S4: chorus — plea + the descent begins (70.7–100.5) ----
