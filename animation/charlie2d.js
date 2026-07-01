@@ -15,6 +15,18 @@
   const lerp2 = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
   const norm = (a) => { const l = Math.hypot(a[0], a[1]) || 1; return [a[0] / l, a[1] / l]; };
   const perp = (a) => [-a[1], a[0]];
+  const LDIR = [-0.55, -0.83]; // light from upper-left -> gives 2.5D volume
+  const shade = (hex, f) => { const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); const c = v => Math.max(0, Math.min(255, Math.round(v * f))); return `rgb(${c(r)},${c(g)},${c(b)})`; };
+  // cross-limb gradient (light side -> dark side) => cylindrical/volumetric look
+  function tubeGrad(ctx, a, b, w, base, dim) {
+    dim = dim || 1;
+    const dir = norm(sub(b, a)); const n = perp(dir); const mid = lerp2(a, b, 0.5);
+    const s = (n[0] * LDIR[0] + n[1] * LDIR[1]) >= 0 ? 1 : -1; // which edge faces the light
+    const e1 = V(mid, mul(n, w * s)), e2 = V(mid, mul(n, -w * s));
+    const g = ctx.createLinearGradient(e1[0], e1[1], e2[0], e2[1]);
+    g.addColorStop(0, shade(base, 1.32 * dim)); g.addColorStop(0.45, shade(base, dim)); g.addColorStop(1, shade(base, 0.62 * dim));
+    return g;
+  }
 
   // Catmull-Rom sample through control points -> dense polyline
   function cr(pts, seg) {
@@ -91,15 +103,17 @@
     // outer shoulder attach points (so arms come out of the coat, not from inside)
     const shoulderOf = (sd) => { const s2 = sd === 'l' ? -1 : 1; return V(shMid, mul(side, s2 * topW * 0.86)); };
 
-    function armOf(sd, shade) {
-      strand(ctx, [shoulderOf(sd), P[sd + 'el'], P[sd + 'wr']], uArm, loArm, shade ? COAT_S : COAT, LINE, LW, true);
-      const wr = P[sd + 'wr'], el = P[sd + 'el']; const d = norm(sub(wr, el));
-      const hc = V(wr, mul(d, loArm * 0.4));
-      ctx.beginPath(); ctx.ellipse(hc[0], hc[1], loArm * 0.66, loArm * 0.78, Math.atan2(d[1], d[0]), 0, TAU); ctx.fillStyle = SKIN; ctx.fill(); ctx.strokeStyle = LINE; ctx.lineWidth = LW; ctx.stroke();
+    function armOf(sd, back) {
+      const sh = shoulderOf(sd), wr = P[sd + 'wr'];
+      strand(ctx, [sh, P[sd + 'el'], wr], uArm, loArm, tubeGrad(ctx, sh, wr, uArm * 0.5, COAT, back ? 0.74 : 1), LINE, LW, true);
+      const el = P[sd + 'el']; const d = norm(sub(wr, el)); const hc = V(wr, mul(d, loArm * 0.4));
+      const hg = ctx.createRadialGradient(hc[0] + LDIR[0] * loArm * 0.4, hc[1] + LDIR[1] * loArm * 0.4, 1, hc[0], hc[1], loArm * 0.95);
+      hg.addColorStop(0, shade(SKIN, 1.14)); hg.addColorStop(1, shade(SKIN, 0.8));
+      ctx.beginPath(); ctx.ellipse(hc[0], hc[1], loArm * 0.66, loArm * 0.78, Math.atan2(d[1], d[0]), 0, TAU); ctx.fillStyle = hg; ctx.fill(); ctx.strokeStyle = LINE; ctx.lineWidth = LW; ctx.stroke();
     }
-    function legOf(sd, shade) {
-      const hipOut = V(hipMid, mul(side, (sd === 'l' ? -1 : 1) * hipW2 * 0.5));
-      strand(ctx, [hipOut, P[sd + 'kn'], P[sd + 'ank']], thigh, calf, shade ? PANT_S : PANT, LINE, LW, false);
+    function legOf(sd, back) {
+      const hipOut = V(hipMid, mul(side, (sd === 'l' ? -1 : 1) * hipW2 * 0.5)); const ank = P[sd + 'ank'];
+      strand(ctx, [hipOut, P[sd + 'kn'], ank], thigh, calf, tubeGrad(ctx, hipOut, ank, thigh * 0.5, PANT, back ? 0.74 : 1), LINE, LW, false);
       const an = P[sd + 'ank']; const fd = o.faceDir || 1;
       ctx.save(); ctx.translate(an[0], an[1]);
       ctx.beginPath(); ctx.moveTo(-calf * 0.5, -calf * 0.2); ctx.quadraticCurveTo(-calf * 0.6, calf * 0.7, -calf * 0.2, calf * 0.7);
@@ -110,15 +124,12 @@
     // depth order: back arm, back leg, torso, front leg, front arm, head
     armOf(B, true);
     legOf(B, true);
-    blob(ctx, torso, COAT, LINE, LW);
-    // clean cel shadow: darker on the back half (clip to torso, fill one side)
-    ctx.save(); blob(ctx, torso); ctx.clip(); ctx.globalAlpha = 0.5; ctx.fillStyle = COAT_S;
-    const ss = (B === 'l' ? -1 : 1); const bigD = base * 4;
-    ctx.beginPath(); ctx.moveTo(shMid[0] + spineDir[0] * bigD, shMid[1] + spineDir[1] * bigD);
-    ctx.lineTo(shMid[0] - spineDir[0] * bigD, shMid[1] - spineDir[1] * bigD);
-    ctx.lineTo(shMid[0] - spineDir[0] * bigD + side[0] * ss * bigD, shMid[1] - spineDir[1] * bigD + side[1] * ss * bigD);
-    ctx.lineTo(shMid[0] + spineDir[0] * bigD + side[0] * ss * bigD, shMid[1] + spineDir[1] * bigD + side[1] * ss * bigD);
-    ctx.closePath(); ctx.fill(); ctx.globalAlpha = 1; ctx.restore();
+    // volumetric torso: lit gradient (upper-left) instead of a flat fill
+    const tc = lerp2(hipMid, shMid, 0.5); const trad = topW * 1.7;
+    const tp1 = V(tc, mul(LDIR, trad)), tp2 = V(tc, mul(LDIR, -trad));
+    const tg = ctx.createLinearGradient(tp1[0], tp1[1], tp2[0], tp2[1]);
+    tg.addColorStop(0, shade(COAT, 1.24)); tg.addColorStop(0.5, COAT); tg.addColorStop(1, shade(COAT, 0.64));
+    blob(ctx, torso, tg, LINE, LW);
     if (!st.demon) {
       // shirt V at the collar + tie down the front midline
       ctx.save(); blob(ctx, torso); ctx.clip();
@@ -140,10 +151,12 @@
     strand(ctx, [shMid, headPos], S * 0.11, S * 0.10, SKIN, LINE, LW, false);
     const hr = S * 0.175; const hx = headPos[0], hy = headPos[1] - hr * 0.35;
     const fd = o.lookDir != null ? o.lookDir : (o.faceDir || 1);
-    ctx.beginPath(); ctx.ellipse(hx, hy, hr * 0.92, hr, 0, 0, TAU); ctx.fillStyle = SKIN; ctx.fill(); ctx.strokeStyle = LINE; ctx.lineWidth = LW; ctx.stroke();
+    const shg = ctx.createRadialGradient(hx + LDIR[0] * hr * 0.5, hy + LDIR[1] * hr * 0.5, hr * 0.15, hx, hy, hr * 1.08);
+    shg.addColorStop(0, shade(SKIN, 1.13)); shg.addColorStop(0.68, SKIN); shg.addColorStop(1, shade(SKIN, 0.72));
+    ctx.beginPath(); ctx.ellipse(hx, hy, hr * 0.92, hr, 0, 0, TAU); ctx.fillStyle = shg; ctx.fill(); ctx.strokeStyle = LINE; ctx.lineWidth = LW; ctx.stroke();
     ctx.save(); ctx.translate(hx, hy);
-    // cheek shadow (away from facing)
-    ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, hr * 0.92, hr, 0, 0, TAU); ctx.clip(); ctx.fillStyle = SKIN_S; ctx.beginPath(); ctx.ellipse(-fd * hr * 0.55, hr * 0.12, hr * 0.75, hr, 0, 0, TAU); ctx.fill(); ctx.restore();
+    // core shadow crescent on the side away from the light
+    ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, hr * 0.92, hr, 0, 0, TAU); ctx.clip(); ctx.globalAlpha = 0.35; ctx.fillStyle = shade(SKIN, 0.6); ctx.beginPath(); ctx.ellipse(-LDIR[0] * hr * 0.7, -LDIR[1] * hr * 0.7, hr * 0.8, hr * 1.05, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; ctx.restore();
     // hair (organic sweep)
     ctx.fillStyle = HAIR; ctx.beginPath(); ctx.moveTo(-hr * 0.95, hr * 0.05); ctx.quadraticCurveTo(-hr * 1.05, -hr * 0.95, hr * 0.1, -hr * 0.98); ctx.quadraticCurveTo(hr * 1.05, -hr * 0.9, hr * 0.95, -hr * 0.1); ctx.quadraticCurveTo(hr * 0.5 + fd * hr * 0.2, -hr * 0.55, hr * 0.1 + fd * hr * 0.2, -hr * 0.5); ctx.quadraticCurveTo(-hr * 0.2, -hr * 0.62, -hr * 0.95, hr * 0.05); ctx.closePath(); ctx.fill();
     // eyes
