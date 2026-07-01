@@ -7,7 +7,9 @@ const ROOT = path.resolve(__dirname, '..');
 const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const FFMPEG = fs.readFileSync(path.join(ROOT, 'build/ffmpeg_path.txt'), 'utf8').trim();
 const AUDIO = path.join(ROOT, "Charlie_s Inferno (Excuse Me Sir) - That Handsome Devil _ COVER PT-BR(MP3_160K)_1.mp3");
-const run = JSON.parse(fs.readFileSync(path.join(ROOT, 'mocap/run.json'), 'utf8'));
+const run = JSON.parse(fs.readFileSync(path.join(ROOT, 'mocap/run_side.json'), 'utf8'));
+const runLow = JSON.parse(fs.readFileSync(path.join(ROOT, 'mocap/run_low.json'), 'utf8'));
+const run34 = JSON.parse(fs.readFileSync(path.join(ROOT, 'mocap/run_34b.json'), 'utf8'));
 const TL = JSON.parse(fs.readFileSync(path.join(ROOT, 'build/timeline.json'), 'utf8'));
 const T0 = 176.0, T1 = 200.2, FPS = 24;
 
@@ -15,11 +17,13 @@ const T0 = 176.0, T1 = 200.2, FPS = 24;
   const b = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
   const pg = await b.newPage({ viewport: { width: 1280, height: 720, deviceScaleFactor: 1 } });
   await pg.setContent('<canvas id="c" width="1280" height="720"></canvas>');
-  await pg.addScriptTag({ path: path.join(__dirname, 'charlie_mocap.js') });
-  await pg.addScriptTag({ content: 'window.RUN=' + JSON.stringify(run) + ';window.EMB=[];' });
+  await pg.addScriptTag({ path: path.join(__dirname, 'charlie2d.js') });
+  await pg.addScriptTag({ content: 'window.RUN=' + JSON.stringify(run) + ';window.RUNLOW=' + JSON.stringify(runLow) + ';window.RUN34=' + JSON.stringify(run34) + ';window.EMB=[];' });
   await pg.evaluate(() => {
     const W = 1280, H = 720, TAU = Math.PI * 2;
     function hash(n) { let t = (n * 2654435761) >>> 0; t ^= t >>> 15; t = Math.imul(t, 2246822519); t ^= t >>> 13; t = Math.imul(t, 3266489917); t ^= t >>> 16; return (t >>> 0) / 4294967296; }
+    // adapter: deformable 2D character from a clip + frame index
+    window.DC = (x, clip, idx, o) => { const n = clip.count; const fr = clip.frames[((idx % n) + n) % n]; drawChar2D(x, fr, o); };
     window.drawChase = function (t, f, i) {
       const c = document.getElementById('c'); const x = c.getContext('2d');
       x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, W, H);
@@ -44,13 +48,16 @@ const T0 = 176.0, T1 = 200.2, FPS = 24;
       const rate = 1 + 6 * f.h + 8 * f.onset; let sp = rate; while (sp > 0) { if (sp < 1 && hash(window.EMB.length * 9 + i) > sp) break; sp -= 1; window.EMB.push({ x: hash(window.EMB.length * 7 + i * 13) * W, y: 700, vx: (hash(window.EMB.length) - 0.5), vy: -(1 + hash(window.EMB.length * 3) * 2.5) - 2 * f.b, life: 0, max: 60 + hash(window.EMB.length * 5) * 90, r: 1 + hash(window.EMB.length * 2) * 2.4 }); }
       x.save(); x.globalCompositeOperation = 'lighter'; window.EMB = window.EMB.filter(e => { e.life++; e.x += e.vx; e.y += e.vy; e.vy *= 0.99; if (e.life > e.max || e.y < -20) return false; const k = 1 - e.life / e.max; const gg = x.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.r * 4); gg.addColorStop(0, `rgba(255,225,150,${0.9 * k})`); gg.addColorStop(1, 'rgba(255,80,0,0)'); x.fillStyle = gg; x.beginPath(); x.arc(e.x, e.y, e.r * 4, 0, TAU); x.fill(); return true; }); if (window.EMB.length > 400) window.EMB.splice(0, window.EMB.length - 400); x.restore();
       // ---- demons chasing (same real run motion, dark + horns + glow) ----
-      const dstyle = { coat: '#2c0e0e', coatS: '#1c0708', pant: '#1a0708', shoe: '#0c0304', tie: '#2c0e0e', shirt: '#2c0e0e', skin: '#3a1512', skinS: '#2a0f0c', hair: '#1a0708', line: '#0a0406' };
+      const dstyle = { coat: '#2c0e0e', coatS: '#1c0708', pant: '#1a0708', shoe: '#0c0304', skin: '#3a1512', skinS: '#2a0f0c', hair: '#1a0708', line: '#0a0406', demon: true };
       const dbob = Math.sin(t * 12) * 3;
-      drawCharlieMocap(x, window.RUN, i + 3, { x: 210 + Math.sin(t * 0.5) * 20, y: 452 + dbob, scale: 210, faceDir: 1, lookDir: 1, style: dstyle, horns: true, glow: true, emotion: { mouth: 0.5, brow: -0.6, eye: 1 } });
-      drawCharlieMocap(x, window.RUN, i + 9, { x: 60 + Math.cos(t * 0.6) * 20, y: 462 - dbob, scale: 195, faceDir: 1, lookDir: 1, style: dstyle, horns: true, glow: true, emotion: { mouth: 0.6, brow: -0.6, eye: 1 } });
-      // ---- Charlie fleeing, glancing back in terror every ~2s ----
+      window.DC(x, window.RUN, i + 3, { x: 210 + Math.sin(t * 0.5) * 20, y: 420 + dbob, scale: 178, faceDir: 1, lookDir: 1, style: dstyle, horns: true, glow: true, emotion: { mouth: 0.5, brow: -0.6, eye: 1 } });
+      window.DC(x, window.RUN, i + 9, { x: 70 + Math.cos(t * 0.6) * 20, y: 430 - dbob, scale: 166, faceDir: 1, lookDir: 1, style: dstyle, horns: true, glow: true, emotion: { mouth: 0.6, brow: -0.6, eye: 1 } });
+      // ---- Charlie fleeing — CUT the camera angle every ~2.5s (abuse angles) ----
+      const shot = Math.floor((t - 176) / 2.5) % 3;
+      const clip = shot === 1 ? window.RUN34 : shot === 2 ? window.RUNLOW : window.RUN;
       const glance = (Math.sin(t * 3.1) > 0.75) ? -1 : 1;
-      drawCharlieMocap(x, window.RUN, i, { x: 760 + Math.sin(t * 0.7) * 30, y: 448, scale: 205, faceDir: 1, lookDir: glance, emotion: { mouth: 0.5 + 0.4 * f.v, brow: -0.85, eye: 1 } });
+      const csc = shot === 2 ? 205 : 185;
+      window.DC(x, clip, i, { x: 760 + Math.sin(t * 0.7) * 30, y: shot === 2 ? 470 : 420, scale: csc, faceDir: 1, lookDir: glance, emotion: { mouth: 0.5 + 0.4 * f.v, brow: -0.85, eye: 1 } });
       // ---- speed lines / streaks ----
       x.save(); x.globalCompositeOperation = 'lighter'; x.strokeStyle = `rgba(255,150,70,${0.12 + 0.14 * f.beat})`; x.lineWidth = 3; for (let k = 0; k < 12; k++) { const yy = hash(k * 3 + (i / 2 | 0)) * H; x.beginPath(); x.moveTo(0, yy); x.lineTo(W, yy + 6); x.stroke(); } x.restore();
       x.restore();
