@@ -20,6 +20,11 @@
   function drawCharlieMocap(ctx, clip, fi, o) {
     const n = clip.count; const fr = clip.frames[((fi % n) + n) % n];
     const S = o.scale, X = o.x, Y = o.y; const em = o.emotion || {};
+    // palette (override for demons etc.)
+    const st = o.style || {};
+    const SKIN = st.skin || '#e8b48c', SKIN_S = st.skinS || '#c98d64', HAIR = st.hair || '#3b2a22',
+      COAT = st.coat || '#38506b', COAT_S = st.coatS || '#2a3c52', SHIRT = st.shirt || '#d9dde3',
+      TIE = st.tie || '#7d2530', PANT = st.pant || '#2a2f39', SHOE = st.shoe || '#15100c', LINE = st.line || '#141018';
     const P = {}; for (const k in fr) P[k] = [X + fr[k][0] * S, Y + fr[k][1] * S, fr[k][2]];
     const wLeg = S * 0.09, wArm = S * 0.075, wNeck = S * 0.085;
     // depth: the side with greater z is farther -> draw first
@@ -64,8 +69,8 @@
     limb(ctx, [shMid, headPos], wNeck * 1.7, SKIN, LINE, 6);
     const hr = S * 0.16, hx = headPos[0], hy = headPos[1] - hr * 0.35;
     ctx.beginPath(); ctx.arc(hx, hy, hr, 0, TAU); ctx.fillStyle = SKIN; ctx.fill(); ctx.strokeStyle = LINE; ctx.lineWidth = 3.5; ctx.stroke();
-    // face turned by faceDir (which way he's moving/looking)
-    const fd = o.faceDir || 1;
+    // face turned by lookDir (can glance back while body runs forward)
+    const fd = o.lookDir != null ? o.lookDir : (o.faceDir || 1);
     ctx.save(); ctx.translate(hx, hy);
     // cheek shadow
     ctx.save(); ctx.beginPath(); ctx.arc(0, 0, hr, 0, TAU); ctx.clip(); ctx.fillStyle = SKIN_S; ctx.beginPath(); ctx.ellipse(hr * 0.55 * -fd, hr * 0.1, hr * 0.8, hr, 0, 0, TAU); ctx.fill(); ctx.restore();
@@ -82,6 +87,8 @@
     const mx = 0.22 * fd * hr, my = hr * 0.52;
     if (mo < 0.12) { ctx.beginPath(); ctx.moveTo(mx - hr * 0.16, my); ctx.quadraticCurveTo(mx, my + (em.smile ? -hr * 0.14 : hr * 0.08), mx + hr * 0.16, my); ctx.stroke(); }
     else { ctx.beginPath(); ctx.ellipse(mx, my, hr * 0.14, hr * 0.1 + hr * 0.22 * mo, 0, 0, TAU); ctx.fillStyle = '#5a2320'; ctx.fill(); ctx.stroke(); }
+    if (o.horns) { ctx.fillStyle = st.coat || '#2c0e0e'; ctx.strokeStyle = LINE; ctx.lineWidth = 3; for (const hd of [-1, 1]) { ctx.beginPath(); ctx.moveTo(hd * hr * 0.5, -hr * 0.66); ctx.quadraticCurveTo(hd * hr * 1.05, -hr * 1.25, hd * hr * 0.72, -hr * 1.75); ctx.quadraticCurveTo(hd * hr * 0.56, -hr * 1.2, hd * hr * 0.26, -hr * 0.8); ctx.closePath(); ctx.fill(); ctx.stroke(); } }
+    if (o.glow) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; for (const s of [-0.42, 0.42]) { const ex = (s + 0.28 * fd) * hr, ey = hr * 0.1; const g = ctx.createRadialGradient(ex, ey, 0, ex, ey, hr * 0.55); g.addColorStop(0, 'rgba(255,220,90,0.95)'); g.addColorStop(1, 'rgba(255,120,0,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ex, ey, hr * 0.55, 0, TAU); ctx.fill(); } ctx.restore(); }
     ctx.restore();
 
     leg(front); arm(front);
