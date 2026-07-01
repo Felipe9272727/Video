@@ -1,42 +1,50 @@
-# Charlie's Inferno — animação desenhada à mão
+# Charlie's Inferno — clipe animado (anime cinematográfico)
 
-Clipe animado para o cover PT-BR de *Charlie's Inferno* (That Handsome Devil),
-sincronizado com a música. Um diabinho desenhado à mão "canta" e reage à batida
-dentro de um inferno de chamas — com estética feita à mão (traço **fervendo**,
-textura de papel/grão, cadência ~12fps), nada de formas geométricas limpas.
+Clipe narrativo para o cover PT-BR de *Charlie's Inferno* (That Handsome Devil).
+Conta a **história do Charlie**: um homem "bonzinho" e vaidoso morre esperando o
+céu; um anjo confere a lista e o nome dele não está lá; ele é mandado **pra
+baixo** — implorando a demônios indiferentes enquanto desce num inferno
+burocrático/consumista. Sem redenção. (Narrativa tirada da letra; **nenhuma letra
+aparece na tela** por direitos autorais.)
 
-## Como funciona (3 etapas)
+Estilo: **cel-shading**, 24fps fluido (sem traço "fervido"), cortes de câmera,
+parallax, silhuetas dramáticas, god-rays, *speed lines*, brasas, *letterbox* e
+correção de cor por cena.
 
-1. **`analyze.py`** — analisa o MP3 (numpy, sem librosa) e gera
-   `build/timeline.json`: por frame de vídeo extrai energia geral, graves,
-   médios, agudos, **banda vocal** (controla a boca cantando), um envelope de
-   **batida** com decaimento (acentos/pulos) e a fase do tempo (~143 BPM).
-2. **`engine.js`** — motor de desenho em Canvas, determinístico por frame.
-   Tudo é desenhado com traços ásperos que "fervem" (re-sorteados a cada 2
-   frames → ~12fps), hachuras à caneta para sombra, chamas orgânicas irregulares
-   (várias "línguas" sobrepostas), brasas, e o personagem com squash & stretch,
-   piscadas, sobrancelhas expressivas, boca que abre com a voz e tridente que
-   pulsa na batida.
-3. **`render.js`** — abre o Chromium (Playwright), renderiza frame a frame e
-   joga os PNGs direto no ffmpeg (H.264 + AAC), juntando o áudio numa passada só.
+## Estrutura (9 movimentos, sincronizados com as seções da música)
 
-## Re-renderizar
+| Tempo | Cena |
+|------|------|
+| 0–50s | Vida oca do "bom homem" — subúrbio cinza e chuvoso, igreja, título |
+| 50–57s | Ascensão pra luz (god-rays, nuvens) |
+| 57–70s | A lista — anjo confere o livro → nome ausente → coração cai |
+| 70–100s | Refrão: o apelo + começo da queda pelo poço |
+| 100–130s | O inferno grotesco/consumista ("ABANDON ALL HOPE") |
+| 130–150s | A caçada do diabo — agora um demônio confere a lista |
+| 150–176s | Refrão: descida mais fundo, "não pertenço aqui" |
+| 176–200s | Ponte: a corrida infinita e inútil |
+| 200–230s | Outro: sem redenção, engolido pelas chamas |
+
+## Pipeline
+
+1. **`analyze.py`** → `build/timeline.json` (energia, graves, banda vocal, batidas)
+   — dirige reações à música (tremor de câmera, brasas, boca cantando).
+2. **`transcribe.py`** → `build/lyrics.json` (faster-whisper) — timings das frases
+   pra cortar as cenas nos pontos certos. Só referência interna.
+3. **`anime.js`** → motor cel-shaded com sistema de cenas, câmera, Charlie
+   posável (poses por keyframe), cenários reutilizáveis (portão, poço, multidão).
+4. **`render.js`** → Chromium (Playwright) frame a frame → ffmpeg (H.264 + AAC).
 
 ```bash
-pip install imageio-ffmpeg numpy playwright
-# 1) decodificar o áudio p/ análise (ffmpeg do imageio-ffmpeg)
-ffmpeg -i "<arquivo>.mp3" -ac 1 -ar 22050 -f f32le build/audio_mono_22050.raw
-# 2) análise (24 fps)
-python3 animation/analyze.py 24
-# 3) render completo (com áudio)
-cd animation && node render.js --out ../charlie_inferno_animacao.mp4
-# Conferir frames soltos sem renderizar tudo:
-node render.js --probe 60,1200,3000
+cd animation && node render.js --out ../build/anime_full.mp4   # render completo
+node render.js --probe 720,2760,4512                            # frames avulsos p/ QA
 ```
 
-## Ajustes rápidos (em `engine.js`)
+`engine_v1_handdrawn.js` = versão anterior (diabo desenhado à mão), guardada só
+como referência.
 
-- **Mais "fervido"/tremido:** aumente `wob` nos `blob(...)` do personagem.
-- **Cadência:** `HOLD` (2 = ~12fps de boil; 3 = ~8fps, mais "stop-motion").
-- **Cores:** constantes `RED`, `INK`, paleta das chamas em `tongue(...)`.
-- **Intensidade da reação à batida:** fatores `beat` em `drawDevil`/`drawTrident`.
+## Limite honesto
+
+Isto é **procedural** (gerado por código), não anime de estúdio quadro a quadro.
+Os personagens são estilizados (figuras cel-shaded + silhuetas), sem atuação
+facial detalhada. A força vem da direção: luz, cor, câmera, composição e ritmo.
