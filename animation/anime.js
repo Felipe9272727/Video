@@ -130,62 +130,129 @@
     ctx.restore();
   }
 
-  // ---------- Charlie (cel-shaded everyman) ----------
-  // p: {x,y,s,flip,lean,head,armL:[a1,a2],armR:[a1,a2],legL:[a1,a2],legR:[a1,a2],
-  //     mouth,eye,brow,silh,light}
+  // ---------- character dynamics: springs (secondary motion) + blink ----------
+  let NOW = 0, CH = {};
+  function chState(id) { return CH[id] || (CH[id] = { px: null, py: null, coat: { a: 0, v: 0 }, tie: { a: 0, v: 0 }, hair: { a: 0, v: 0 }, breath: hash(id.length * 7 + 3) }); }
+  function spr(s, target, k, d) { s.v += (target - s.a) * k; s.v *= d; s.a += s.v; return s.a; }
+  function blinkAt() { const ph = NOW % 3.4; return ph < 0.12 ? Math.sin(ph / 0.12 * Math.PI) : 0; }
+
+  // ---------- per-line action / gesture system (one action per lyric line) ----------
+  // arm = [shoulderAngle, elbowAngle]; angle 0=+x(right), PI/2=down, -PI/2=up, PI=left
+  const NEUT = { armL: [Math.PI / 2 - 0.2, -0.3], armR: [Math.PI / 2 + 0.2, 0.3], brow: 0.15 };
+  const UP = -Math.PI / 2;
+  const P = {
+    switch: () => ({ armR: [UP + 0.25, -0.3], head: -0.12, brow: 0.3, smile: true }),
+    bike: (u) => ({ armL: [Math.PI / 2 - 1.05, -0.25], armR: [Math.PI / 2 - 0.95, 0.25], lean: 0.13, hip: 5 + 5 * Math.sin(u * 26) }),
+    fish: (u) => ({ armR: [Math.PI / 2 - 1.4 + Math.sin(u * Math.PI * 2) * 0.9, 0.2], armL: [Math.PI / 2 - 0.6, -0.2], lean: 0.05 * Math.cos(u * Math.PI * 2) }),
+    heart: () => ({ armR: [Math.PI / 2 - 1.35, -0.9], head: 0.05, brow: 0.4, smile: true }),
+    recoil: () => ({ armL: [UP - 0.35, 0.4], armR: [UP + 0.35, -0.4], lean: -0.2, head: 0.16, brow: -0.5, mouthOpen: 0.5 }),
+    rose: () => ({ armR: [0.15, 0.15], head: -0.06, brow: 0.4, smile: true }),
+    shrug: (u) => ({ armL: [Math.PI - 0.55, -0.5], armR: [0.55, 0.5], head: 0.05 + 0.05 * Math.sin(u * 8), brow: 0.35 }),
+    wave: (u) => ({ armR: [UP + 0.2 + Math.sin(u * 22) * 0.28, -0.2], head: 0.04, brow: 0.3, smile: true }),
+    pray: () => ({ armL: [Math.PI / 2 - 1.05, -1.0], armR: [Math.PI / 2 - 1.05, 1.0], head: 0.2, brow: 0.4 }),
+    pointUp: () => ({ armR: [UP + 0.05, -0.12], head: -0.22, brow: 0.4 }),
+    awe: () => ({ armL: [Math.PI / 2 - 0.6, -0.3], armR: [Math.PI / 2 + 0.6, 0.3], head: -0.26, brow: 0.5 }),
+    plead: (u) => ({ armL: [Math.PI / 2 - 1.0 + Math.sin(u * 11) * 0.12, -0.4], armR: [Math.PI / 2 + 1.0 - Math.sin(u * 11) * 0.12, 0.4], head: 0.1, brow: -0.7, mouthOpen: 0.6 }),
+    clutch: () => ({ armL: [Math.PI / 2 - 1.25, -0.9], armR: [Math.PI / 2 - 1.25, 0.9], lean: 0.09, head: 0.16, brow: -0.85, mouthOpen: 0.7, squash: 0.16 }),
+    shout: () => ({ armL: [UP - 0.4, 0.3], armR: [UP + 0.4, -0.3], head: -0.14, brow: -0.6, mouthOpen: 0.9 }),
+    protest: (u) => ({ armL: [Math.PI - 0.32, -0.3], armR: [0.32, 0.3], head: 0.1 + 0.04 * Math.sin(u * 10), brow: -0.6, mouthOpen: 0.6 }),
+    reveal: () => ({ armR: [0.2, 0.3], head: 0.16, brow: -0.3, mouthOpen: 0.5 }),
+    look: (u) => ({ head: 0.14 * Math.sin(u * 5), brow: 0.2, look: Math.sin(u * 5), mouthOpen: 0.4 }),
+  };
+  // [t0, poseKey] — one per lyric line (times from the Whisper transcription)
+  const ACT = [
+    [19.28, 'switch'], [21.18, 'bike'], [24.62, 'fish'], [27.76, 'heart'], [31.2, 'recoil'],
+    [34.5, 'rose'], [37.9, 'shrug'], [44.68, 'wave'], [47.74, 'pray'], [50.92, 'pointUp'],
+    [53.82, 'awe'], [57.48, 'look'], [60.86, 'recoil'], [63.94, 'clutch'], [70.72, 'plead'],
+    [76.73, 'protest'], [80.59, 'shout'], [83.95, 'plead'], [86.93, 'look'], [89.95, 'protest'],
+    [93.79, 'shout'], [97.25, 'shout'], [100.51, 'reveal'], [106.8, 'reveal'], [110.06, 'protest'],
+    [113.22, 'reveal'], [116.84, 'reveal'], [119.96, 'awe'], [123.12, 'look'], [126.56, 'protest'],
+    [129.82, 'shout'], [132.9, 'recoil'], [136.16, 'look'], [139.66, 'recoil'], [142.76, 'plead'],
+    [146.08, 'clutch'], [149.74, 'plead'], [157.5, 'shout'], [162.83, 'plead'],
+  ];
+  function env(u) { return smooth(clamp(u / 0.26)) * smooth(clamp((1 - u) / 0.2)); }
+  function gestureAt(t, f) {
+    let a = null, i;
+    for (i = 0; i < ACT.length; i++) { const t0 = ACT[i][0], t1 = i + 1 < ACT.length ? ACT[i + 1][0] : t0 + 3; if (t >= t0 && t < t1) { a = ACT[i]; break; } }
+    if (!a) return null;
+    const t0 = a[0], t1 = i + 1 < ACT.length ? ACT[i + 1][0] : t0 + 3; const u = clamp((t - t0) / Math.max(0.5, t1 - t0));
+    const raw = P[a[1]]; const tp = typeof raw === 'function' ? raw(u, f) : raw; const e = env(u);
+    const o = {};
+    o.armL = [lerp(NEUT.armL[0], (tp.armL || NEUT.armL)[0], e), lerp(NEUT.armL[1], (tp.armL || NEUT.armL)[1], e)];
+    o.armR = [lerp(NEUT.armR[0], (tp.armR || NEUT.armR)[0], e), lerp(NEUT.armR[1], (tp.armR || NEUT.armR)[1], e)];
+    o.lean = lerp(0, tp.lean || 0, e); o.hip = lerp(0, tp.hip || 0, e); o.head = lerp(0, tp.head || 0, e);
+    o.brow = lerp(NEUT.brow, tp.brow != null ? tp.brow : NEUT.brow, e); o.squash = lerp(0, tp.squash || 0, e);
+    o.look = (tp.look || 0) * e; o.smile = tp.smile;
+    o.mouthOpen = Math.max(tp.mouthOpen || 0, clamp(0.15 + (f ? f.v : 0)) * e); // sing on the vocal band
+    return o;
+  }
+
+  // ---------- Charlie (cel-shaded everyman) — rigged, idle + springs + smear ----------
   function charlie(ctx, p) {
+    const id = p.id || 'main', st = chState(id);
     const s = p.s || 1, flip = p.flip ? -1 : 1;
     const SKIN = '#e8b48c', SKIN_S = '#c98d64', HAIR = '#3b2a22', COAT = '#38506b', COAT_S = '#26374d', SHIRT = '#d9dde3', PANT = '#2a2f39', LINE = '#141018';
     const silh = p.silh; const bodyF = silh ? (p.silhCol || '#0b0910') : COAT, bodyL = silh ? (p.silhCol || '#0b0910') : LINE;
-    ctx.save(); ctx.translate(p.x, p.y); ctx.scale(flip * s, s); ctx.rotate(p.lean || 0);
-    const hipY = 0, shY = -150, headY = -210;
-    // legs
-    const lg = p.legL || [Math.PI / 2 + 0.12, -0.15], rg = p.legR || [Math.PI / 2 - 0.12, 0.15];
-    for (const [hip, dir, g] of [[[-14, hipY], lg, 1], [[14, hipY], rg, -1]]) {
+    const g = p.gesture || {};
+    // velocity (world px/frame) -> springs + smear
+    const vx = st.px == null ? 0 : (p.x - st.px), vy = st.py == null ? 0 : (p.y - st.py); st.px = p.x; st.py = p.y;
+    const lvx = vx * flip;
+    // idle life (breathing, sway, weight-shift, blink)
+    const idle = p.idle === false ? 0 : 1;
+    const breath = idle * Math.sin(NOW * 2.2 + st.breath * 7);
+    const wShift = idle * Math.sin(NOW * 0.9 + st.breath * 3) * 3;
+    const headBob = idle * Math.sin(NOW * 2.2 + st.breath * 7 + 0.5) * 0.03;
+    const blink = idle ? blinkAt() : 0;
+    const lean = (p.lean || 0) + (g.lean || 0) + idle * Math.sin(NOW * 0.9 + st.breath * 3) * 0.02;
+    // secondary-motion springs (coat hem, tie, hair lag behind motion + lean)
+    const coatA = spr(st.coat, -lvx * 0.02 - lean * 0.6, 0.35, 0.75);
+    const tieA = spr(st.tie, lvx * 0.03 + Math.sin(NOW * 3) * 0.04 + lean * 0.5, 0.4, 0.7);
+    const hairA = spr(st.hair, -lvx * 0.03 - lean * 0.4, 0.4, 0.72);
+
+    ctx.save(); ctx.translate(p.x, p.y); ctx.scale(flip * s, s); ctx.rotate(lean);
+    ctx.scale(1 + (g.squash || 0) * 0.10, 1 - (g.squash || 0) * 0.12 + breath * 0.006);
+    const hipY = 0 - (g.hip || 0), shY = -150 + breath * 1.2, headY = -210 + breath * 1.4;
+    // ---- legs ----
+    const lg = g.legL || p.legL || [Math.PI / 2 + 0.12, -0.15], rg = g.legR || p.legR || [Math.PI / 2 - 0.12, 0.15];
+    for (const [hip, dir, key] of [[[-14 + wShift, hipY], lg, 'fL'], [[14 + wShift, hipY], rg, 'fR']]) {
       const kx = hip[0] + Math.cos(dir[0]) * 78, ky = hip[1] + Math.sin(dir[0]) * 78;
       const fx = kx + Math.cos(dir[0] + dir[1]) * 74, fy = ky + Math.sin(dir[0] + dir[1]) * 74;
+      const pv = st[key]; if (pv && (Math.abs(fx - pv[0]) + Math.abs(fy - pv[1])) > 34) { ctx.save(); ctx.globalAlpha = 0.22; limb(ctx, [pv, [fx, fy]], 18, silh ? bodyF : PANT, silh ? bodyF : PANT, 0); ctx.restore(); } st[key] = [fx, fy];
       limb(ctx, [hip, [kx, ky], [fx, fy]], 22, silh ? bodyF : PANT, bodyL);
-      // shoe
       fillShape(ctx, [[fx - 6, fy], [fx + 22, fy - 4], [fx + 24, fy + 10], [fx - 8, fy + 10]], silh ? bodyF : '#15100c', bodyL, 3);
     }
-    // arms (behind torso first: right)
-    function arm(root, a, col) { const [a1, a2] = a; const ex = root[0] + Math.cos(a1) * 60, ey = root[1] + Math.sin(a1) * 60; const hx = ex + Math.cos(a1 + a2) * 58, hy = ey + Math.sin(a1 + a2) * 58; limb(ctx, [root, [ex, ey], [hx, hy]], 18, col, bodyL); circle(ctx, hx, hy, 10, silh ? bodyF : SKIN, bodyL, 3); return [hx, hy]; }
-    const handR = arm([26, shY + 16], p.armR || [Math.PI / 2 + 0.2, 0.2], bodyF);
-    // torso (coat)
-    const torso = [[-40, shY], [40, shY], [52, shY + 70], [30, hipY + 6], [-30, hipY + 6], [-52, shY + 70]];
+    // ---- arm helper (with smear trail) ----
+    function arm(root, a, col, key) {
+      const [a1, a2] = a; const ex = root[0] + Math.cos(a1) * 60, ey = root[1] + Math.sin(a1) * 60;
+      const hx = ex + Math.cos(a1 + a2) * 58, hy = ey + Math.sin(a1 + a2) * 58;
+      const pv = st[key]; if (pv && (Math.abs(hx - pv[0]) + Math.abs(hy - pv[1])) > 26) { ctx.save(); ctx.globalAlpha = 0.28; limb(ctx, [pv, [hx, hy]], 15, col, col, 0); ctx.restore(); } st[key] = [hx, hy];
+      limb(ctx, [root, [ex, ey], [hx, hy]], 18, col, bodyL); circle(ctx, hx, hy, 10, silh ? bodyF : SKIN, bodyL, 3); return [hx, hy];
+    }
+    const handR = arm([26, shY + 16], g.armR || p.armR || [Math.PI / 2 + 0.2, 0.2], bodyF, 'phR');
+    // ---- torso (coat hem sways via spring) ----
+    const torso = [[-40, shY], [40, shY], [52 + coatA * 34, shY + 70], [30 + coatA * 46, hipY + 6], [-30 + coatA * 46, hipY + 6], [-52 + coatA * 34, shY + 70]];
     fillShape(ctx, torso, bodyF, bodyL, 4);
     if (!silh) {
-      // shirt V + tie
       fillShape(ctx, [[-14, shY + 4], [14, shY + 4], [8, shY + 70], [-8, shY + 70]], SHIRT, null, 0);
-      fillShape(ctx, [[-6, shY + 8], [6, shY + 8], [9, shY + 74], [0, shY + 92], [-9, shY + 74]], '#7d2530', null, 0);
-      // coat shadow (cel) on right side
+      ctx.save(); ctx.translate(0, shY + 8); ctx.rotate(tieA); fillShape(ctx, [[-6, 0], [6, 0], [9, 66], [0, 84], [-9, 66]], '#7d2530', null, 0); ctx.restore();
       ctx.save(); smoothPoly(ctx, torso); ctx.clip(); fillShape(ctx, [[8, shY], [40, shY], [52, shY + 70], [30, hipY + 6], [12, hipY]], COAT_S, null, 0); ctx.restore();
     }
-    const handL = arm([-26, shY + 16], p.armL || [Math.PI / 2 - 0.2, -0.2], bodyF);
-    // neck + head
+    const handL = arm([-26, shY + 16], g.armL || p.armL || [Math.PI / 2 - 0.2, -0.2], bodyF, 'phL');
+    // ---- neck + head ----
     limb(ctx, [[0, shY], [0, headY + 34]], 22, silh ? bodyF : SKIN, bodyL);
-    const hp = [0, headY];
-    ctx.save(); ctx.translate(hp[0], hp[1]); ctx.rotate(p.head || 0);
+    ctx.save(); ctx.translate(0, headY); ctx.rotate((p.head || 0) + (g.head || 0) + headBob + hairA * 0.14);
     circle(ctx, 0, 0, 40, silh ? bodyF : SKIN, bodyL, 3.5);
     if (!silh) {
-      // face shadow
       ctx.save(); circle(ctx, 0, 0, 40); ctx.clip(); ctx.fillStyle = SKIN_S; ctx.beginPath(); ctx.ellipse(22, 2, 30, 40, 0, 0, TAU); ctx.fill(); ctx.restore();
-      // hair
-      ctx.fillStyle = HAIR; ctx.beginPath(); ctx.moveTo(-42, -6); ctx.quadraticCurveTo(-46, -46, 0, -46); ctx.quadraticCurveTo(46, -46, 42, -4); ctx.quadraticCurveTo(24, -26, 6, -22); ctx.quadraticCurveTo(-6, -30, -42, -14); ctx.closePath(); ctx.fill();
-      // eyes
-      const eo = p.eye != null ? p.eye : 1; const ew = 6, eh = 5 * eo + 0.5;
-      for (const ex of [-15, 15]) { ellipse(ctx, ex, 4, ew, eh, 0, '#fff', LINE, 1.5); if (eo > 0.4) circle(ctx, ex + (p.look || 0) * 3, 5, 3, LINE, null); }
-      // brows (worry/anger via brow)
-      const bw = p.brow || 0; ctx.strokeStyle = LINE; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
-      for (const bx of [-1, 1]) { ctx.beginPath(); ctx.moveTo(bx * 8, -8 + bw * 5 * bx * 0 - 6); ctx.lineTo(bx * 22, -8 - bw * 6); ctx.stroke(); }
-      // mouth
-      const mo = clamp(p.mouth || 0); ctx.strokeStyle = LINE; ctx.fillStyle = '#5a2320'; ctx.lineWidth = 2.6;
-      if (mo < 0.12) { ctx.beginPath(); ctx.moveTo(-10, 22); ctx.quadraticCurveTo(0, 22 + (p.smile ? -5 : 3), 10, 22); ctx.stroke(); }
+      ctx.fillStyle = HAIR; ctx.beginPath(); ctx.moveTo(-42, -6); ctx.quadraticCurveTo(-46 + hairA * 26, -46, 0 + hairA * 20, -46); ctx.quadraticCurveTo(46 + hairA * 26, -46, 42, -4); ctx.quadraticCurveTo(24, -26, 6, -22); ctx.quadraticCurveTo(-6, -30, -42, -14); ctx.closePath(); ctx.fill();
+      const eo = (p.eye != null ? p.eye : 1) * (1 - blink); const ew = 6, eh = 5 * eo + 0.5; const lookx = (g.look != null ? g.look : (p.look || 0));
+      for (const ex of [-15, 15]) { ellipse(ctx, ex, 4, ew, eh, 0, '#fff', LINE, 1.5); if (eo > 0.4) circle(ctx, ex + lookx * 3, 5, 3, LINE, null); }
+      const bw = (g.brow != null ? g.brow : (p.brow || 0)); ctx.strokeStyle = LINE; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+      for (const bx of [-1, 1]) { ctx.beginPath(); ctx.moveTo(bx * 8, -14 + (bw < 0 ? -bw * 4 : 0)); ctx.lineTo(bx * 22, -8 - bw * 6); ctx.stroke(); }
+      const mo = clamp(Math.max(p.mouth || 0, g.mouthOpen || 0)); ctx.strokeStyle = LINE; ctx.fillStyle = '#5a2320'; ctx.lineWidth = 2.6;
+      if (mo < 0.12) { ctx.beginPath(); ctx.moveTo(-10, 22); ctx.quadraticCurveTo(0, 22 + ((p.smile || g.smile) ? -5 : 3), 10, 22); ctx.stroke(); }
       else { ctx.beginPath(); ctx.ellipse(0, 24, 8, 4 + 9 * mo, 0, 0, TAU); ctx.fill(); ctx.stroke(); }
-    } else {
-      // silhouette rim light
-      if (p.rim) { ctx.strokeStyle = p.rim; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, 39, Math.PI * 0.9, Math.PI * 1.7); ctx.stroke(); }
-    }
+    } else if (p.rim) { ctx.strokeStyle = p.rim; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, 39, Math.PI * 0.9, Math.PI * 1.7); ctx.stroke(); }
     ctx.restore();
     ctx.restore();
     return { handL, handR };
@@ -214,7 +281,7 @@
     // foreground: Charlie walking with umbrella, cel
     const wx = W * 0.5 + Math.sin(t * 2) * 0, wy = 600 + Math.sin(t * 4) * 3;
     const cyc = t * 3.4; const step = 0.5 * Math.sin(cyc);
-    charlie(ctx, { x: wx, y: wy, s: 1.0, lean: 0.02 * Math.sin(cyc), head: -0.05, mouth: f.v * 0.7, eye: 1, brow: 0.2, smile: p < 0.6, armL: [Math.PI / 2 + 0.5, -0.7], armR: [Math.PI / 2 - 0.5 + step, 0.5], legL: [Math.PI / 2 + step, -0.3 - 0.2 * Math.max(0, Math.sin(cyc))], legR: [Math.PI / 2 - step, -0.3 - 0.2 * Math.max(0, -Math.sin(cyc))] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: wx, y: wy, s: 1.0, lean: 0.02 * Math.sin(cyc), head: -0.05, mouth: f.v * 0.7, eye: 1, brow: 0.2, smile: p < 0.6, armL: [Math.PI / 2 + 0.5, -0.7], armR: [Math.PI / 2 - 0.5 + step, 0.5], legL: [Math.PI / 2 + step, -0.3 - 0.2 * Math.max(0, Math.sin(cyc))], legR: [Math.PI / 2 - step, -0.3 - 0.2 * Math.max(0, -Math.sin(cyc))] });
     // umbrella
     ctx.save(); ctx.translate(wx - 34, wy - 250); ctx.fillStyle = '#2a2f39'; ctx.beginPath(); ctx.arc(0, 0, 70, Math.PI, 0); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#141018'; ctx.lineWidth = 3; ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 60); ctx.stroke(); ctx.restore();
     stepRain(f); drawRain(ctx, 0.5);
@@ -232,7 +299,7 @@
     for (let i = 0; i < 6; i++) { const cy = ((i * 160 + p * 500) % (H + 200)) - 100; const cx = 150 + hash(i) * 900; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ellipse(ctx, cx, cy, 130, 46, 0, null); ctx.fill(); ellipse(ctx, cx + 70, cy + 12, 90, 36, 0, 'rgba(255,255,255,0.7)', null); ctx.fill(); }
     // escalator implied by light steps; Charlie rising small -> bigger, hopeful looking up
     const cs = lerp(0.7, 1.05, p), cyy = lerp(560, 470, smooth(p));
-    charlie(ctx, { x: W / 2, y: cyy, s: cs, head: -0.25, brow: 0.4, eye: 1, mouth: f.v * 0.6, smile: true, armL: [Math.PI / 2 - 0.6, -0.4], armR: [Math.PI / 2 + 0.6, 0.4], legL: [Math.PI / 2 + 0.05, -0.1], legR: [Math.PI / 2 - 0.05, -0.1] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W / 2, y: cyy, s: cs, head: -0.25, brow: 0.4, eye: 1, mouth: f.v * 0.6, smile: true, armL: [Math.PI / 2 - 0.6, -0.4], armR: [Math.PI / 2 + 0.6, 0.4], legL: [Math.PI / 2 + 0.05, -0.1], legR: [Math.PI / 2 - 0.05, -0.1] });
     flash(ctx, easeIn(clamp((t - 56.6) / 0.9)) * 0.9); // whiteout into next
     vignette(ctx, 0.25); letterbox(ctx, 1);
   });
@@ -252,7 +319,7 @@
     ctx.save(); ctx.translate(ax + 70, 400); ctx.rotate(-0.15); ctx.fillStyle = '#efe7cf'; fillShape(ctx, [[0, 0], [120, -14], [130, 90], [10, 104]], '#efe7cf', '#3a3020', 3, false); ctx.strokeStyle = '#3a3020'; ctx.lineWidth = 2; for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.moveTo(14, 12 + i * 14); ctx.lineTo(116, 12 + i * 14 - 6); ctx.stroke(); } if (p > 0.5) { ctx.strokeStyle = '#a01818'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(20, 40); ctx.lineTo(110, 30); ctx.moveTo(24, 30); ctx.lineTo(106, 44); ctx.stroke(); } ctx.restore();
     // Charlie small, hopeful -> horror
     const horror = clamp((t - 64) / 3);
-    charlie(ctx, { x: W * 0.72, y: 560, s: 0.95, head: lerp(-0.1, 0.15, horror), brow: lerp(0.4, -0.8, horror), eye: 1, look: 0, mouth: lerp(0.1, 0.9, horror * f.v + horror * 0.4), armL: [Math.PI / 2 - 0.2 - horror * 0.5, -0.3], armR: [Math.PI / 2 + 0.2 + horror * 0.3, 0.3] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W * 0.72, y: 560, s: 0.95, head: lerp(-0.1, 0.15, horror), brow: lerp(0.4, -0.8, horror), eye: 1, look: 0, mouth: lerp(0.1, 0.9, horror * f.v + horror * 0.4), armL: [Math.PI / 2 - 0.2 - horror * 0.5, -0.3], armR: [Math.PI / 2 + 0.2 + horror * 0.3, 0.3] });
     if (horror > 0.5) speedLines(ctx, W * 0.72, 420, (horror - 0.5) * 2 * (0.5 + f.beat), '40,30,30', 0.25);
     grade(ctx, 90, 70, 60, 0.15, 'multiply'); vignette(ctx, 0.4); letterbox(ctx, 1);
   });
@@ -273,7 +340,7 @@
     const ly = lerp(120, -60, p); const lr = lerp(160, 40, p); const lg = ctx.createRadialGradient(W / 2, ly, 0, W / 2, ly, lr * 3); lg.addColorStop(0, 'rgba(255,245,210,0.9)'); lg.addColorStop(1, 'rgba(255,245,210,0)'); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(W / 2, ly, lr * 3, 0, TAU); ctx.fill();
     // Charlie falling, reaching up toward the light, tumbling slightly
     const tumble = Math.sin(t * 1.2) * 0.12; const reach = 0.5 + 0.5 * Math.sin(t * 3);
-    charlie(ctx, { x: W / 2 + Math.sin(t * 0.9) * 40, y: 430 + Math.sin(t * 1.5) * 20, s: 1.0, lean: tumble, head: -0.3, brow: -0.7, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI * 1.5 - 0.3, -0.2 - reach * 0.2], armR: [Math.PI * 1.5 + 0.3, 0.2 + reach * 0.2], legL: [Math.PI / 2 + 0.4, 0.4], legR: [Math.PI / 2 - 0.5, -0.4] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W / 2 + Math.sin(t * 0.9) * 40, y: 430 + Math.sin(t * 1.5) * 20, s: 1.0, lean: tumble, head: -0.3, brow: -0.7, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI * 1.5 - 0.3, -0.2 - reach * 0.2], armR: [Math.PI * 1.5 + 0.3, 0.2 + reach * 0.2], legL: [Math.PI / 2 + 0.4, 0.4], legR: [Math.PI / 2 - 0.5, -0.4] });
     speedLines(ctx, W / 2, H / 2, 0.5 + 0.5 * f.e, '255,120,40', 0.18 + 0.2 * f.beat);
     stepEmbers(f, 0.6 + p); drawEmbers(ctx);
     grade(ctx, 150, 40, 20, 0.12 * p, 'overlay'); vignette(ctx, 0.5); letterbox(ctx, 1);
@@ -295,7 +362,7 @@
     // horns on the demon
     ctx.save(); ctx.fillStyle = '#180608'; ctx.strokeStyle = '#ff6a2a'; ctx.lineWidth = 2; for (const sx of [-1, 1]) { ctx.beginPath(); ctx.moveTo(W * 0.30 + sx * 20, 600 - 210 * 1.2); ctx.quadraticCurveTo(W * 0.30 + sx * 46, 600 - 260 * 1.2, W * 0.30 + sx * 30, 600 - 285 * 1.2); ctx.lineWidth = 10; ctx.strokeStyle = '#180608'; ctx.stroke(); } ctx.restore();
     // Charlie being processed, protesting (arms out)
-    charlie(ctx, { x: W * 0.62, y: 615, s: 1.0, head: 0.1, brow: -0.7, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI / 2 - 1.2, -0.4], armR: [Math.PI / 2 + 1.2, 0.4], legL: [Math.PI / 2 + 0.1, -0.1], legR: [Math.PI / 2 - 0.1, -0.1] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W * 0.62, y: 615, s: 1.0, head: 0.1, brow: -0.7, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI / 2 - 1.2, -0.4], armR: [Math.PI / 2 + 1.2, 0.4], legL: [Math.PI / 2 + 0.1, -0.1], legR: [Math.PI / 2 - 0.1, -0.1] });
     flameRow(ctx, 700, 130, 0.5, t, f); stepEmbers(f, 1); drawEmbers(ctx);
     grade(ctx, 180, 40, 20, 0.14, 'overlay'); vignette(ctx, 0.5); letterbox(ctx, 1);
   });
@@ -312,7 +379,7 @@
     ctx.save(); ctx.translate(ax + 74, 400); ctx.rotate(-0.12); fillShape(ctx, [[0, 0], [120, -14], [130, 90], [10, 104]], '#20100e', '#ff7a3a', 3, false); ctx.strokeStyle = '#ff7a3a'; ctx.lineWidth = 2; for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.moveTo(14, 12 + i * 14); ctx.lineTo(116, 12 + i * 14 - 6); ctx.stroke(); } ctx.restore();
     // Charlie begging, knocked down as p rises
     const down = smooth(clamp((t - 145) / 4));
-    charlie(ctx, { x: W * 0.72, y: 560 + down * 40, s: 0.95, lean: down * 0.5, head: 0.2, brow: -0.9, eye: 1 - down * 0.5, mouth: clamp(0.4 + f.v), armL: [Math.PI / 2 - 0.9 - down, -0.3], armR: [Math.PI / 2 + 0.9 + down, 0.3] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W * 0.72, y: 560 + down * 40, s: 0.95, lean: down * 0.5, head: 0.2, brow: -0.9, eye: 1 - down * 0.5, mouth: clamp(0.4 + f.v), armL: [Math.PI / 2 - 0.9 - down, -0.3], armR: [Math.PI / 2 + 0.9 + down, 0.3] });
     speedLines(ctx, W * 0.72, 420, 0.4 + f.beat, '255,80,30', 0.16);
     stepEmbers(f, 1); drawEmbers(ctx);
     grade(ctx, 180, 40, 20, 0.16, 'overlay'); vignette(ctx, 0.55); letterbox(ctx, 1);
@@ -326,7 +393,7 @@
     ctx.fillStyle = 'rgba(10,4,6,0.6)'; smoothPoly(ctx, [[0, 0], [260, 0], [460, H / 2], [260, H], [0, H]]); ctx.fill(); smoothPoly(ctx, [[W, 0], [W - 260, 0], [W - 460, H / 2], [W - 260, H], [W, H]]); ctx.fill();
     // faces of demons flashing on beat at the walls
     if (f.beat > 0.5) { ctx.save(); ctx.globalAlpha = f.beat * 0.5; for (const sx of [0.12, 0.88]) { circle(ctx, W * sx, H * (0.3 + hash((t * 24 | 0)) * 0.4), 40, '#2a0a0c', '#ff5a2a', 3); } ctx.restore(); }
-    charlie(ctx, { x: W / 2 + Math.sin(t * 0.9) * 46, y: 430 + Math.sin(t * 1.6) * 22, s: 1.0, lean: Math.sin(t * 1.1) * 0.14, head: -0.2, brow: -0.8, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI * 1.5 - 0.3, -0.3], armR: [Math.PI * 1.5 + 0.3, 0.3], legL: [Math.PI / 2 + 0.5, 0.4], legR: [Math.PI / 2 - 0.6, -0.4] });
+    charlie(ctx, { gesture: gestureAt(t, f), x: W / 2 + Math.sin(t * 0.9) * 46, y: 430 + Math.sin(t * 1.6) * 22, s: 1.0, lean: Math.sin(t * 1.1) * 0.14, head: -0.2, brow: -0.8, eye: 1, mouth: clamp(0.3 + f.v), armL: [Math.PI * 1.5 - 0.3, -0.3], armR: [Math.PI * 1.5 + 0.3, 0.3], legL: [Math.PI / 2 + 0.5, 0.4], legR: [Math.PI / 2 - 0.6, -0.4] });
     speedLines(ctx, W / 2, H / 2, 0.6 + 0.4 * f.e, '255,110,40', 0.2 + 0.2 * f.beat);
     stepEmbers(f, 1.2); drawEmbers(ctx);
     grade(ctx, 170, 40, 20, 0.16, 'overlay'); vignette(ctx, 0.55); letterbox(ctx, 1);
@@ -388,10 +455,10 @@
   // ---------- main ----------
   function init(timeline) {
     TL = timeline; FPS = timeline.fps; DUR = timeline.duration || 230.25;
-    const cv = document.getElementById('c'); cv.width = W; cv.height = H; ctx = cv.getContext('2d'); pools = {}; _pn = 0;
+    const cv = document.getElementById('c'); cv.width = W; cv.height = H; ctx = cv.getContext('2d'); pools = {}; _pn = 0; CH = {};
   }
   function renderFrame(i) {
-    const t = i / FPS; const f = F(i);
+    const t = i / FPS; const f = F(i); NOW = t;
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
     // pick scene
     let s = SC[SC.length - 1]; for (const sc of SC) { if (t >= sc.t0 && t < sc.t1) { s = sc; break; } }
