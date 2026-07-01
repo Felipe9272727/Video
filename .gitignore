@@ -3,3 +3,5 @@ package.json
 package-lock.json
 build/
 *.raw
+# in-progress full-quality render (committed as a compressed version when done)
+charlie_inferno_animacao.mp4
