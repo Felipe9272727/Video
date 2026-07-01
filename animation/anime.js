@@ -465,6 +465,45 @@
     for (const m of [[W * 0.5 - 200, 616, false, 0.82], [W * 0.5 + 196, 610, true, 0.86], [W * 0.5 - 96, 636, false, 0.72]]) charlie(ctx, { x: m[0], y: m[1], s: m[3], flip: m[2], silh: true, silhCol: '#1c1f27', idle: false, head: 0.34, brow: 0.3, armL: [Math.PI / 2 - 1.0, -1.0], armR: [Math.PI / 2 - 1.0, 1.0] });
     stepRain(f); drawRain(ctx, 0.5); shotFrame([60, 80, 120, 0.3], 0.55);
   }
+  // menacing demon (horns, glowing eyes, claws, fangs)
+  function demon(ctx, p) {
+    const s = p.s || 1, flip = p.flip ? -1 : 1; const D = '#2c0e0e', LINE = '#0a0406', EYE = '#ffd24a';
+    ctx.save(); ctx.translate(p.x, p.y); ctx.scale(flip * s, s);
+    // tail
+    ctx.strokeStyle = D; ctx.lineWidth = 12; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(-30, -140); ctx.quadraticCurveTo(-90, -120, -70, -40); ctx.stroke(); ctx.fillStyle = D; ctx.beginPath(); ctx.moveTo(-70, -40); ctx.lineTo(-84, -58); ctx.lineTo(-56, -54); ctx.closePath(); ctx.fill();
+    // legs (clawed)
+    for (const dx of [-20, 22]) { limb(ctx, [[dx, -122], [dx + 10, -60], [dx + 20, -4]], 20, D, LINE); fillShape(ctx, [[dx + 8, -6], [dx + 36, -12], [dx + 36, 6], [dx + 6, 6]], D, LINE, 3, false); }
+    // torso hunched
+    fillShape(ctx, [[-48, -212], [48, -212], [42, -118], [-42, -118]], D, LINE, 4);
+    // grabbing arm forward
+    limb(ctx, [[42, -196], [92, -178], [130, -152]], 18, D, LINE);
+    ctx.strokeStyle = LINE; ctx.lineWidth = 4; ctx.lineCap = 'round'; for (let k = -1; k < 2; k++) { ctx.beginPath(); ctx.moveTo(130, -152); ctx.lineTo(150, -152 + k * 11); ctx.stroke(); }
+    // head + horns
+    ctx.save(); ctx.translate(0, -238);
+    fillShape(ctx, [[-40, -20], [40, -20], [46, 20], [0, 46], [-46, 20]], D, LINE, 4);
+    for (const hd of [-1, 1]) { ctx.fillStyle = D; ctx.strokeStyle = LINE; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(hd * 30, -18); ctx.quadraticCurveTo(hd * 56, -42, hd * 44, -74); ctx.quadraticCurveTo(hd * 34, -44, hd * 18, -24); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; for (const ex of [-16, 16]) { const g = ctx.createRadialGradient(ex, -2, 0, ex, -2, 18); g.addColorStop(0, 'rgba(255,220,90,0.95)'); g.addColorStop(1, 'rgba(255,120,0,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ex, -2, 18, 0, TAU); ctx.fill(); } ctx.restore();
+    for (const ex of [-16, 16]) { ctx.fillStyle = EYE; ctx.beginPath(); ctx.ellipse(ex, -2, 5, 8, 0, 0, TAU); ctx.fill(); ctx.fillStyle = LINE; ctx.fillRect(ex - 1.2, -9, 2.4, 14); }
+    ctx.strokeStyle = LINE; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-20, 20); ctx.quadraticCurveTo(0, 34, 20, 20); ctx.stroke(); ctx.fillStyle = '#f4e9d0'; for (const k of [-1, 1]) { ctx.beginPath(); ctx.moveTo(k * 10, 23); ctx.lineTo(k * 15, 35); ctx.lineTo(k * 5, 25); ctx.closePath(); ctx.fill(); }
+    ctx.restore(); ctx.restore();
+  }
+  // "pronto pra te derrubar" — Charlie dragged toward the pit by two demons
+  function shotDrag(t, f) {
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#2a0a0c'); g.addColorStop(1, '#7a1810'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    const pit = ctx.createRadialGradient(W * 0.9, H * 0.72, 20, W * 0.9, H * 0.72, 440); pit.addColorStop(0, 'rgba(255,190,70,0.85)'); pit.addColorStop(1, 'rgba(255,80,0,0)'); ctx.fillStyle = pit; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#20080a'; ctx.fillRect(0, 604, W, H - 604);
+    flameRow(ctx, 700, 120, 0.5, t, f);
+    // drag dust trail behind his heels
+    ctx.strokeStyle = 'rgba(150,110,80,0.4)'; ctx.lineWidth = 3; for (let i = 0; i < 6; i++) { const dx = W * 0.30 - i * 40; ctx.beginPath(); ctx.moveTo(dx, 700); ctx.lineTo(dx - 44, 700 - hash(i) * 6); ctx.stroke(); }
+    const jud = Math.sin(t * 9) * 5;
+    charlie(ctx, { x: W * 0.46 + jud, y: 660, s: 1.02, lean: -0.5, head: 0.32, brow: -0.95, eye: 1, mouth: 0.9, armL: [Math.PI + 0.5, 0.25], armR: [-0.5, -0.25], legL: [Math.PI / 2 + 0.75, -0.35], legR: [Math.PI / 2 + 0.55, -0.25] });
+    demon(ctx, { x: W * 0.68, y: 668, s: 1.06, flip: false });
+    demon(ctx, { x: W * 0.19, y: 680, s: 0.9, flip: true });
+    stepEmbers(f, 1.2); drawEmbers(ctx);
+    speedLines(ctx, W * 0.52, H * 0.5, 0.5 + 0.4 * f.beat, '255,120,40', 0.16);
+    shotFrame([170, 50, 20, 0.16, 'overlay'], 0.55);
+  }
+
   function virtues(t, f) {
     if (t < 19) return shotEstablish(t, f);
     if (t < 21.18) return shotLight(t, f);
@@ -577,6 +616,7 @@
 
   // ---- S6: the devil's chase — demon checks the list (129.8–149.7) ----
   scene(129.8, 149.7, (t, f) => {
+    if (t >= 139.5) return shotDrag(t, f); // "pronto pra te derrubar" — dragged by demons
     const p = clamp((t - 129.8) / 19.9);
     const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#1c0608'); g.addColorStop(1, '#7a1810'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     gate(ctx, W * 0.5, 250, 1.15, '#2a0a0a', ['#a8321a', '#3a0d0a']);
