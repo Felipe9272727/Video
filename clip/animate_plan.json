@@ -1,0 +1,22 @@
+{
+ "_doc": "Planos-chave para image-to-video (Higgsfield). Cada item: plate como start_image (job_id em plates_jobs.json), prompt de movimento, duração. Gerar com generate_video, baixar o mp4 para clip/motion/<stem>.mp4 e re-rodar clip/assemble.py — o motor usa o clipe no lugar do still automaticamente (reusos com flip herdam o clipe da plate de origem). Custo estimado: 15 clipes × 2,4 cr (seedance1_5 480p 4s) = 36 cr, ou × 4,8 = 72 cr em 720p.",
+ "model": "seedance1_5",
+ "defaults": {"duration": 4, "resolution": "480p", "generate_audio": false, "aspect_ratio": "16:9"},
+ "clips": [
+  {"file": "s12_crash.jpg",       "prompt": "anime style, the windshield shatters outward, glass shards fly past camera, he lurches forward screaming, headlights flare, violent camera shake"},
+  {"file": "s17_angel_gate.jpg",  "prompt": "anime style, the colossal marble angel slowly turns a giant ledger page, wings shift, god rays pulse through clouds, the tiny man looks up in awe"},
+  {"file": "s21_beg.jpg",         "prompt": "anime style, he trembles on his knees begging with clasped shaking hands, the divine backlight pulses brighter, embers of light float upward"},
+  {"file": "s22_plead_ecu.jpg",   "prompt": "anime style, he pleads desperately into camera, tears streaming, gesturing wildly, sweat drops flying, slow push-in"},
+  {"file": "s26_fall_storm.jpg",  "prompt": "anime style, he falls toward camera through storm clouds screaming, suit flapping violently, lightning flashes inside the clouds, rain streaks shoot upward"},
+  {"file": "s28_pit.jpg",         "prompt": "anime style, camera plunges straight down toward the glowing pit, the tiny figure falls into it, smoke spirals, embers rush upward past camera"},
+  {"file": "s39_run_gate.jpg",    "prompt": "anime style, he sprints toward the burning gate, coat flying, embers streaking past, low tracking camera with motion blur"},
+  {"file": "s40_devil.jpg",       "prompt": "anime style, the devil's grin widens as he exhales cigar smoke, fingers tapping the throne, flames flicker behind, smoke curls upward"},
+  {"file": "s42_denied.jpg",      "prompt": "anime style, the clawed fist slams onto the burning ledger, sparks explode outward, the man flinches back, paper embers scatter"},
+  {"file": "s45_beg_devil.jpg",   "prompt": "anime style, the tiny man begs on his knees, the towering horned devil silhouette leans closer, the wall of fire rages and licks upward"},
+  {"file": "s49_dragged.jpg",     "prompt": "anime style, the demon brutes drag him backward, heels scraping ash grooves, he struggles and yells, embers swirl, sideways tracking"},
+  {"file": "s53_chase.jpg",       "prompt": "anime style, he sprints straight at the camera in terror, the demon horde charges behind, debris flies, the corridor collapses, extreme speed"},
+  {"file": "s59_final_beg.jpg",   "prompt": "anime style, camera cranes upward as he screams at the sky, tears streaming, the ring of fire flares higher, embers spiral up"},
+  {"file": "s63_last_scream.jpg", "prompt": "anime style, the silhouette screams as the wall of flame surges and fills the frame, ember blizzard, heat ripple"},
+  {"file": "s64_dissolve.jpg",    "prompt": "anime style, the silhouette dissolves into thousands of glowing embers drifting upward into black smoke, the fire dims to darkness"}
+ ]
+}

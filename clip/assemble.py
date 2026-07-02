@@ -69,6 +69,32 @@ def shot_img(s):
         _imcache[key] = im
     return _imcache[key]
 
+# ------------------------------------------------------------------ motion clips (image-to-video Higgsfield)
+# Se existir clip/motion/<stem>.mp4 para o shot (ou para a plate de origem em
+# reusos), o clipe animado substitui o still + camera path; o pós (flash,
+# aberração, tint, vinheta, grão, letterbox) continua por cima.
+_motion_cache = {}
+def get_motion(s):
+    import subprocess as sp
+    for base in [s["file"], s.get("src") or ""]:
+        if not base:
+            continue
+        path = os.path.join("clip/motion", os.path.splitext(base)[0] + ".mp4")
+        if os.path.exists(path):
+            if path not in _motion_cache:
+                if len(_motion_cache) > 2:
+                    _motion_cache.clear()
+                import imageio_ffmpeg
+                ff = imageio_ffmpeg.get_ffmpeg_exe()
+                cmd = [ff, "-loglevel", "error", "-i", path,
+                       "-vf", f"scale={AW}:{AH}:force_original_aspect_ratio=increase,crop={AW}:{AH}",
+                       "-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
+                raw = sp.run(cmd, capture_output=True).stdout
+                n = len(raw) // (AW * AH * 3)
+                _motion_cache[path] = np.frombuffer(raw[:n * AW * AH * 3], np.uint8).reshape(n, AH, AW, 3)
+            return _motion_cache[path]
+    return None
+
 # ------------------------------------------------------------------ camera
 def cam_frame(s, im, tl, dur, gf):
     """Render the eased, shaken, rotated crop of shot s at local time tl -> (AW,AH) RGB."""
@@ -183,15 +209,23 @@ def title(im, lines, y, size, fill, alpha, tracking=6):
 def render_frame(gf):
     t = gf / FPS
     si, s = find_shot(t)
-    im0 = shot_img(s)
     dur = s["t1"] - s["t0"]; tl = t - s["t0"]
-    pic = cam_frame(s, im0, tl, dur, gf)
+    mo = get_motion(s)
+    if mo is not None:
+        idx = min(len(mo) - 1, int(tl / max(dur, 1e-6) * len(mo)))
+        frame = mo[idx]
+        if s.get("flip"):
+            frame = frame[:, ::-1]
+        pic = Image.fromarray(frame)
+    else:
+        im0 = shot_img(s)
+        pic = cam_frame(s, im0, tl, dur, gf)
     f = FR[min(gf, NF - 1)]
 
     # ---- whip-pan transition: blend fast-sliding blurred frames at cut
     trans = s.get("in", "cut")
     TD = 0.17
-    if trans == "whip" and tl < TD and si > 0:
+    if trans == "whip" and tl < TD and si > 0 and mo is None:
         prev = SHOTS[si - 1]
         pim = shot_img(prev)
         ppic = cam_frame(prev, pim, prev["t1"] - prev["t0"], prev["t1"] - prev["t0"], gf)
