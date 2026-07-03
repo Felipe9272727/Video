@@ -206,71 +206,123 @@ def title(im, lines, y, size, fill, alpha, tracking=6):
         d.text((x, yy), txt, font=fnt, fill=fill + (int(alpha),))
     return im
 
+# ------------------------------------------------------------------ direção do estúdio
+# transition map (Sonnet), hooks "Perdão senhor", color script por ato.
+try:
+    TMAP = {t["i"]: t for t in json.load(open("clip/direction/transition_map.json"))["transitions"]}
+except Exception:
+    TMAP = {}
+TRDUR = {"cut": 0.0, "match_cut": 0.12, "motion_continue": 0.25, "dissolve": 0.4,
+         "flash": 0.12, "whip": 0.17, "dip": 0.22}
+try:
+    HOOK_TS = [h["t"] for h in json.load(open("clip/direction/hooks.json"))["hooks"]]
+except Exception:
+    HOOK_TS = []
+HOOK_W = 1.4  # janela de destaque do gancho (s)
+
+# color script: keyframes (índice do plano -> multiplicador RGB), interpolado
+GKF = [(0, (.85, .95, 1.15)), (11, (.85, .95, 1.15)), (12, (1.15, 1.08, .85)),
+       (18, (1.15, 1.08, .85)), (19, (1.05, 1.0, .90)), (24, (1.0, .98, 1.0)),
+       (25, (.90, .96, 1.10)), (28, (1.30, .90, .55)), (38, (1.30, .90, .55)),
+       (39, (1.35, .75, .50)), (51, (1.35, .75, .50)), (52, (1.40, .60, .45)),
+       (59, (1.40, .60, .45)), (64, (.85, .95, 1.15)), (65, (.85, .95, 1.15))]
+def grade_for(i):
+    if i <= GKF[0][0]: return np.array(GKF[0][1], np.float32)
+    if i >= GKF[-1][0]: return np.array(GKF[-1][1], np.float32)
+    for k in range(len(GKF) - 1):
+        a, ca = GKF[k]; b, cb = GKF[k + 1]
+        if a <= i <= b:
+            f = (i - a) / (b - a) if b > a else 0.0
+            return np.array([ca[j] + (cb[j] - ca[j]) * f for j in range(3)], np.float32)
+    return np.array((1., 1., 1.), np.float32)
+
+def build_content(s, si, tl, dur, gf):
+    """Conteúdo do plano (motion clip OU câmera sobre still) + embers/rays/chuva.
+    Sem vinheta/grão/grade — isso é global, aplicado depois."""
+    mo = get_motion(s)
+    if mo is not None:
+        idx = min(len(mo) - 1, max(0, int(tl / max(dur, 1e-6) * len(mo))))
+        frame = mo[idx]
+        if s.get("flip"):
+            frame = frame[:, ::-1]
+        pic = Image.fromarray(np.ascontiguousarray(frame))
+    else:
+        pic = cam_frame(s, shot_img(s), tl, dur, gf)
+    fr = np.asarray(pic).astype(np.float32)
+    t = gf / FPS
+    e = FR[min(gf, NF - 1)]["e"]
+    fx = s.get("fx", [])
+    if "embers" in fx: add_embers(fr, t, e, 1.0)
+    if "embers_lite" in fx: add_embers(fr, t, e, 0.45)
+    if "rays" in fx: add_rays(fr, t, 1.0)
+    if "rain" in fx or "rain_lite" in fx:
+        im = Image.fromarray(np.clip(fr, 0, 255).astype(np.uint8))
+        add_rain(im, t, 1.0 if "rain" in fx else 0.4)
+        fr = np.asarray(im).astype(np.float32)
+    return fr
+
 def render_frame(gf):
     t = gf / FPS
     si, s = find_shot(t)
     dur = s["t1"] - s["t0"]; tl = t - s["t0"]
-    mo = get_motion(s)
-    if mo is not None:
-        idx = min(len(mo) - 1, int(tl / max(dur, 1e-6) * len(mo)))
-        frame = mo[idx]
-        if s.get("flip"):
-            frame = frame[:, ::-1]
-        pic = Image.fromarray(frame)
-    else:
-        im0 = shot_img(s)
-        pic = cam_frame(s, im0, tl, dur, gf)
     f = FR[min(gf, NF - 1)]
+    cur = build_content(s, si, tl, dur, gf)
 
-    # ---- whip-pan transition: blend fast-sliding blurred frames at cut
-    trans = s.get("in", "cut")
-    TD = 0.17
-    if trans == "whip" and tl < TD and si > 0 and mo is None:
-        prev = SHOTS[si - 1]
-        pim = shot_img(prev)
-        ppic = cam_frame(prev, pim, prev["t1"] - prev["t0"], prev["t1"] - prev["t0"], gf)
-        k = tl / TD
-        off = int(AW * (1.0 - k) * 1.4)
-        mix = Image.new("RGB", (AW, AH))
-        mix.paste(ppic, (-off, 0)); mix.paste(pic, (AW - off, 0))
-        pic = mix.filter(ImageFilter.GaussianBlur(radius=(1 - abs(2 * k - 1)) * 14))
+    # ---- transição de ENTRADA (mapa do diretor de continuidade)
+    tr = TMAP.get(si, {})
+    ttype = tr.get("in", s.get("in", "cut"))
+    tdur = float(tr.get("dur") or TRDUR.get(ttype, 0.0))
+    if si > 0 and ttype in ("dissolve", "motion_continue", "match_cut") and 0 <= tl < tdur:
+        prev = SHOTS[si - 1]; pdur = prev["t1"] - prev["t0"]
+        pcont = build_content(prev, si - 1, pdur + tl, pdur, gf)
+        k = ease("io", tl / tdur)
+        cur = pcont * (1 - k) + cur * k
+    elif si > 0 and ttype == "whip" and tl < 0.17:
+        prev = SHOTS[si - 1]; pdur = prev["t1"] - prev["t0"]
+        pcont = build_content(prev, si - 1, pdur + tl, pdur, gf)
+        k = tl / 0.17
+        cur = pcont * (1 - k) + cur * k
+        sh = int(48 * (1 - abs(2 * k - 1)))
+        if sh > 0:
+            cur = 0.5 * cur + 0.5 * np.roll(cur, sh, axis=1)
+    if ttype == "flash" and tl < 0.12:
+        cur += 255 * (1 - tl / 0.12) * np.array([1.0, 0.82, 0.6], np.float32) * 0.85
+    if ttype == "dip" and tl < 0.22:
+        cur *= ease("out", tl / 0.22)
+    if s.get("out") == "dip" and (s["t1"] - t) < 0.22:
+        cur *= ease("out", (s["t1"] - t) / 0.22)
 
-    fr = np.asarray(pic).astype(np.float32)
-
-    # ---- overlays
-    fx = s.get("fx", [])
-    if "embers" in fx: add_embers(fr, t, f["e"], 1.0)
-    if "embers_lite" in fx: add_embers(fr, t, f["e"], 0.45)
-    if "rays" in fx: add_rays(fr, t, 1.0)
-
-    # ---- transitions in light domain
-    if trans == "flash" and tl < 0.12:
-        fr += 255 * (1 - tl / 0.12) * np.array([1.0, 0.82, 0.6], np.float32) * 0.85
-    if trans == "dip" and tl < 0.22:
-        fr *= ease("out", tl / 0.22)
-    fout = s.get("out", None)
-    if fout == "dip" and (s["t1"] - t) < 0.22:
-        fr *= ease("out", (s["t1"] - t) / 0.22)
-
-    # ---- beat flash + aberration
-    fl_amt = s.get("flash", 0.5)
+    # ---- beat flash + aberração cromática
     if f["onset"] > 0.55:
-        fr += 46 * fl_amt * f["onset"]
+        cur += 46 * s.get("flash", 0.5) * f["onset"]
     ab = int(5 * s.get("aberr", 0.6) * f["beat"])
     if ab > 0:
-        fr[..., 0] = np.roll(fr[..., 0], ab, axis=1)
-        fr[..., 2] = np.roll(fr[..., 2], -ab, axis=1)
+        cur[..., 0] = np.roll(cur[..., 0], ab, axis=1)
+        cur[..., 2] = np.roll(cur[..., 2], -ab, axis=1)
 
-    # ---- grade: slight per-shot tint
-    tint = s.get("tint", None)
-    if tint:
-        fr *= np.array(tint, np.float32)[None, None, :]
+    # ---- COLOR SCRIPT por ato (grade global interpolado)
+    cur *= grade_for(si)
 
-    fr *= VIG
-    fr += GRAINS[gf % 7] * 13
-    pic = Image.fromarray(np.clip(fr, 0, 255).astype(np.uint8))
-    if "rain" in fx: add_rain(pic, t, 1.0)
-    if "rain_lite" in fx: add_rain(pic, t, 0.4)
+    # ---- DESTAQUE "Perdão, senhor..." (gancho/refrão): crash-zoom + pulso vermelho + vinheta
+    for th in HOOK_TS:
+        if th <= t < th + HOOK_W:
+            u = (t - th) / HOOK_W; p = 1 - u
+            z = 1 + 0.13 * ease("out", min(1.0, u * 6.0))   # fecha rápido e segura no rosto
+            if z > 1.001:
+                im = Image.fromarray(np.clip(cur, 0, 255).astype(np.uint8))
+                nw, nh = int(AW * z), int(AH * z)
+                im = im.resize((nw, nh), Image.BILINEAR).crop(
+                    ((nw - AW) // 2, (nh - AH) // 2, (nw - AW) // 2 + AW, (nh - AH) // 2 + AH))
+                cur = np.asarray(im).astype(np.float32)
+            cur *= np.array([1 + 0.22 * p, 1 - 0.08 * p, 1 - 0.13 * p], np.float32)  # sangue
+            if u < 0.06:
+                cur += 46 * (1 - u / 0.06)                   # micro white-flash no ataque
+            cur *= VIG ** (0.7 * p)                          # vinheta extra fechando
+            break
+
+    cur *= VIG
+    cur += GRAINS[gf % 7] * 13
+    pic = Image.fromarray(np.clip(cur, 0, 255).astype(np.uint8))
 
     # ---- compose letterbox canvas
     cv = Image.new("RGB", (W, H), (0, 0, 0))
