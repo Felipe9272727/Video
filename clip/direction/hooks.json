@@ -6,7 +6,7 @@
   {"t": 86.82,  "shot": "s26_fall_storm",  "ctx": "refrão 1 repete — durante a queda"},
   {"t": 152.55, "shot": "s46_uniform",     "ctx": "refrão 3 — mostrando o terno aos demônios"},
   {"t": 165.70, "shot": "s50_thrown",      "ctx": "refrão 3 repete — jogado no chão"},
-  {"t": 202.30, "shot": "s59_final_beg",   "ctx": "refrão final — grito no anel de fogo (eu não quero morrer)"},
-  {"t": 215.44, "shot": "s62_eye",         "ctx": "refrão final repete — extremo no olho"}
+  {"t": 205.171, "shot": "s59_final_beg",  "ctx": "refrão final — grito no anel de fogo (eu não quero morrer)"},
+  {"t": 218.318, "shot": "s62_eye",        "ctx": "refrão final repete — extremo no olho"}
  ]
 }

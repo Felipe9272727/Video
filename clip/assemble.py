@@ -241,6 +241,48 @@ def grade_for(i):
             return np.array([ca[j] + (cb[j] - ca[j]) * f for j in range(3)], np.float32)
     return np.array((1., 1., 1.), np.float32)
 
+# ------------------------------------------------------------------ inserts anime
+# Complemento estilo anime (NÃO substitui plates): title card na abertura,
+# impact frames (corte pro quadro de impacto manga) nos choques, eyecatch na
+# virada céu->inferno. Imagens grátis em clip/inserts/ (FLUX), cover-fit p/ AWxAH.
+_ins_cache = {}
+def load_insert(name):
+    if name not in _ins_cache:
+        p = os.path.join("clip/inserts", name + ".jpg")
+        if not os.path.exists(p):
+            _ins_cache[name] = None
+        else:
+            im = Image.open(p).convert("RGB")
+            sc = max(AW / im.width, AH / im.height)
+            im = im.resize((round(im.width * sc), round(im.height * sc)), Image.LANCZOS)
+            l = (im.width - AW) // 2; tp = (im.height - AH) // 2
+            _ins_cache[name] = np.asarray(im.crop((l, tp, l + AW, tp + AH))).astype(np.float32)
+    return _ins_cache[name]
+
+def zoom_center(arr, z):
+    if z <= 1.001: return arr
+    im = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8))
+    nw, nh = round(AW * z), round(AH * z)
+    im = im.resize((nw, nh), Image.BILINEAR).crop(
+        ((nw - AW) // 2, (nh - AH) // 2, (nw - AW) // 2 + AW, (nh - AH) // 2 + AH))
+    return np.asarray(im).astype(np.float32)
+
+INTRO_HOLD, INTRO_XFADE = 3.0, 1.4         # title card cheio -> dissolve pro filme
+# impact frames: (arquivo, t_centro s, dwell s) — cortes de impacto tipo anime
+IMPACTS = [
+    ("impact_crash",   41.9, 0.20),        # s12 para-brisa estilhaça
+    ("impact_fall",    84.5, 0.22),        # s25/26 despenca no inferno
+    ("impact_denied", 140.2, 0.18),        # s42 selo "negado"
+    ("impact_scream", 216.0, 0.22),        # s63 grito final (colado no gancho)
+]
+EYE_T, EYE_DWELL = 92.7, 0.45              # eyecatch na entrada do inferno
+
+def active_impact(t):
+    for name, tc, dw in IMPACTS:
+        if tc - 0.06 <= t < tc + dw:
+            return name, tc, dw
+    return None
+
 def parallax_frame(s, tl, dur, gf):
     """Câmera 2.5D por profundidade: frente e fundo se movem em velocidades
     diferentes -> vida 3D em cima do still. Fallback pra câmera plana se não há depth."""
@@ -293,12 +335,76 @@ def build_content(s, si, tl, dur, gf):
         fr = np.asarray(im).astype(np.float32)
     return fr
 
+def _compose(cur, t, gf):
+    """AWxAH (float) -> canvas WxH final: letterbox + títulos + fade global."""
+    pic = Image.fromarray(np.clip(cur, 0, 255).astype(np.uint8))
+    cv = Image.new("RGB", (W, H), (0, 0, 0))
+    cv.paste(pic, (0, BAR))
+    if t < 6.5:
+        al = min(1.0, max(0.0, (t - 1.2) / 1.2)) * min(1.0, max(0.0, (6.5 - t) / 0.8))
+        title(cv, ["CHARLIE'S INFERNO"], H * 0.30, 64, (245, 228, 205), 255 * al)
+        title(cv, ["that handsome devil — cover pt-br"], H * 0.44, 22, (210, 180, 150), 220 * al)
+    if t > DUR - 12.5:
+        al = min(1.0, (t - (DUR - 12.5)) / 1.5)
+        title(cv, ["CHARLIE'S INFERNO"], H * 0.34, 58, (255, 210, 120), 255 * al)
+        title(cv, ["( excuse me sir )"], H * 0.47, 24, (230, 170, 120), 230 * al)
+    g = 1.0
+    if t < 1.0: g = t / 1.0
+    if t > DUR - 1.6: g = max(0.0, (DUR - t) / 1.6)
+    if g < 1.0:
+        cv = Image.eval(cv, (lambda v, gg=g: int(v * gg)))
+    return np.asarray(cv)
+
 def render_frame(gf):
     t = gf / FPS
     si, s = find_shot(t)
     dur = s["t1"] - s["t0"]; tl = t - s["t0"]
     f = FR[min(gf, NF - 1)]
-    cur = build_content(s, si, tl, dur, gf)
+
+    # ---- INSERT anime substitui o conteúdo (impact frame / eyecatch)?
+    insert = None
+    imp = active_impact(t)
+    if imp:
+        name, tc, dw = imp
+        art = load_insert(name)
+        if art is not None:
+            if t < tc:                                   # lead: white-flash no still atual
+                cur = build_content(s, si, tl, dur, gf)
+                cur += 255 * (1 - (tc - t) / 0.06) * 0.9
+                insert = "flash"
+            else:                                        # segura o quadro de impacto (leve punch-in)
+                z = 1.10 - 0.10 * ((t - tc) / dw)
+                cur = zoom_center(art, z)
+                if (t - tc) < 0.04:
+                    cur += 90 * (1 - (t - tc) / 0.04)    # estala o corte
+                insert = "impact"
+    elif EYE_T <= t < EYE_T + EYE_DWELL:
+        art = load_insert("eyecatch")
+        if art is not None:
+            u = (t - EYE_T) / EYE_DWELL
+            edge = min(1.0, u / 0.15, (1 - u) / 0.15)    # fade nas bordas
+            cur = build_content(s, si, tl, dur, gf) * (1 - edge) + zoom_center(art, 1.04) * edge
+            insert = "eye"
+    if insert is None:
+        cur = build_content(s, si, tl, dur, gf)
+
+    # ---- TITLE CARD (key visual) na abertura -> dissolve pro filme
+    if insert is None and t < INTRO_HOLD + INTRO_XFADE:
+        tcard = load_insert("title_card")
+        if tcard is not None:
+            ti = zoom_center(tcard, 1.05 + 0.05 * (t / (INTRO_HOLD + INTRO_XFADE)))
+            if t < INTRO_HOLD:
+                cur = ti; insert = "intro"
+            else:
+                k = ease("io", (t - INTRO_HOLD) / INTRO_XFADE)
+                cur = ti * (1 - k) + cur * k
+
+    if insert in ("impact", "eye", "intro"):
+        # inserts já são estilizados: pula grade/gancho/transição, só pós leve
+        cur = np.asarray(cur, np.float32)
+        cur *= VIG
+        cur += GRAINS[gf % 7] * 13
+        return _compose(cur, t, gf)
 
     # ---- transição de ENTRADA (mapa do diretor de continuidade)
     tr = TMAP.get(si, {})
@@ -354,29 +460,7 @@ def render_frame(gf):
 
     cur *= VIG
     cur += GRAINS[gf % 7] * 13
-    pic = Image.fromarray(np.clip(cur, 0, 255).astype(np.uint8))
-
-    # ---- compose letterbox canvas
-    cv = Image.new("RGB", (W, H), (0, 0, 0))
-    cv.paste(pic, (0, BAR))
-
-    # ---- titles
-    if t < 6.5:
-        al = min(1.0, max(0.0, (t - 1.2) / 1.2)) * min(1.0, max(0.0, (6.5 - t) / 0.8))
-        title(cv, ["CHARLIE'S INFERNO"], H * 0.30, 64, (245, 228, 205), 255 * al)
-        title(cv, ["that handsome devil — cover pt-br"], H * 0.44, 22, (210, 180, 150), 220 * al)
-    if t > DUR - 12.5:
-        al = min(1.0, (t - (DUR - 12.5)) / 1.5)
-        title(cv, ["CHARLIE'S INFERNO"], H * 0.34, 58, (255, 210, 120), 255 * al)
-        title(cv, ["( excuse me sir )"], H * 0.47, 24, (230, 170, 120), 230 * al)
-
-    # ---- global fade in/out
-    g = 1.0
-    if t < 1.0: g = t / 1.0
-    if t > DUR - 1.6: g = max(0.0, (DUR - t) / 1.6)
-    if g < 1.0:
-        cv = Image.eval(cv, (lambda v, gg=g: int(v * gg)))
-    return np.asarray(cv)
+    return _compose(cur, t, gf)
 
 # ------------------------------------------------------------------ main
 if len(sys.argv) > 1 and sys.argv[1] == "probe":
@@ -388,7 +472,8 @@ if len(sys.argv) > 1 and sys.argv[1] == "probe":
 
 import imageio_ffmpeg
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
-cmd = [FFMPEG, "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
+cmd = [FFMPEG, "-y", "-loglevel", "error", "-nostats",
+       "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
        "-i", MP3, "-map", "0:v", "-map", "1:a",
        "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p",
        "-c:a", "aac", "-b:a", "192k",

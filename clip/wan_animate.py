@@ -15,14 +15,12 @@ NEG = ("worst quality, static, blurred, distorted, watermark, text, extra limbs,
        "deformed face, flickering, morphing, low quality")
 SB = {s["file"]: s for s in json.load(open("clip/storyboard.json"))["shots"]}
 
-# prompts de movimento do estúdio
-PROMPTS = {}
-for fp in glob.glob("clip/direction/out_segment_*.json"):
-    try:
-        for sh in json.load(open(fp))["shots"]:
-            PROMPTS[sh["file"]] = sh["motion_prompt"]
-    except Exception as e:
-        print("aviso: falha lendo", fp, e)
+# prompts de AÇÃO explícita (fal_wan.ACTIONS) — o estúdio ficou "sutil demais"
+_g = {}
+exec(open("clip/fal_wan.py").read().split("if __name__")[0], _g)
+prompt_for = _g["prompt_for"]      # STYLE + ação explícita por stem
+NEG = _g["NEG"]                    # negativo anti-estático mais forte
+PROMPTS = {}  # (mantido só para o rótulo de log)
 
 os.makedirs("clip/motion", exist_ok=True)
 
@@ -43,11 +41,12 @@ def animate(f, client):
     out = os.path.join("clip/motion", os.path.splitext(f)[0] + ".mp4")
     if os.path.exists(out) and os.path.getsize(out) > 180000:  # clipe Wan já presente
         return "skip"
-    prompt = PROMPTS.get(f) or scene_fallback(f)
+    stem = os.path.splitext(f)[0]
+    prompt = prompt_for(stem)
     res = client.predict(
         input_image=handle_file("clip/shots/" + f),
         prompt=prompt, height=512, width=896, negative_prompt=NEG,
-        duration_seconds=3, guidance_scale=1.0, steps=4,
+        duration_seconds=2.5, guidance_scale=1.0, steps=4,
         seed=42, randomize_seed=True, api_name="/generate_video",
     )
     vid = res[0]["video"] if isinstance(res[0], dict) else res[0]
@@ -63,8 +62,7 @@ if __name__ == "__main__":
         f = queue.pop(0); t0 = time.time()
         try:
             r = animate(f, client)
-            tag = "usa estúdio" if f in PROMPTS else "fallback"
-            print(f"{f:24s} {r} [{tag}] ({time.time()-t0:.0f}s) | faltam {len(queue)}", flush=True)
+            print(f"{f:24s} {r} ({time.time()-t0:.0f}s) | faltam {len(queue)}", flush=True)
             if r != "skip": done += 1
         except Exception as e:
             m = str(e)[:160]
