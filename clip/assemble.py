@@ -187,7 +187,7 @@ def add_rays(fr, t, amt=1.0):
 
 # ------------------------------------------------------------------ post
 vx = np.linspace(-1, 1, AW)[None, :]; vy = np.linspace(-1, 1, AH)[:, None]
-VIG = np.clip(1.10 - 0.62 * np.clip(np.sqrt(vx ** 2 + (vy * 0.7) ** 2) - 0.3, 0, 1.4), 0.24, 1.0)[..., None]
+VIG = np.clip(1.10 - 0.74 * np.clip(np.sqrt(vx ** 2 + (vy * 0.7) ** 2) - 0.28, 0, 1.4), 0.20, 1.0)[..., None]
 GRAINS = [(rng.random((AH, AW, 1)).astype(np.float32) - 0.5) for _ in range(7)]
 
 def find_shot(t):
@@ -208,7 +208,8 @@ def title(im, lines, y, size, fill, alpha, tracking=6):
         x = (W - tw) / 2
         yy = y + li * size * 1.3
         d.text((x + 3, yy + 3), txt, font=fnt, fill=(0, 0, 0, int(alpha * 0.8)))
-        d.text((x, yy), txt, font=fnt, fill=fill + (int(alpha),))
+        d.text((x, yy), txt, font=fnt, fill=fill + (int(alpha),),
+               stroke_width=2, stroke_fill=(0, 0, 0, int(alpha)))   # contorno p/ legibilidade
     return im
 
 # ------------------------------------------------------------------ direção do estúdio
@@ -270,10 +271,10 @@ def zoom_center(arr, z):
 INTRO_HOLD, INTRO_XFADE = 3.0, 1.4         # title card cheio -> dissolve pro filme
 # impact frames: (arquivo, t_centro s, dwell s) — cortes de impacto tipo anime
 IMPACTS = [
-    ("impact_crash",   41.9, 0.20),        # s12 para-brisa estilhaça
-    ("impact_fall",    84.5, 0.22),        # s25/26 despenca no inferno
-    ("impact_denied", 140.2, 0.18),        # s42 selo "negado"
-    ("impact_scream", 216.0, 0.22),        # s63 grito final (colado no gancho)
+    ("impact_crash",   41.9, 0.36),        # s12 para-brisa estilhaça (segura + p/ leitura manga)
+    ("impact_fall",    84.5, 0.32),        # s25/26 despenca no inferno
+    ("impact_denied", 140.2, 0.30),        # s42 selo "negado"
+    ("impact_scream", 216.0, 0.34),        # s63 grito final (colado no gancho)
 ]
 EYE_T, EYE_DWELL = 92.7, 0.45              # eyecatch na entrada do inferno
 
@@ -382,7 +383,7 @@ def render_frame(gf):
         art = load_insert("eyecatch")
         if art is not None:
             u = (t - EYE_T) / EYE_DWELL
-            edge = min(1.0, u / 0.15, (1 - u) / 0.15)    # fade nas bordas
+            edge = min(1.0, u / 0.25, (1 - u) / 0.25)    # fade nas bordas (mais suave)
             cur = build_content(s, si, tl, dur, gf) * (1 - edge) + zoom_center(art, 1.04) * edge
             insert = "eye"
     if insert is None:
@@ -403,7 +404,7 @@ def render_frame(gf):
         # inserts já são estilizados: pula grade/gancho/transição, só pós leve
         cur = np.asarray(cur, np.float32)
         cur *= VIG
-        cur += GRAINS[gf % 7] * 13
+        cur += GRAINS[gf % 7] * 18
         return _compose(cur, t, gf)
 
     # ---- transição de ENTRADA (mapa do diretor de continuidade)
@@ -441,25 +442,30 @@ def render_frame(gf):
     # ---- COLOR SCRIPT por ato (grade global interpolado)
     cur *= grade_for(si)
 
+    # ---- punch de contraste + saturação (corrige o "lavado", reforça leitura anime)
+    lum = cur[..., 0] * 0.299 + cur[..., 1] * 0.587 + cur[..., 2] * 0.114
+    cur = lum[..., None] + (cur - lum[..., None]) * 1.16          # +16% saturação
+    cur = (cur - 118.0) * 1.09 + 118.0                            # +9% contraste (pivô p/ realçar sombras)
+
     # ---- DESTAQUE "Perdão, senhor..." (gancho/refrão): crash-zoom + pulso vermelho + vinheta
     for th in HOOK_TS:
         if th <= t < th + HOOK_W:
             u = (t - th) / HOOK_W; p = 1 - u
-            z = 1 + 0.13 * ease("out", min(1.0, u * 6.0))   # fecha rápido e segura no rosto
+            z = 1 + 0.17 * ease("out", min(1.0, u * 7.5))   # fecha mais rápido e mais forte no rosto
             if z > 1.001:
                 im = Image.fromarray(np.clip(cur, 0, 255).astype(np.uint8))
                 nw, nh = int(AW * z), int(AH * z)
                 im = im.resize((nw, nh), Image.BILINEAR).crop(
                     ((nw - AW) // 2, (nh - AH) // 2, (nw - AW) // 2 + AW, (nh - AH) // 2 + AH))
                 cur = np.asarray(im).astype(np.float32)
-            cur *= np.array([1 + 0.22 * p, 1 - 0.08 * p, 1 - 0.13 * p], np.float32)  # sangue
+            cur *= np.array([1 + 0.30 * p, 1 - 0.10 * p, 1 - 0.16 * p], np.float32)  # sangue (mais evidente)
             if u < 0.06:
                 cur += 46 * (1 - u / 0.06)                   # micro white-flash no ataque
             cur *= VIG ** (0.7 * p)                          # vinheta extra fechando
             break
 
     cur *= VIG
-    cur += GRAINS[gf % 7] * 13
+    cur += GRAINS[gf % 7] * 18
     return _compose(cur, t, gf)
 
 # ------------------------------------------------------------------ main
