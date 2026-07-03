@@ -31,6 +31,11 @@ FR = TL["frames"]; NF = TL["count"]; DUR = TL["duration"]
 SB = json.load(open("clip/storyboard.json"))
 SHOTS = SB["shots"]
 
+# motor de parallax 2.5D (profundidade -> movimento de câmera 3D em planos sem Wan)
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("parallax", os.path.join(os.path.dirname(__file__), "parallax.py"))
+PLX = _ilu.module_from_spec(_spec); _spec.loader.exec_module(PLX)
+
 # ------------------------------------------------------------------ easing
 def ease(name, t):
     t = min(1.0, max(0.0, t))
@@ -236,8 +241,35 @@ def grade_for(i):
             return np.array([ca[j] + (cb[j] - ca[j]) * f for j in range(3)], np.float32)
     return np.array((1., 1., 1.), np.float32)
 
+def parallax_frame(s, tl, dur, gf):
+    """Câmera 2.5D por profundidade: frente e fundo se movem em velocidades
+    diferentes -> vida 3D em cima do still. Fallback pra câmera plana se não há depth."""
+    stem = (s.get("src") or s["file"]).replace(".jpg", "")
+    im = shot_img(s)
+    w, h = im.size
+    depth = PLX.load_depth(stem, w, h)
+    if depth is None:
+        return cam_frame(s, im, tl, dur, gf)
+    rgb = np.asarray(im).astype(np.float32)
+    if s.get("flip"):
+        rgb = rgb[:, ::-1].copy(); depth = depth[:, ::-1].copy()
+    c = s.get("cam", {})
+    p = ease(c.get("ease", "io"), tl / max(dur, 1e-6))
+    z0, z1 = c.get("z", [1.06, 1.2])[:2]; zoom = z0 + (z1 - z0) * p
+    x0, y0 = c.get("c0", [0.5, 0.5]); x1, y1 = c.get("c1", [0.5, 0.5])
+    cx = x0 + (x1 - x0) * p; cy = y0 + (y1 - y0) * p
+    r0, r1 = c.get("rot", [0, 0]); rot = math.radians(r0 + (r1 - r0) * p)
+    t = gf / FPS; f = FR[min(gf, NF - 1)]
+    ph = (hash(stem) % 100) / 100.0 * 6.28
+    # parallax lateral/vertical evolui ao longo do plano (varredura) + deriva idle
+    tx = 0.075 * (x1 - x0) + 0.055 * (p - 0.5) + 0.012 * math.sin(t * 0.55 + ph)
+    ty = 0.05 * (y1 - y0) + 0.022 * (p - 0.5) + 0.008 * math.sin(t * 0.45 + ph)
+    dz = 0.16 * (zoom - 1.0) + 0.03 + 0.03 * f["beat"]     # dolly em perspectiva + batida
+    out = PLX.parallax_view(rgb, depth, AW, AH, cx, cy, zoom, rot, tx, ty, dz)
+    return Image.fromarray(out)
+
 def build_content(s, si, tl, dur, gf):
-    """Conteúdo do plano (motion clip OU câmera sobre still) + embers/rays/chuva.
+    """Conteúdo do plano (motion clip OU câmera 2.5D sobre still) + embers/rays/chuva.
     Sem vinheta/grão/grade — isso é global, aplicado depois."""
     mo = get_motion(s)
     if mo is not None:
@@ -247,7 +279,7 @@ def build_content(s, si, tl, dur, gf):
             frame = frame[:, ::-1]
         pic = Image.fromarray(np.ascontiguousarray(frame))
     else:
-        pic = cam_frame(s, shot_img(s), tl, dur, gf)
+        pic = parallax_frame(s, tl, dur, gf)
     fr = np.asarray(pic).astype(np.float32)
     t = gf / FPS
     e = FR[min(gf, NF - 1)]["e"]
