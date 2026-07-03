@@ -1,0 +1,71 @@
+{
+  "segment": "E",
+  "shots": [
+    {
+      "file": "s50_thrown.jpg",
+      "motion_prompt": "anime style, god's-eye top-down: Charlie sprawled on black ash floor, gasping, pushes himself upward on trembling arms while burning papers fall like snow around him; keep character design consistent, gray suit, red tie, pale angular face. Camera slowly pulls back revealing circle of demon feet tightening. Embers drift and glow orange against cold black ash. Slow desperate push-to-stand in 3s.",
+      "exit_state": "Charlie on knees, one hand planted on ground, head just rising, mouth open in exhaustion, demon silhouettes closing in on all sides, embers falling, orange glow from below",
+      "handoff": "Moves from floor directly to confronting the barrier - next shot his hands meet the iron door"
+    },
+    {
+      "file": "s51_pound_door.jpg",
+      "motion_prompt": "anime style, side profile close-up: Charlie in chiaroscuro fury pounding both fists against colossal iron door seams glowing red-orange. Each impact throws sparks downward; camera tilts slightly with each punch, emphasizing force. Firelight flares through seams with his rhythm. Head bowed in exhausted rage, shoulders heaving. Red tie whips slightly with motion. Three powerful impacts across 3.2s before collapse.",
+      "exit_state": "Fists pressed against door, head down, chest heaving, sparks falling from impact points, firelight seeping through seams, body rigid with desperation",
+      "handoff": "Rage and desperation peak - immediately explodes into full sprint away from door"
+    },
+    {
+      "file": "s53_chase.jpg",
+      "motion_prompt": "anime style, extreme speed-line sprint toward camera: Charlie running full-force down collapsing fire corridor, terror on angular face. Horde of demon silhouettes with amber eyes and chifres charge behind him in perfect sync. Extreme anime speed lines, debris and floor chunks flying outward. Camera dollies forward with him, parallax of walls crumbling. Flames billow behind the horde. Red tie and gray suit fabric whip from air pressure. 3.5s of adrenaline-peak momentum and pure survival instinct.",
+      "exit_state": "Charlie mid-stride, eyes wide in raw fear, mouth open, arms pumping, corridor walls blurring past, horde silhouettes filling frame behind, flames and debris trailing",
+      "handoff": "Momentum carries into next beat - he exhausts, demons shift from chase to slow inevitable approach"
+    },
+    {
+      "file": "s54_they_walk.jpg",
+      "motion_prompt": "anime style, horror dread pacing: Charlie collapses onto hands and knees in foreground, panting violently, head down. Behind him, demons do NOT charge - they walk slowly out of shadows in disciplined wide line, backlit by towering inferno, every eye glowing amber. Camera pulls subtle parallax separation showing their methodical advance. Breathing sounds heavy. They walk with predatory patience, no rush. Fire pulses with each step. 3.5s of creeping psychological horror.",
+      "exit_state": "Charlie gasping on knees, head still down but eyes raising in awareness, demons now 4-5 meters away in perfect formation, backlit glow around all silhouettes, fire roiling behind them",
+      "handoff": "Charlie realizes they're herding not hunting - acceptance of doom shifts his desperation upward"
+    },
+    {
+      "file": "s56_climb.jpg",
+      "motion_prompt": "anime style, epic vertical desperation climb: Charlie scrambles up crumbling black stone stairs toward distant white divine light shaft piercing cavern ceiling. Camera tilts slowly upward following his ascent. Embers fall in reverse-snow, glowing orange trails. His suit tears slightly on sharp stones, hands bleeding, legs burning but driving upward. The shaft of cold light grows slightly larger. Every step echoes. Hope and exhaustion warring on his face. 3.6s of grueling vertical push.",
+      "exit_state": "Charlie climbing mid-stairs, body arched upward, one hand reaching toward the light, face straining with effort, embers surrounding him in glowing matrix, distant light growing closer but still unreachable",
+      "handoff": "He reaches the summit - light reveals the truth at the top"
+    },
+    {
+      "file": "s57_angels_above.jpg",
+      "motion_prompt": "anime style, worm's-eye revelation: Camera fixed in pit looking straight up. Three angel silhouettes stand motionless on rim platform, bathed in cold white light, perfectly indifferent. Cathedral-scale verticality. Light flares ethereal around them. Subtle wind stirs the divine luminescence. No movement, no acknowledgment, just marble-cold presence. The light pulses faintly, casting everything below in absolute black. 3.4s of crushing realization.",
+      "exit_state": "Static composition: three angels on high platform, cold white light halo, infinite dark void below, no indication they've noticed him, everything else black",
+      "handoff": "He collapses understanding rejection - the fire below reclaims him as he falls back downward"
+    },
+    {
+      "file": "s59_final_beg.jpg",
+      "motion_prompt": "anime style, operatic despair crane rising: Charlie on knees arms spread wide screaming at the sky, tears streaming down angular face. Camera rises slowly above him revealing tightening ring of infernal fire closing in from all sides. Embers spiral upward around him in vortex. Red and black palette consuming frame. His voice breaks and cracks. Body trembling. Suit disheveled, tie hanging loose. The fire ring constricts subtly. 3.5s of raw unfiltered anguish.",
+      "exit_state": "Charlie kneeling, head thrown back, arms still spread, mouth open in final scream, fire ring tightening to arm's reach, embers spiraling up around him, tears visible, complete isolation",
+      "handoff": "Scream fades as he looks down at his hands - the ledger appears"
+    },
+    {
+      "file": "s60_ash_list.jpg",
+      "motion_prompt": "anime style, macro shallow-focus loss: Extreme close-up: trembling fingers clutching burning ledger edge, page with names disintegrating into glowing ash between his hands. Ember particles drift in slow motion. Paper curls and blackens. His fingers shake with realization. Orange light reflects off tear tracks. Single page consuming entire frame. Shallow depth of field. Ash wisps float upward. 3.2s of hope crystallizing into ash.",
+      "exit_state": "Fingers still touching the burning ledger, page almost completely consumed to ash, only blackened fragments remaining between his palms, ember particles suspended, tears on face",
+      "handoff": "He releases the ledger - his body begins to burn. Only his hand reaches upward"
+    },
+    {
+      "file": "s61_hand_up.jpg",
+      "motion_prompt": "anime style, minimalist tragedy: Single silhouetted hand reaching upward out of rising orange flames, stretching toward dying shaft of cold white light far above. Camera slight push-in on the hand. Embers swirl and smoke billow. The hand trembles slightly with effort. Rest of body already swallowed by fire below. Hand fingers splayed in final desperation. 3.6s of wordless loss.",
+      "exit_state": "Hand at frame top, fingers extended, silhouetted against distant light, flames still rising around it, smoke filling frame, hand becoming less distinct",
+      "handoff": "Hand disappears as silhouette - full body emerges for final scream"
+    },
+    {
+      "file": "s63_last_scream.jpg",
+      "motion_prompt": "anime style, apocalyptic silhouette scream: Full body silhouette jet-black against enormous wall of flame filling entire frame behind him. Head thrown back in primal final scream, arms down at sides in surrender-resistance, legs braced. Fire tower rages behind with embers like blizzard. Camera very slight shake on scream peak. Inferno completely dominates composition. Red-orange chaos. This is the end. 2.9s of pure operatic finale.",
+      "exit_state": "Silhouette frozen in scream, head back, surrounded by blizzard of embers, wall of fire behind, body braced, last breath being taken",
+      "handoff": "Scream cuts off as body begins dissolution - figure breaks apart into particles"
+    },
+    {
+      "file": "s64_dissolve.jpg",
+      "motion_prompt": "anime style, poetic final dissolution: Charlie's silhouette dissolves into thousands of glowing embers scattering upward into black smoke and darkness. Camera pulls back very slowly. Only half his outline remains by end frame. Fire dims to deep red-black void. Embers float like souls ascending into nothing. Ethereal and final. No more struggle. Integration into the inferno. 3.2s fade to darkness.",
+      "exit_state": "Mostly dissolved, half-silhouette remaining, embers scattered in upward drift, heavy black smoke filling upper frame, deep red-black gradient, fire dimmed to coal glow, silence implied",
+      "handoff": "Complete dissolution - episode ends in darkness and ash, no redemption, no escape, only fire"
+    }
+  ]
+}

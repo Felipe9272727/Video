@@ -1,0 +1,115 @@
+{
+ "segment": "A",
+ "shots": [
+  {
+   "file": "s01_cemetery.jpg",
+   "t0": 0.0,
+   "t1": 6.2,
+   "dur": 6.2,
+   "scene": "wide establishing shot of a rainy hillside cemetery at dusk, crooked leafless trees, rows of old tombstones, a distant gray american suburb below, heavy storm clouds, cold blue-gray palette, rain streaks",
+   "prev_shot": null,
+   "next_shot": "s02_funeral_low.jpg",
+   "plate_path": "clip/shots/s01_cemetery.jpg"
+  },
+  {
+   "file": "s02_funeral_low.jpg",
+   "t0": 6.2,
+   "t1": 11.44,
+   "dur": 5.24,
+   "scene": "extreme low angle from the wet grass looking up at a row of mourners holding black umbrellas against a stormy sky, silhouettes, one open grave in the foreground, rain falling toward camera, dramatic dutch angle",
+   "prev_shot": "s01_cemetery.jpg",
+   "next_shot": "s03_tombstone.jpg",
+   "plate_path": "clip/shots/s02_funeral_low.jpg"
+  },
+  {
+   "file": "s03_tombstone.jpg",
+   "t0": 11.44,
+   "t1": 14.31,
+   "dur": 2.87,
+   "scene": "dramatic extreme close-up of a granite tombstone engraved with the name CHARLIE in bold letters, rain dripping down the carved letters, wilted flowers at the base, cold gray light, shallow depth of field",
+   "prev_shot": "s02_funeral_low.jpg",
+   "next_shot": "s04_funeral_wide.jpg",
+   "plate_path": "clip/shots/s03_tombstone.jpg"
+  },
+  {
+   "file": "s04_funeral_wide.jpg",
+   "t0": 14.31,
+   "t1": 17.92,
+   "dur": 3.61,
+   "scene": "perfectly symmetrical wide shot from behind a tombstone, a small bored funeral crowd with black umbrellas staring blankly at the grave, flat deadpan composition, rainy gray cemetery, dark comedy mood",
+   "prev_shot": "s03_tombstone.jpg",
+   "next_shot": "s05_shower.jpg",
+   "plate_path": "clip/shots/s04_funeral_wide.jpg"
+  },
+  {
+   "file": "s05_shower.jpg",
+   "t0": 17.92,
+   "t1": 21.12,
+   "dur": 3.2,
+   "scene": "extreme top-down overhead angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie shivering under a cold shower fully miserable, arms crossed, teal-blue palette, single dim lightbulb, cramped tiled bathroom, steam-less freezing water",
+   "prev_shot": "s04_funeral_wide.jpg",
+   "next_shot": "s06_bike.jpg",
+   "plate_path": "clip/shots/s05_shower.jpg"
+  },
+  {
+   "file": "s06_bike.jpg",
+   "t0": 21.12,
+   "t1": 24.66,
+   "dur": 3.54,
+   "scene": "extreme low angle from the asphalt, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pedaling an old rusty bicycle to work at dawn, front wheel huge in foreground, gray suburb, a gas station sign with high prices behind him, overcast morning",
+   "prev_shot": "s05_shower.jpg",
+   "next_shot": "s07_fishing.jpg",
+   "plate_path": "clip/shots/s06_bike.jpg"
+  },
+  {
+   "file": "s07_fishing.jpg",
+   "t0": 24.66,
+   "t1": 27.79,
+   "dur": 3.13,
+   "scene": "wide symmetric shot of a tiny rowboat on a vast flat gray lake at dawn, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie fishing alone with a stern judgmental scowl, morning mist, muted colors, lonely mood",
+   "prev_shot": "s06_bike.jpg",
+   "next_shot": "s08_flag.jpg",
+   "plate_path": "clip/shots/s07_fishing.jpg"
+  },
+  {
+   "file": "s08_flag.jpg",
+   "t0": 27.79,
+   "t1": 31.36,
+   "dur": 3.57,
+   "scene": "heroic worm's-eye low angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie with hand solemnly on his chest pledging to a large american flag waving on a suburban porch, exaggerated patriotic pose, morning god rays, slightly mocking grandeur",
+   "prev_shot": "s07_fishing.jpg",
+   "next_shot": "s09_ocean.jpg",
+   "plate_path": "clip/shots/s08_flag.jpg"
+  },
+  {
+   "file": "s09_ocean.jpg",
+   "t0": 31.36,
+   "t1": 34.4,
+   "dur": 3.04,
+   "scene": "very high aerial angle looking down at a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing stiff in his suit at the edge of a dark vast ocean shoreline, a huge ominous shark shadow beneath the waves, he looks terrified, tiny figure, foam lines",
+   "prev_shot": "s08_flag.jpg",
+   "next_shot": "s10_rose.jpg",
+   "plate_path": "clip/shots/s09_ocean.jpg"
+  },
+  {
+   "file": "s10_rose.jpg",
+   "t0": 34.4,
+   "t1": 37.84,
+   "dur": 3.44,
+   "scene": "flat frontal deadpan tableau in a gloomy fluorescent kitchen, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie stiffly handing a single rose and a greeting card to his unimpressed deadpan wife in an apron, awkward silence, dark comedy framing",
+   "prev_shot": "s09_ocean.jpg",
+   "next_shot": "s11_questions.jpg",
+   "plate_path": "clip/shots/s10_rose.jpg"
+  },
+  {
+   "file": "s11_questions.jpg",
+   "t0": 37.84,
+   "t1": 41.21,
+   "dur": 3.37,
+   "scene": "tense dutch angle close-up at a dark dinner table, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sweating and looking away while shadowed faces lean in around him, harsh single overhead lamp, noir interrogation mood, high contrast",
+   "prev_shot": "s10_rose.jpg",
+   "next_shot": "s12_crash.jpg",
+   "plate_path": "clip/shots/s11_questions.jpg"
+  }
+ ]
+}

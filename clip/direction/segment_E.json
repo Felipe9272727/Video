@@ -1,0 +1,115 @@
+{
+ "segment": "E",
+ "shots": [
+  {
+   "file": "s50_thrown.jpg",
+   "t0": 165.72,
+   "t1": 168.92,
+   "dur": 3.2,
+   "scene": "god's-eye top-down of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprawled on the black ash floor where he was thrown, burning papers raining down around him like snow, he pushes himself up weakly, circle of demon feet surrounding, embers",
+   "prev_shot": "s49_dragged.jpg",
+   "next_shot": "s51_pound_door.jpg",
+   "plate_path": "clip/shots/s50_thrown.jpg"
+  },
+  {
+   "file": "s51_pound_door.jpg",
+   "t0": 168.92,
+   "t1": 172.53,
+   "dur": 3.61,
+   "scene": "side profile silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pounding both fists against a colossal iron door, fire glow seeping through the door seams, sparks on each impact, his head bowed, exhaustion and fury, chiaroscuro",
+   "prev_shot": "s50_thrown.jpg",
+   "next_shot": "s52_scream_wide.jpg",
+   "plate_path": "clip/shots/s51_pound_door.jpg"
+  },
+  {
+   "file": "s53_chase.jpg",
+   "t0": 175.96,
+   "t1": 179.53,
+   "dur": 3.57,
+   "scene": "a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprinting straight toward camera down a collapsing corridor of fire, a horde of demon silhouettes with glowing eyes charging behind him, extreme anime speed lines, debris flying, floor cracking, adrenaline",
+   "prev_shot": "s52_scream_wide.jpg",
+   "next_shot": "s54_they_walk.jpg",
+   "plate_path": "clip/shots/s53_chase.jpg"
+  },
+  {
+   "file": "s54_they_walk.jpg",
+   "t0": 179.53,
+   "t1": 182.99,
+   "dur": 3.46,
+   "scene": "a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie collapsed on hands and knees panting in the foreground, behind him the demons do not run — they walk slowly out of the shadows in a wide line, backlit by fire, glowing eyes, dread, horror pacing",
+   "prev_shot": "s53_chase.jpg",
+   "next_shot": "s55_chase_loop.jpg",
+   "plate_path": "clip/shots/s54_they_walk.jpg"
+  },
+  {
+   "file": "s56_climb.jpg",
+   "t0": 188.95,
+   "t1": 192.52,
+   "dur": 3.57,
+   "scene": "epic vertical composition of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie climbing crumbling black stone stairs toward a tiny distant shaft of white divine light piercing the cavern ceiling, embers falling past him like reverse snow, hope and exhaustion",
+   "prev_shot": "s55_chase_loop.jpg",
+   "next_shot": "s57_angels_above.jpg",
+   "plate_path": "clip/shots/s56_climb.jpg"
+  },
+  {
+   "file": "s57_angels_above.jpg",
+   "t0": 192.52,
+   "t1": 195.96,
+   "dur": 3.44,
+   "scene": "worm's-eye from deep in the pit, far above at the rim of the light shaft stand tiny indifferent angel silhouettes looking down, cold white light flaring around them, unreachable, cathedral scale verticality",
+   "prev_shot": "s56_climb.jpg",
+   "next_shot": "s58_climb2.jpg",
+   "plate_path": "clip/shots/s57_angels_above.jpg"
+  },
+  {
+   "file": "s59_final_beg.jpg",
+   "t0": 201.66,
+   "t1": 205.17,
+   "dur": 3.51,
+   "scene": "crane shot rising above a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie on his knees screaming at the sky with tears streaming, a closing ring of fire around him, arms spread wide, embers spiraling upward, operatic despair, red and black palette",
+   "prev_shot": "s58_climb2.jpg",
+   "next_shot": "s60_ash_list.jpg",
+   "plate_path": "clip/shots/s59_final_beg.jpg"
+  },
+  {
+   "file": "s60_ash_list.jpg",
+   "t0": 205.17,
+   "t1": 208.37,
+   "dur": 3.2,
+   "scene": "macro close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie's trembling fingers clutching the edge of the burning ledger as the page with names crumbles into glowing ash between his fingers, shallow focus, ember particles, loss made physical",
+   "prev_shot": "s59_final_beg.jpg",
+   "next_shot": "s61_hand_up.jpg",
+   "plate_path": "clip/shots/s60_ash_list.jpg"
+  },
+  {
+   "file": "s61_hand_up.jpg",
+   "t0": 208.37,
+   "t1": 212.01,
+   "dur": 3.64,
+   "scene": "wide shot of a single hand reaching up out of rising flames, silhouetted against a dying shaft of cold light from far above, embers and smoke, the rest of the body already swallowed, tragic minimalism",
+   "prev_shot": "s60_ash_list.jpg",
+   "next_shot": "s62_eye.jpg",
+   "plate_path": "clip/shots/s61_hand_up.jpg"
+  },
+  {
+   "file": "s63_last_scream.jpg",
+   "t0": 215.44,
+   "t1": 218.32,
+   "dur": 2.88,
+   "scene": "full silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie head thrown back in a final scream against an enormous wall of flame, backlit pure black figure, fire filling the entire frame behind, embers like a blizzard, apocalyptic",
+   "prev_shot": "s62_eye.jpg",
+   "next_shot": "s64_dissolve.jpg",
+   "plate_path": "clip/shots/s63_last_scream.jpg"
+  },
+  {
+   "file": "s64_dissolve.jpg",
+   "t0": 218.32,
+   "t1": 221.53,
+   "dur": 3.21,
+   "scene": "the silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie dissolving into thousands of glowing embers that scatter upward into black smoke, only half his outline remains, fire dimming to deep red darkness, poetic and final",
+   "prev_shot": "s63_last_scream.jpg",
+   "next_shot": "s65_grave_return.jpg",
+   "plate_path": "clip/shots/s64_dissolve.jpg"
+  }
+ ]
+}

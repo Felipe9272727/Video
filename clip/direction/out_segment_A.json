@@ -1,0 +1,69 @@
+{
+  "segment": "A",
+  "shots": [
+    {
+      "file": "s01_cemetery.jpg",
+      "motion_prompt": "anime style, establishing wide cemetery shot drenched in cold rain, camera slowly pushes forward through leafless trees toward distant suburb, rain streaks fall continuously toward lens, mist rises from ground, storm clouds churn overhead with subtle light pulsing, tombstones in foreground remain still as reference points, somber blue-gray palette deepens, graveyard feels like painting coming to life.",
+      "exit_state": "camera positioned mid-way through cemetery looking downslope toward suburb, heavy rain still falling, storm clouds dominate sky, blue-gray mood completely established.",
+      "handoff": "low angle from ground looking up → next shot: mourners in rain will fill the frame from this perspective looking down at the grave"
+    },
+    {
+      "file": "s02_funeral_low.jpg",
+      "motion_prompt": "anime style, extreme low angle from wet grass, camera holds steady as rain cascades down toward camera, silhouetted mourners with black umbrellas remain stationary but rain animation intensifies, wet grave in foreground catches light flickers, umbrellas quiver slightly from wind gusts, raindrops splash on lens subtly, sky churns overhead, dramatic dutch angle maintained, cold teal cast throughout, silence broken only by implied downpour.",
+      "exit_state": "camera at grass level looking up, mourners in dark silhouettes completely still, open grave foreground glistening, rain falling hard, sky grey-black overhead.",
+      "handoff": "pull up and tight → next shot: extreme close on the CHARLIE tombstone engraved letters"
+    },
+    {
+      "file": "s03_tombstone.jpg",
+      "motion_prompt": "anime style, granite tombstone with 'CHARLIE' carved deep, camera holds tight on letters as rain drips slowly down the carved grooves, each droplet catches dim light, wilted flowers at base barely move in cold wind, shallow focus keeps stone sharp while background blurs softly, occasional water rivulet traces the name, pale gray stone texture emphasized, cold blue tint throughout, 3-second study of finality.",
+      "exit_state": "camera extremely close on 'CHARLIE' letters, rain droplets hanging mid-drip, flowers wilted below, soft blur background, cold hard light on stone.",
+      "handoff": "pull back and widen → next shot: wide symmetrical view from behind a tombstone looking at mourners and grave"
+    },
+    {
+      "file": "s04_funeral_wide.jpg",
+      "motion_prompt": "anime style, perfectly symmetrical wide shot from behind large tombstone in foreground, camera remains completely still, mourners with black umbrellas stand deadpan facing open grave, rain continues steady, light gradually shifts—growing colder and darker—across flat grey cemetery composition, tiny figures unmoved by grief, chiaroscuro deepens shadows under umbrellas, symmetry emphasizes isolation and dark comedy, monotone greens and grays dominate.",
+      "exit_state": "symmetrical framing from rear tombstone viewpoint, mourners standing frozen, grave center, rain steady, dark melancholic palette, flat deadpan spacing.",
+      "handoff": "cut to intimate interior → next shot: overhead of Charlie in cold shower, shift from gray-blue cemetery to teal-cyan bathroom"
+    },
+    {
+      "file": "s05_shower.jpg",
+      "motion_prompt": "anime style, overhead angle on gaunt pale Charlie under icy shower spray, keep character design consistent—charcoal-gray suit soaked, white shirt transparent, crimson-red tie hanging limp, face anguished and shivering. Camera tilts slightly as Charlie's body shivers rhythmically, cold water streams down body emphasizing misery, single dim lightbulb flickers subtly, steam absent—water purely glacial, tile walls reflect harsh blue-teal light, Charlie's expression cycles between anguished resignation, 3-second study of desolation.",
+      "exit_state": "Charlie huddled shivering under shower, arms wrapped, face contorted in cold anguish, water running down body, teal bathroom light harsh overhead.",
+      "handoff": "cut to dawn commute → next shot: low angle of Charlie pedaling bike, anguished expression continues, shift to gray morning suburb palette"
+    },
+    {
+      "file": "s06_bike.jpg",
+      "motion_prompt": "anime style, extreme low angle from pavement as Charlie pedals old rusty bicycle past gas station sign showing inflated prices, keep character consistent—charcoal suit, red tie, angular anguished face. Bike wheels turn continuously, front wheel grows large then recedes, handlebars rock slightly side-to-side, Charlie's jaw clenches, overcast gray suburb surrounds, power lines cut through composition, camera follows alongside at ground level, early morning gloomy light, metallic tire squeaks implied.",
+      "exit_state": "Charlie mid-pedal on bike, front wheel prominent, gas station sign visible left side, overcast gray-white sky above, angular anguished expression.",
+      "handoff": "transition to water → next shot: Charlie sitting alone in rowing boat on gray lake"
+    },
+    {
+      "file": "s07_fishing.jpg",
+      "motion_prompt": "anime style, wide symmetric shot of tiny rowboat on vast gray-green dawn lake, Charlie sits alone fishing rod across his lap, expression stern and judgmental, camera holds perfectly still, mist rises subtly from water surface drifting left, ripples expand slowly from boat center, Charlie's posture stiffens slightly as if listening to something distant, fishing line taut but motionless, morning light bleeds muted across water, lone figure emphasizes profound isolation, quiet dread in the atmosphere.",
+      "exit_state": "Charlie alone in rowboat center frame, stern judgmental expression, mist drifting, lake calm, fishing rod ready, bleak dawn color palette.",
+      "handoff": "cut to heroic stance → next shot: worm's-eye angle of Charlie pledging hand to chest before American flag"
+    },
+    {
+      "file": "s08_flag.jpg",
+      "motion_prompt": "anime style, heroic worm's-eye low angle of Charlie standing stiffly with hand solemnly on chest, keep design exact—charcoal suit, red tie, angular gaunt face directed toward flag. American flag waves behind him with exaggerated patriotic grandeur and slight mockery, morning god rays illuminate from left side casting long shadow, Charlie's posture shifts subtly from rigid to almost trembling, flag ripples with theatrical movement, light pulse intensifies across his face, patriotic but deeply hollow gesture, 3-second beat of false nobility.",
+      "exit_state": "Charlie hand on chest, gaunt face tilted slightly upward, American flag waving prominently behind, god rays from left, solemn patriotic pose held, morning light dramatic.",
+      "handoff": "pull back and shift perspective → next shot: aerial angle of Charlie tiny on ocean shore, terrified expression"
+    },
+    {
+      "file": "s09_ocean.jpg",
+      "motion_prompt": "anime style, very high aerial angle looking down on Charlie standing stiffly in charcoal suit at ocean shoreline, keep character design—red tie, angular face twisted in terror. Enormous shark shadow glides menacingly beneath waves, foam lines mark wave patterns moving toward shore, camera holds high vantage showing Charlie as tiny vulnerable figure, shark shadow passes left-to-right then back, implied threat builds, water churns slightly, Charlie's body language shifts from patriotic stiffness to pure fear, dark ocean palette dominates, white foam stands out against black-teal depths, primal dread.",
+      "exit_state": "Charlie tiny figure standing terrified on shore, enormous shark shadow passing beneath waves, white foam trails visible, aerial perspective extreme, ocean dominates frame, dark blue-black water, fear etched in his posture.",
+      "handoff": "cut to domestic interior → next shot: fluorescent kitchen, Charlie handing rose to wife"
+    },
+    {
+      "file": "s10_rose.jpg",
+      "motion_prompt": "anime style, flat frontal deadpan tableau in gloomy fluorescent kitchen, Charlie stiffly handing single red rose and greeting card to his unimpressed wife, keep design consistent—charcoal suit, red tie, gaunt face attempting artificial smile. Camera barely moves—maybe slight zoom toward both faces for awkward tension, wife's expression unmoved and contemptuous, fluorescent light flickers imperceptibly once, shadows under eyes emphasize exhaustion, rose trembles slightly in Charlie's hand from nervousness, greeting card looks cheaply mass-produced, awkward silence visual—no sound, pure discomfort, dark comedy framing of marital failure.",
+      "exit_state": "Charlie mid-gesture handing rose, forced smile faltering, wife's dismissive face, fluorescent light harsh, kitchen greenish-gray, awkward distance between them.",
+      "handoff": "cut to interrogation table → next shot: tense dutch angle dinner scene with shadowed accusers leaning in"
+    },
+    {
+      "file": "s11_questions.jpg",
+      "motion_prompt": "anime style, tense dutch angle close-up at dark dinner table, Charlie sweating visibly, eyes darting down and away, keep design strict—charcoal suit, red tie, gaunt angular face in anguish. Shadowed faces lean in from left and right edges of frame, harsh single overhead lamp casts severe noir light, Charlie's hand trembles near his plate, beads of sweat on forehead catch lamp light, camera tilts slightly emphasizing interrogation dread, shadows deepen faces of accusers into silhouettes, high contrast black-and-white dominated palette, oppressive atmosphere of judgment and entrapment, final beat of Charlie's human despair before descent."
+    }
+  ]
+}

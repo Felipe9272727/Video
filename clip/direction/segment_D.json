@@ -1,0 +1,115 @@
+{
+ "segment": "D",
+ "shots": [
+  {
+   "file": "s37_elevator.jpg",
+   "t0": 123.22,
+   "t1": 126.59,
+   "dur": 3.37,
+   "scene": "claustrophobic shot inside a rusty caged industrial elevator descending, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pressed in a corner, a skeletal demon operator in a bellhop uniform at the lever, one flickering bulb, an old TV showing static, sparks",
+   "prev_shot": "s36_market2.jpg",
+   "next_shot": "s38_corridor.jpg",
+   "plate_path": "clip/shots/s37_elevator.jpg"
+  },
+  {
+   "file": "s38_corridor.jpg",
+   "t0": 126.59,
+   "t1": 129.83,
+   "dur": 3.24,
+   "scene": "perfect one-point perspective of elevator doors opened onto an endless symmetric corridor of flame-lit black stone, tiny silhouette of {CH} stepping out alone, kubrick symmetry, oppressive geometry",
+   "prev_shot": "s37_elevator.jpg",
+   "next_shot": "s39_run_gate.jpg",
+   "plate_path": "clip/shots/s38_corridor.jpg"
+  },
+  {
+   "file": "s39_run_gate.jpg",
+   "t0": 129.83,
+   "t1": 132.87,
+   "dur": 3.04,
+   "scene": "low tracking angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprinting desperately toward a distant burning gate, coat flying, anime speed lines, embers streaking horizontally, motion blur floor, extreme dynamic diagonal composition",
+   "prev_shot": "s38_corridor.jpg",
+   "next_shot": "s40_devil.jpg",
+   "plate_path": "clip/shots/s39_run_gate.jpg"
+  },
+  {
+   "file": "s40_devil.jpg",
+   "t0": 132.87,
+   "t1": 136.14,
+   "dur": 3.27,
+   "scene": "an elegant tall devil in a black pinstripe suit, dark red skin, slick curved horns, wide charming predatory grin, glowing amber eyes lounging sideways on an obsidian throne wreathed in smoke, low angle, hellfire rim light, one eyebrow raised in amused delight, cigar smoke curling, art-deco infernal throne room",
+   "prev_shot": "s39_run_gate.jpg",
+   "next_shot": "s41_demon_list.jpg",
+   "plate_path": "clip/shots/s40_devil.jpg"
+  },
+  {
+   "file": "s41_demon_list.jpg",
+   "t0": 136.14,
+   "t1": 139.71,
+   "dur": 3.57,
+   "scene": "extreme worm's-eye of a hulking demon clerk behind a towering desk made of skulls, ticking names in a burning ledger with a quill of fire, looking down over tiny {CH}, mirror composition of a heavenly gate check, embers",
+   "prev_shot": "s40_devil.jpg",
+   "next_shot": "s42_denied.jpg",
+   "plate_path": "clip/shots/s41_demon_list.jpg"
+  },
+  {
+   "file": "s42_denied.jpg",
+   "t0": 139.71,
+   "t1": 143.14,
+   "dur": 3.43,
+   "scene": "extreme close-up of the demon clerk's massive clawed fist slamming a glowing brand onto the ledger, sparks exploding, {CH} flinching small in the foreground bokeh, wide predatory grin of sharp teeth above, impact frame",
+   "prev_shot": "s41_demon_list.jpg",
+   "next_shot": "s43_tempt.jpg",
+   "plate_path": "clip/shots/s42_denied.jpg"
+  },
+  {
+   "file": "s44_heart_falls.jpg",
+   "t0": 146.04,
+   "t1": 149.68,
+   "dur": 3.64,
+   "scene": "a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie dropping to his knees clutching his chest, mouth open gasping for air, embers swirling around him, blood-red light, camera slightly above, his shadow stretched long by firelight, raw despair",
+   "prev_shot": "s43_tempt.jpg",
+   "next_shot": "s45_beg_devil.jpg",
+   "plate_path": "clip/shots/s44_heart_falls.jpg"
+  },
+  {
+   "file": "s45_beg_devil.jpg",
+   "t0": 149.68,
+   "t1": 152.55,
+   "dur": 2.87,
+   "scene": "extreme low angle framed between the silhouetted horns of an elegant tall devil in a black pinstripe suit, dark red skin, slick curved horns, wide charming predatory grin, glowing amber eyes in the foreground, tiny a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie kneeling and begging far below, wall of fire behind, frame-within-frame composition, theatrical scale",
+   "prev_shot": "s44_heart_falls.jpg",
+   "next_shot": "s46_uniform.jpg",
+   "plate_path": "clip/shots/s45_beg_devil.jpg"
+  },
+  {
+   "file": "s46_uniform.jpg",
+   "t0": 152.55,
+   "t1": 155.75,
+   "dur": 3.2,
+   "scene": "a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie desperately pulling his own collar and lapels showing his plain suit to a circle of looming demon guards with spears, fisheye-like curved perspective, torchlight ring, panic, sweat, wide angle distortion",
+   "prev_shot": "s45_beg_devil.jpg",
+   "next_shot": "s47_not_belong.jpg",
+   "plate_path": "clip/shots/s46_uniform.jpg"
+  },
+  {
+   "file": "s48_demon_parade.jpg",
+   "t0": 159.39,
+   "t1": 162.83,
+   "dur": 3.44,
+   "scene": "wide shot of a parade of horned demons marching through a burning archway dragging chained souls, {CH} in the foreground screaming with his arms spread, ignored by all, ember storm, theatrical staging",
+   "prev_shot": "s47_not_belong.jpg",
+   "next_shot": "s49_dragged.jpg",
+   "plate_path": "clip/shots/s48_demon_parade.jpg"
+  },
+  {
+   "file": "s49_dragged.jpg",
+   "t0": 162.83,
+   "t1": 165.72,
+   "dur": 2.89,
+   "scene": "two hulking demon brutes dragging a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie backwards by the arms, his heels scraping grooves in the ash floor, body sagging, yelling, low tracking side angle, fire wall background, embers, dynamic diagonal",
+   "prev_shot": "s48_demon_parade.jpg",
+   "next_shot": "s50_thrown.jpg",
+   "plate_path": "clip/shots/s49_dragged.jpg"
+  }
+ ]
+}

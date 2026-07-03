@@ -1,0 +1,71 @@
+{
+  "segment": "C",
+  "shots": [
+    {
+      "file": "s23_church.jpg",
+      "motion_prompt": "anime style, warm church interior: Charlie in gray suit and crimson tie sits rigidly in wooden pew, checking wristwatch with mounting anxiety, eyes darting upward. Camera slowly pushes in on his face with soft parallax of stained-glass light kaleidoscoping across his features. Colored light from windows drifts and rotates gently across the scene while congregation silhouettes remain still. Three seconds of quiet dread building—body tenses, jaw clenches, fingers grip the pew. Keep character design consistent, gray suit, red tie, angular pale face unchanged.",
+      "exit_state": "Charlie's worried face fills frame, hand still on watch, colored window light streaming across forehead and cheekbone, expression shows dawning realization something is wrong",
+      "handoff": "Cuts to cold confrontation—warm memory dissolves into rejection; next shot opens on radiant angelic figures and glowing doorway where he is about to be denied"
+    },
+    {
+      "file": "s24_angels_door.jpg",
+      "motion_prompt": "anime style, heaven's gate rejection: Charlie screams and reaches both arms forward against invisible barrier, fingers splayed rigid against glowing air. Tall indifferent angels in white light file past through radiant archway, moving with slow deliberate grace. Camera tilts up slowly from Charlie's desperate hands to his anguished face. Barrier air shimmers with golden radiance; angels drift through doorway in parallax, their forms glowing and cold. Intense emotion: three seconds of Charlie's body straining, fingers pressed flat, mouth wide open in silent scream, desperation maxing out. Keep suit and tie consistent.",
+      "exit_state": "Charlie's arms fully extended and frozen against the air-barrier, face contorted in silent scream, mouth agape, golden light pouring past from the doorway leaving him in shadow",
+      "handoff": "Transition to plunge: his body position carries into next shot's falling—arms still raised, about to drop into void; spatial match of his upward gaze becomes downward fall"
+    },
+    {
+      "file": "s25_floor_opens.jpg",
+      "motion_prompt": "anime style, fall through heaven's floor: extreme top-down fisheye perspective as Charlie plummets through a jagged hole in the cloud floor, arms reaching upward toward receding golden gates. Camera is static god's-eye view; Charlie rotates and foreshortens downward into the abyss as clouds separate and shatter around him. Golden gates shrink above; black void swallows him below. Embers and smoke spiral upward in vortex around his falling silhouette. Three seconds of accelerating perspective plunge—body twisted, suit flapping, hands grasping at nothing. Preserve gray suit, red tie, angular features as he vanishes into depth.",
+      "exit_state": "Charlie's silhouette nearly disappeared into black void at bottom of frame, arms still reaching up toward the shrinking golden gates above, clouds fragmenting around him",
+      "handoff": "Continuous fall into storm: low-angle camera picks up his falling body from below; transition from slow celestial plunge to violent tempest descent"
+    },
+    {
+      "file": "s26_fall_storm.jpg",
+      "motion_prompt": "anime style, violent storm descent: low angle camera looking up at Charlie plummeting toward viewer through roiling dark clouds. His body rotates chaotically, gray suit whipping, crimson tie streaming upward, face contorted in endless scream. Lightning veins crack the clouds; rain streaks shoot upward in parallax. Camera slight push-out creates vertigo. Three seconds of maximum velocity and chaos—suit fabric ripples violently, hair whips, arms flail, mouth screaming silently. Electrical light pulses across his face; storm energy builds with crackling intensity. Keep character design locked: gray suit, white shirt, red tie, pale angular face readable even in chaos.",
+      "exit_state": "Charlie mid-scream, body twisted by wind, lightning illuminating his face from side, rain streaking upward around him, suit whipping, descending fast toward orange glow below",
+      "handoff": "Transition to hellmouth: next shot's top-down reveals he is falling into a massive glowing pit; the lightning fades to infernal glow, storm clouds open onto landscape of fire"
+    },
+    {
+      "file": "s28_pit.jpg",
+      "motion_prompt": "anime style, descent into the pit: god's-eye view straight down as Charlie's tiny silhouette spirals downward into a colossal molten red pit mouth opening in black scorched plain. Camera fixed top-down; Charlie rotates as he falls into the center of concentric rings of roaring fire. Spiraling smoke and embers rise like a vortex around him. Lava glows brightest at the center—yellows and oranges pulsing with heat. Three seconds of scale shift—he shrinks into the inferno, concentric fire rings pulse and expand, embers churn upward in counter-spiral. Vast, overwhelming, heat radiating from the pit. Preserve suit silhouette as he descends into flames.",
+      "exit_state": "Charlie's silhouette nearly consumed by the incandescent center of the pit, concentric fire rings pulsing around him, smoke and embers rising in fierce vortex, pit glowing intensely",
+      "handoff": "Transition to hellgate arrival: next shot pulls back to reveal he has landed—worm's-eye angle from ground, colossal obsidian gate looming above with molten inscriptions, Charlie standing at its base in awe and terror"
+    },
+    {
+      "file": "s29_hell_gate.jpg",
+      "motion_prompt": "anime style, hell gate confrontation: worm's-eye extreme low angle, colossal obsidian gate dominates the frame, covered in glowing molten inscriptions that pulse slowly. Charlie stands small at the base in gray suit, crimson tie, pale face tilted up in fear. Camera tilts slowly upward to emphasize gate's impossible scale. Molten lava inscriptions brighten and dim in rhythm; rivers of embers flow down the gate's sides in parallax. Sulfurous smoke swirls around the gate. Three seconds of oppressive dread—Charlie frozen, trembling slightly, eyes fixed upward, surrounded by flowing lava and ash. Infernal orange and black palette dominates. Keep suit and tie and facial features sharp and readable.",
+      "exit_state": "Gate towers above Charlie at center bottom of frame, inscriptions blazing bright, embers cascading down the sides, Charlie's face upturned in terror, sweat visible, surrounded by infernal light",
+      "handoff": "Extreme close-up next: cuts to Charlie's face only, eyes reflecting the gate's molten glow, underlit in red; seamless transition from wide terror to intimate anguish"
+    },
+    {
+      "file": "s30_gulp.jpg",
+      "motion_prompt": "anime style, terrified recognition: extreme horror close-up of Charlie's face underlit from below in blood-red, head-on framing. Glowing gate portal reflected huge in both pupils. Sweat beads form and roll down temple; throat muscles tense as he swallows hard—gulp visible. Eyes blink slowly in mounting panic. Embers drift past his face, reflections twitching in his eyes. Camera is static; light from the gate pulses, casting sharp shadows across his cheekbones. Three seconds of intimate dread—every microexpression of acceptance and despair. Pale complexion, dark hair, sharp features locked in horror. Keep gray suit collar visible at bottom, red tie knot at neck.",
+      "exit_state": "Charlie's face fills frame, eyes wide and locked on the gate reflection, mouth slightly open, sweat on cheek, embers drifting across his face, red light casting deep shadows, expression of absolute doom",
+      "handoff": "Pulls back to epic scale: next shot is wide panoramic hellscape; this intimate moment of acceptance opens onto the vast infernal landscape where he must now walk"
+    },
+    {
+      "file": "s31_hellscape.jpg",
+      "motion_prompt": "anime style, infernal panorama: breathtaking wide shot of hell's vast landscape—twisted black spires, rivers of flowing lava snaking through a scorched plain, storms of embers falling like snow, endless chained crowds marching toward dark horizons, bruised red sky with a black sun hanging bloated above. Camera slow pan left-to-right and slight push through the scene. Lava flows with motion blur; crowds shuffle in relentless procession; embers fall continuously; black sun pulses with sick radiance. Spires pierce upward in silhouette. Three seconds of epic scale and hopelessness—movement is slow, grinding, inexorable. Painted matte background quality. Atmosphere: heat waves ripple the air.",
+      "exit_state": "Camera positioned mid-landscape showing vast hellscape stretching to horizons, black sun above, crowds marching forward in chains, lava rivers glowing, embers falling, all movement forward and downward into the void",
+      "handoff": "Transition to specific circle of Hell (gluttony): next shot zooms into a grotesque banquet table where damned souls are trapped; intimate move from vast landscape to focused suffering"
+    },
+    {
+      "file": "s32_gluttons.jpg",
+      "motion_prompt": "anime style, grotesque infernal banquet: high angle view of an endless grotesque table. Obese wailing damned souls seated in anguish, red apples stuffed in their mouths like trophies, arms flailing upward in futile supplication. Demon waiters in elegant black tailcoats move between them serving endless food, their movements smooth and cruel. Bone chandeliers with flickering candles cast dancing shadows. Camera high angle, slight rotation. Three seconds of frenzied, nauseating movement—souls writhe and convulse, demons glide with balletic cruelty, flames flicker rapidly, temperature and scale overwhelming. Red apples glow. Sound of wailing (though visual only). Keep palette: blacks, whites (bones), reds, infernal orange.",
+      "exit_state": "High angle of the grotesque banquet table, souls contorted in agony with apples in mouths, arms reaching skyward, demons circling with food trays, candle light dancing across the scene of endless torment",
+      "handoff": "Transition to next circle (vanity): camera pulls back and into next space—a corridor of ornate mirrors; shift from gluttony's oral torment to vanity's optical imprisonment"
+    },
+    {
+      "file": "s33_mirrors.jpg",
+      "motion_prompt": "anime style, vanity mirror corridor: corridor of tall ornate gilded mirrors in deep darkness, vain souls trapped inside glass clawing and screaming at their own reflections, faces contorted in despair. Charlie walks slowly down the center, gray suit steady, crimson tie visible, expression growing more uneasy. Camera tracks laterally alongside him at chest height. Candle-orange rim light edges the mirrors from above. Souls in glass pound and scratch; reflections shimmer and distort. Three seconds of eerie traversal—Charlie's footsteps echo, trapped souls' screams layer the audio space, mirrors flicker with reflected flame. Ángulo holandés subtle on framing. Preserve suit, tie, face as he confronts his own vanity in the faces of the damned.",
+      "exit_state": "Charlie centered in corridor between mirrors, almos at far end, mirrors on both sides reflecting trapped souls screaming and clawing at glass, orange rim light casting his silhouette, expression deepening into horror",
+      "handoff": "Transition to next space (greed): pull back wider to reveal market stalls; shift from personal mirrors of vanity to marketplace of endless craving and commodity"
+    },
+    {
+      "file": "s35_market.jpg",
+      "motion_prompt": "anime style, infernal night market: busy chaotic marketplace, demon merchants at wooden stalls hawking miniature burning worlds inside glass jars, hanging cages with trapped souls, glowing hellfire signage above reading demonic script. Crowds of damned souls flowing between stalls in dark silhouettes, shopping endlessly. Camera pan slowly through the market left-to-right and slight push-in. Miniature worlds in jars glow and rotate; smoke rises from cooking fires; signage flickers with flames; crowd motion is constant and purposeful. Three seconds of capitalist hell—endless transaction, endless hunger, endless merchandise. Smoky atmosphere, warm infernal glow, black shadows of the damned. Detail: small burning worlds visible in each jar.",
+      "exit_state": "Wide market view with demon merchants at stalls, crowds of damned souls flowing and shopping, miniature burning worlds glowing in jars, hellfire signage blazing above, smoke rising, atmosphere of endless mercenary torment",
+      "handoff": "Transition to s36_market2 (next sequence): continuous market scene; camera movement and crowd flow carry forward into next shot maintaining market energy and atmosphere"
+    }
+  ]
+}

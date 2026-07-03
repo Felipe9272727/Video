@@ -1,0 +1,115 @@
+{
+ "segment": "C",
+ "shots": [
+  {
+   "file": "s23_church.jpg",
+   "t0": 76.88,
+   "t1": 80.51,
+   "dur": 3.63,
+   "scene": "warm flashback memory, tilted frame of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sliding late into a church pew checking his wristwatch, kaleidoscopic stained-glass light across the wooden pews, soft nostalgic glow, congregation silhouettes",
+   "prev_shot": "s22_plead_ecu.jpg",
+   "next_shot": "s24_angels_door.jpg",
+   "plate_path": "clip/shots/s23_church.jpg"
+  },
+  {
+   "file": "s24_angels_door.jpg",
+   "t0": 80.51,
+   "t1": 83.95,
+   "dur": 3.44,
+   "scene": "wide dutch angle of tall glowing indifferent angels filing through a radiant doorway of light, {CH} screaming and reaching, held back by an invisible barrier, his fingers pressed flat against glowing air, despair",
+   "prev_shot": "s23_church.jpg",
+   "next_shot": "s25_floor_opens.jpg",
+   "plate_path": "clip/shots/s24_angels_door.jpg"
+  },
+  {
+   "file": "s25_floor_opens.jpg",
+   "t0": 83.95,
+   "t1": 86.82,
+   "dur": 2.87,
+   "scene": "extreme top-down shot of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie falling away from camera through a hole broken in the cloud floor, arms reaching up toward the receding golden gates, perspective plunge, fisheye distortion, dramatic foreshortening",
+   "prev_shot": "s24_angels_door.jpg",
+   "next_shot": "s26_fall_storm.jpg",
+   "plate_path": "clip/shots/s25_floor_opens.jpg"
+  },
+  {
+   "file": "s26_fall_storm.jpg",
+   "t0": 86.82,
+   "t1": 90.03,
+   "dur": 3.21,
+   "scene": "low angle looking up at a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie falling toward camera through dark storm clouds, suit flapping violently, screaming, lightning veins in the clouds, rain streaks shooting upward, extreme motion energy",
+   "prev_shot": "s25_floor_opens.jpg",
+   "next_shot": "s27_fall_red.jpg",
+   "plate_path": "clip/shots/s26_fall_storm.jpg"
+  },
+  {
+   "file": "s28_pit.jpg",
+   "t0": 93.7,
+   "t1": 97.2,
+   "dur": 3.5,
+   "scene": "god's-eye view straight down at a glowing molten red pit mouth opening in a black scorched plain, {CH} tiny silhouette falling into it, spiraling smoke and embers rising, concentric rings of fire, vast scale",
+   "prev_shot": "s27_fall_red.jpg",
+   "next_shot": "s29_hell_gate.jpg",
+   "plate_path": "clip/shots/s28_pit.jpg"
+  },
+  {
+   "file": "s29_hell_gate.jpg",
+   "t0": 97.2,
+   "t1": 100.28,
+   "dur": 3.08,
+   "scene": "colossal obsidian gate covered in glowing molten inscriptions, extreme worm's-eye angle, tiny a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing at its base, rivers of embers, oppressive scale, black and infernal orange palette",
+   "prev_shot": "s28_pit.jpg",
+   "next_shot": "s30_gulp.jpg",
+   "plate_path": "clip/shots/s29_hell_gate.jpg"
+  },
+  {
+   "file": "s30_gulp.jpg",
+   "t0": 100.28,
+   "t1": 103.31,
+   "dur": 3.03,
+   "scene": "horror underlighting extreme close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie gulping nervously looking up, face lit blood-red from below, the glowing gate reflected in his huge terrified eyes, sweat, embers drifting past",
+   "prev_shot": "s29_hell_gate.jpg",
+   "next_shot": "s31_hellscape.jpg",
+   "plate_path": "clip/shots/s30_gulp.jpg"
+  },
+  {
+   "file": "s31_hellscape.jpg",
+   "t0": 103.31,
+   "t1": 107.02,
+   "dur": 3.71,
+   "scene": "breathtaking panorama of hell, twisted black spires, rivers of lava, storms of embers, endless chained crowds marching, a bruised red sky with a black sun, epic scale wide shot, painted matte background",
+   "prev_shot": "s30_gulp.jpg",
+   "next_shot": "s32_gluttons.jpg",
+   "plate_path": "clip/shots/s31_hellscape.jpg"
+  },
+  {
+   "file": "s32_gluttons.jpg",
+   "t0": 107.02,
+   "t1": 110.14,
+   "dur": 3.12,
+   "scene": "grotesque infernal banquet, obese wailing damned souls seated at an endless table with red apples stuffed in their mouths like trophies, demon waiters in tailcoats, bone chandeliers with candles, high angle",
+   "prev_shot": "s31_hellscape.jpg",
+   "next_shot": "s33_mirrors.jpg",
+   "plate_path": "clip/shots/s32_gluttons.jpg"
+  },
+  {
+   "file": "s33_mirrors.jpg",
+   "t0": 110.14,
+   "t1": 113.51,
+   "dur": 3.37,
+   "scene": "corridor of tall ornate gilded mirrors in darkness, vain souls trapped inside the glass clawing and screaming at their own reflections, {CH} walking between them uneasy, dutch angle, candle-orange rim light",
+   "prev_shot": "s32_gluttons.jpg",
+   "next_shot": "s34_desires.jpg",
+   "plate_path": "clip/shots/s33_mirrors.jpg"
+  },
+  {
+   "file": "s35_market.jpg",
+   "t0": 116.9,
+   "t1": 119.99,
+   "dur": 3.09,
+   "scene": "busy infernal night market, demon merchants at stalls selling miniature burning worlds inside glass jars, hanging cages, glowing hellfire signage, crowds of damned souls shopping, smoky wide shot",
+   "prev_shot": "s34_desires.jpg",
+   "next_shot": "s36_market2.jpg",
+   "plate_path": "clip/shots/s35_market.jpg"
+  }
+ ]
+}

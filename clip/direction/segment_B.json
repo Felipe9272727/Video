@@ -1,0 +1,115 @@
+{
+ "segment": "B",
+ "shots": [
+  {
+   "file": "s12_crash.jpg",
+   "t0": 41.21,
+   "t1": 44.68,
+   "dur": 3.47,
+   "scene": "frozen instant of a violent car crash at night, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie shocked face seen through the shattering windshield, glass shards suspended mid-air, headlights flaring, extreme dramatic angle, speed lines, high impact",
+   "prev_shot": "s11_questions.jpg",
+   "next_shot": "s13_stairs.jpg",
+   "plate_path": "clip/shots/s12_crash.jpg"
+  },
+  {
+   "file": "s13_stairs.jpg",
+   "t0": 44.68,
+   "t1": 47.75,
+   "dur": 3.07,
+   "scene": "a colossal golden staircase spiraling up through towering sunset clouds, a tiny soul of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie ascending, god rays bursting between clouds, awe-inspiring scale, warm gold and white palette",
+   "prev_shot": "s12_crash.jpg",
+   "next_shot": "s14_pray_topdown.jpg",
+   "plate_path": "clip/shots/s13_stairs.jpg"
+  },
+  {
+   "file": "s14_pray_topdown.jpg",
+   "t0": 47.75,
+   "t1": 50.92,
+   "dur": 3.17,
+   "scene": "extreme god's-eye top-down shot directly above a funeral, an open casket with a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie lying in it, a perfect ring of mourners with black umbrellas praying around it, wet grass, geometric composition",
+   "prev_shot": "s13_stairs.jpg",
+   "next_shot": "s15_wave.jpg",
+   "plate_path": "clip/shots/s14_pray_topdown.jpg"
+  },
+  {
+   "file": "s15_wave.jpg",
+   "t0": 50.92,
+   "t1": 53.95,
+   "dur": 3.03,
+   "scene": "low angle behind a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing smug on a cloud ledge, waving goodbye down at the tiny earth below, cocky grin over his shoulder, divine light rim, stars appearing, warm gold clouds",
+   "prev_shot": "s14_pray_topdown.jpg",
+   "next_shot": "s16_vertigo.jpg",
+   "plate_path": "clip/shots/s15_wave.jpg"
+  },
+  {
+   "file": "s16_vertigo.jpg",
+   "t0": 53.95,
+   "t1": 57.42,
+   "dur": 3.47,
+   "scene": "vertigo shot looking straight down past a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie's shoes standing on transparent starlight, the earth a tiny marble far below between his feet, swirling galaxies and divine light around, dizzying scale",
+   "prev_shot": "s15_wave.jpg",
+   "next_shot": "s17_angel_gate.jpg",
+   "plate_path": "clip/shots/s16_vertigo.jpg"
+  },
+  {
+   "file": "s17_angel_gate.jpg",
+   "t0": 57.42,
+   "t1": 60.89,
+   "dur": 3.47,
+   "scene": "extreme worm's-eye angle of a colossal marble angel with enormous glowing wings standing at towering golden gates, holding a giant open ledger book, cold indifferent face, tiny {CH} at the base looking up, god rays",
+   "prev_shot": "s16_vertigo.jpg",
+   "next_shot": "s18_list.jpg",
+   "plate_path": "clip/shots/s17_angel_gate.jpg"
+  },
+  {
+   "file": "s18_list.jpg",
+   "t0": 60.89,
+   "t1": 64.03,
+   "dur": 3.14,
+   "scene": "over-the-shoulder close-up of a giant marble angel finger sliding down a glowing ledger page of names, none highlighted, the angel's cold face slowly shaking no, {CH} reflected small in the ledger's gold trim",
+   "prev_shot": "s17_angel_gate.jpg",
+   "next_shot": "hero.jpg",
+   "plate_path": "clip/shots/s18_list.jpg"
+  },
+  {
+   "file": "hero.jpg",
+   "t0": 64.03,
+   "t1": 67.1,
+   "dur": 3.07,
+   "scene": "",
+   "prev_shot": "s18_list.jpg",
+   "next_shot": "s20_no_air.jpg",
+   "plate_path": "clip/shots/hero.jpg"
+  },
+  {
+   "file": "s20_no_air.jpg",
+   "t0": 67.1,
+   "t1": 70.8,
+   "dur": 3.7,
+   "scene": "high angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie doubled over clutching his chest gasping, the cloud floor beneath him cracking open with blinding light shafts bursting through the cracks, wind-blown, despair, white-gold turning cold",
+   "prev_shot": "hero.jpg",
+   "next_shot": "s21_beg.jpg",
+   "plate_path": "clip/shots/s20_no_air.jpg"
+  },
+  {
+   "file": "s21_beg.jpg",
+   "t0": 70.8,
+   "t1": 73.67,
+   "dur": 2.87,
+   "scene": "dramatic silhouette low angle behind a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie on his knees with clasped begging hands raised toward the towering radiant golden gates, blinding divine backlight, long shadow toward camera, embers of light floating",
+   "prev_shot": "s20_no_air.jpg",
+   "next_shot": "s22_plead_ecu.jpg",
+   "plate_path": "clip/shots/s21_beg.jpg"
+  },
+  {
+   "file": "s22_plead_ecu.jpg",
+   "t0": 73.67,
+   "t1": 76.88,
+   "dur": 3.21,
+   "scene": "extreme close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pleading desperately, exaggerated anime despair, huge glassy tearful eyes, gritted teeth, sweat drops flying, hands gesturing wildly toward camera, cold divine light, high emotion",
+   "prev_shot": "s21_beg.jpg",
+   "next_shot": "s23_church.jpg",
+   "plate_path": "clip/shots/s22_plead_ecu.jpg"
+  }
+ ]
+}

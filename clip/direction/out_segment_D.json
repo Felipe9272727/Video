@@ -1,0 +1,69 @@
+{
+  "segment": "D",
+  "shots": [
+    {
+      "file": "s37_elevator.jpg",
+      "motion_prompt": "anime style, claustrophobic industrial elevator descending smoothly, rusty cage walls creaking subtly, Charlie's pale gaunt face turns slowly left, eyes widening in dread, hand touching the cold metal wall, keep character design consistent gray suit red tie, skeletal demon operator in bellhop uniform remains eerily still, flickering bulb casts dancing shadows, tiny TV screen glitches with static noise, orange rust particles drift downward catching dim light, entire cabin trembles faintly with each meter descended.",
+      "exit_state": "elevator reaches bottom with metallic clang, Charlie's face filled with dread looking toward the opening doors, dim orange light bleeding in from outside",
+      "handoff": "doors open to reveal the corridor ahead, camera cuts to the threshold of elevator opening"
+    },
+    {
+      "file": "s38_corridor.jpg",
+      "motion_prompt": "anime style, one-point perspective corridor of obsidian black stone stretches infinitely forward, walls lined with hellfire-orange geometry, Charlie's silhouette takes first uncertain step out of elevator onto burning floor, camera push-in very slow toward distant vanishing point, dark walls breathe subtly inward creating tunnel effect, blue-orange flame patterns pulse rhythmically on the stone, embers drift upward like inverted snow, oppressive geometry closes in gradually around tiny figure, Kubrick symmetry creates mounting claustrophobia and dread.",
+      "exit_state": "Charlie mid-stride far down corridor, bathed in orange hellfire glow, surrounded by symmetrical geometry pulling perspective inward",
+      "handoff": "perspective maintains as Charlie begins sprint, his urgency builds the camera momentum"
+    },
+    {
+      "file": "s39_run_gate.jpg",
+      "motion_prompt": "anime style, low tracking shot follows Charlie sprinting desperately toward burning gate, keep character design consistent gray suit red tie, coat flying behind him, speed lines streak horizontally across frame, embers swirl around his body in turbulent patterns, camera shakes subtly with impact of footfalls on ash-covered floor, motion blur beneath feet shows desperate acceleration, face contorted with fear and determination, hellfire intensifies ahead framing the gate portal, dynamic diagonal composition as he lunges forward, every muscle straining toward escape.",
+      "exit_state": "Charlie reaches the gate with arms forward, face twisted in effort, embers erupting around him in a maelstrom of orange and black",
+      "handoff": "cut to the devil on throne as Charlie collides with the infernal architecture beyond the gate"
+    },
+    {
+      "file": "s40_devil.jpg",
+      "motion_prompt": "anime style, low angle framing elegant devil lounging sideways on obsidian throne, black pinstripe suit immaculate, dark red skin gleaming, curved horns catch hellfire rim light, cigar smoke curls languidly upward, his wide predatory grin expands slightly as if amused, one eyebrow raises with delight, amber eyes glow brighter with sadistic pleasure, hand gestures casually dismissive, smoke tendrils coil around him like living serpents, infernal architecture wreathed in flames behind throne pulses with heat, his posture shifts subtly to show dominion and control, art-deco throne details catch firelight.",
+      "exit_state": "devil fully reclined and grinning wickedly, eyes locked forward with smug amusement, cigar smoke thick in the air around him",
+      "handoff": "camera cuts downward to the demon clerk and burning ledger, maintaining low-angle perspective"
+    },
+    {
+      "file": "s41_demon_list.jpg",
+      "motion_prompt": "anime style, extreme worm's-eye view looking up at towering hulking demon clerk behind skull desk, keep camera angle extreme and oppressive, quill of fire writes deliberately into burning ledger, Charles tiny in bokeh foreground far below, demon's massive clawed hand moves with cruel precision, horned silhouettes of skulls in ledger glow with infernal text, embers swirl upward in the space between, leather-bound book pages flutter as names combust, demon's face leans closer with sadistic focus, mirror composition echoes the heavenly gate check but inverted to damnation, oppressive scale creates cosmic helplessness.",
+      "exit_state": "demon's quill raises triumphantly from ledger, sparks exploding outward, Charlie silhouetted and tiny below looking up in anguish",
+      "handoff": "cut to extreme close-up of the impact moment as the demon stamp comes down"
+    },
+    {
+      "file": "s42_denied.jpg",
+      "motion_prompt": "anime style, extreme close-up of demon clerk's massive glowing clawed fist slamming branding mark onto ledger with violent impact, explosion of golden-orange sparks bursts outward in radial pattern, keep character design consistent gray suit, Charlie flinches backwards in bokeh foreground small and helpless, demon's face above shows wide predatory grin with sharp teeth bearing down, impact creates shockwave rippling through air, ledger pages curl from heat, light flares bright as brand makes contact burning the name, dynamic frame captures peak energy of rejection moment.",
+      "exit_state": "fist frozen at moment of impact, sparks suspended in mid-air, Charlie's shocked face visible below in blur",
+      "handoff": "transition to Charlie alone in darkness, the weight of rejection pushing him down"
+    },
+    {
+      "file": "s44_heart_falls.jpg",
+      "motion_prompt": "anime style, Charlie drops to both knees clutching his chest, gasping for air mouth open in silent scream, keep character design consistent gray suit red tie, embers swirl in spiraling patterns around his hunched body, blood-red firelight casts his elongated shadow stretching impossibly long across the ash floor, camera positioned slightly above capturing the geometry of despair, his hands claw at his own chest as if his heart is physically breaking, hair falls across his anguished face, background darkness recedes while orange hellfire creeps closer like hungry tongues, raw emotion radiates from every frame.",
+      "exit_state": "Charlie on knees clutching chest, shadow stretched long behind him, mouth open in desperation, flames closing in",
+      "handoff": "pull back to reveal the massive devil figure looming above him in the next shot"
+    },
+    {
+      "file": "s45_beg_devil.jpg",
+      "motion_prompt": "anime style, extreme low angle framed between silhouetted horns of devil in foreground, amber eyes glowing, tiny Charlie kneeling far below pleading with hands outstretched, camera emphasizes theatrical scale difference and power imbalance, fire wall behind creates intensity, devil's head tilts slightly as if enjoying the spectacle, keep Charlie design consistent gray suit red tie, his body language conveys absolute defeat and supplication, frame-within-frame composition using devil's horns creates a prison, firelight flickers across both figures creating drama, Charlie's face contorted with desperation barely visible in the distance.",
+      "exit_state": "Charlie on knees looking upward in supplication, devil framed above with horns creating natural frame, wall of fire behind",
+      "handoff": "cut to Charlie alone surrounded by demon guards, showing his desperation turning to another last attempt"
+    },
+    {
+      "file": "s46_uniform.jpg",
+      "motion_prompt": "anime style, Charlie desperately pulling at his own collar and lapels showing his plain gray suit to circle of looming demon guards with spears, keep character design consistent gray suit red tie, wide-angle distortion creates claustrophobic ring of horned faces closing in, torchlight from held weapons casts dancing shadows across all figures, Charlie's hands move frantically to display his clothing as proof of some worthiness, sweat glistens on his pale face, panic in his eyes as he realizes this gambit fails, demon guards remain unmoved and threatening, perspective warps as if the space is crushing him, desperate futility radiates from every gesture.",
+      "exit_state": "Charlie in center of tightening circle of guards, his hands showing his suit, faces looming in from all sides",
+      "handoff": "cut to wide parade shot where Charlie realizes his fate is sealed"
+    },
+    {
+      "file": "s48_demon_parade.jpg",
+      "motion_prompt": "anime style, wide establishing shot of parade of horned demons marching through burning archway dragging chained souls, Charlie in foreground screaming with arms spread wide in anguish and defiance, his voice lost in the theatrical chaos of the procession, embers storm violently around the marching horde, blue-orange hellfire intensifies in waves, keep Charlie design consistent gray suit red tie, his face twisted in raw desperation as he realizes complete abandonment, demons ignore him entirely as they march past, chains drag across ash and stone with metallic scraping, architectural flames frame the procession like a stage set, the scale and indifference create cosmic horror.",
+      "exit_state": "Charlie screaming in center foreground ignored by the parade, arms spread, surrounded by demonic procession, embers swirling intensely",
+      "handoff": "demons transition from parade to dragging Charlie himself in the next shot"
+    },
+    {
+      "file": "s49_dragged.jpg",
+      "motion_prompt": "anime style, two hulking crimson demon brutes drag Charlie backwards by the arms across ash-covered ground, his heels scraping deep grooves in the powdered floor, body sagging between them in complete defeat, keep character design consistent gray suit red tie, low tracking side angle shows the brutal procession, his face contorted yelling in desperation but powerless, fire wall burns intensely in background, embers rise around the group, his body limp and broken between two massive figures, dynamic diagonal composition emphasizes the helpless dragging motion, particles of ash explode with each scrape of heel, the physical brutality of the moment captured in raw detail."
+    }
+  ]
+}
