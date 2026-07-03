@@ -10,6 +10,7 @@ import glob, json, os, shutil, sys, time
 from gradio_client import Client, handle_file
 
 SPACE = "multimodalart/wan2-1-fast"
+HF_TOKEN = open("/root/.hf_token").read().strip() if os.path.exists("/root/.hf_token") else None
 NEG = ("worst quality, static, blurred, distorted, watermark, text, extra limbs, "
        "deformed face, flickering, morphing, low quality")
 SB = {s["file"]: s for s in json.load(open("clip/storyboard.json"))["shots"]}
@@ -40,7 +41,7 @@ def plates():
 
 def animate(f, client):
     out = os.path.join("clip/motion", os.path.splitext(f)[0] + ".mp4")
-    if os.path.exists(out) and os.path.getsize(out) > 500000:  # já é Wan (LTX era <300KB)
+    if os.path.exists(out) and os.path.getsize(out) > 180000:  # clipe Wan já presente
         return "skip"
     prompt = PROMPTS.get(f) or scene_fallback(f)
     res = client.predict(
@@ -55,8 +56,8 @@ def animate(f, client):
 
 if __name__ == "__main__":
     queue = sys.argv[1:] or plates()
-    print(f"{len(queue)} plates | {len(PROMPTS)} prompts do estúdio carregados", flush=True)
-    client = Client(SPACE, verbose=False)
+    print(f"{len(queue)} plates | {len(PROMPTS)} prompts do estúdio | token: {'sim' if HF_TOKEN else 'nao'}", flush=True)
+    client = Client(SPACE, token=HF_TOKEN, verbose=False)
     done = 0; errs = {}
     while queue:
         f = queue.pop(0); t0 = time.time()
