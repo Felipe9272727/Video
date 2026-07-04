@@ -20,13 +20,18 @@ um plano e o começo do outro). Roda **Wan 2.1 FLF2V 14B 720p** — precisa de G
 
 **Ordem:** rode as células de cima pra baixo. No fim, as pontes vão commitadas
 pro branch `{BRANCH}`. Depois é só me avisar que eu monto o episódio final.
-Precisa de um **GitHub token** (Settings → Developer settings → Tokens) com acesso
-ao repo.
+
+**Armazenamento (importante):** o 14B baixa ~30-40 GB e enche o disco do Colab.
+A célula "ARMAZENAMENTO" monta o **Google Drive** e joga o cache lá — precisa de
+~40 GB livres no Drive (plano Google One; o Drive grátis de 15 GB não cabe).
+Se seu Drive não tiver espaço, me avise que eu troco por um modelo pré-quantizado
+menor (~14 GB). Precisa também de um **GitHub token** (Settings → Developer
+settings → Tokens) com acesso ao repo.
 """
 
 c_pip = ('%pip -q install "git+https://github.com/huggingface/diffusers" '
          '"transformers>=4.49.0" accelerate safetensors ftfy imageio imageio-ffmpeg '
-         'bitsandbytes')
+         'bitsandbytes hf_transfer')
 
 c_clone = f'''import subprocess, os
 REPO='{REPO}'; BRANCH='{BRANCH}'; REPO_DIR='/content/video'
@@ -44,6 +49,20 @@ subprocess.run(['git','-C',REPO_DIR,'config','user.email','colab-wan@local'], ch
 subprocess.run(['git','-C',REPO_DIR,'config','user.name','Colab Wan'], check=False)
 subprocess.run(['git','-C',REPO_DIR,'remote','set-url','origin',url], check=False)
 print('repo ok | clipes:', len([f for f in os.listdir(REPO_DIR+'/clip/motion') if f.endswith('.mp4')]))'''
+
+c_storage = '''# ARMAZENAMENTO: joga o cache dos modelos no Google Drive (o disco do Colab enche
+# com os ~30-40GB do 14B). Precisa de ESPACO no Drive (~40GB livre -> plano Google
+# One; o Drive gratis de 15GB NAO cabe o 14B). Rode ANTES de carregar o modelo.
+import os, subprocess
+USE_DRIVE = True                      # False = usa o disco do Colab mesmo
+if USE_DRIVE:
+    from google.colab import drive; drive.mount('/content/drive')
+    HF='/content/drive/MyDrive/hf_cache'; os.makedirs(HF+'/hub', exist_ok=True)
+    os.environ['HF_HOME']=HF; os.environ['HF_HUB_CACHE']=HF+'/hub'
+    print('cache HF -> Drive:', HF)
+os.environ['HF_HUB_ENABLE_HF_TRANSFER']='1'   # download mais rapido/robusto
+print(subprocess.run(['df','-h'], capture_output=True, text=True).stdout)
+print('Drive livre:'); print(subprocess.run(['bash','-lc','df -h /content/drive/MyDrive 2>/dev/null || echo (Drive nao montado)'], capture_output=True, text=True).stdout)'''
 
 c_model = '''import torch
 from diffusers import AutoencoderKLWan, WanImageToVideoPipeline, WanTransformer3DModel
@@ -138,6 +157,6 @@ nb = {"nbformat": 4, "nbformat_minor": 0,
       "metadata": {"accelerator": "GPU", "colab": {"provenance": []},
                    "kernelspec": {"name": "python3", "display_name": "Python 3"}},
       "cells": [{"cell_type": "markdown", "metadata": {}, "source": md.splitlines(keepends=True)},
-                cell(c_pip), cell(c_clone), cell(c_model), cell(c_gen)]}
+                cell(c_pip), cell(c_clone), cell(c_storage), cell(c_model), cell(c_gen)]}
 json.dump(nb, open("clip/colab/bridges_wan.ipynb", "w"), indent=1, ensure_ascii=False)
 print("escrito clip/colab/bridges_wan.ipynb")
