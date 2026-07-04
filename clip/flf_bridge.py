@@ -29,16 +29,27 @@ def motion_mp4(stem):
             return p
     return None
 
+def _vf(stem, scale=False):
+    # planos reusados espelhados: o frame de emenda precisa bater com o que
+    # aparece na tela (assemble aplica flip), senão a ponte "pula"
+    flip = bool(SHOTS.get(stem, {}).get("flip"))
+    parts = (["hflip"] if flip else []) + (["scale=896:-1"] if scale else [])
+    return ["-vf", ",".join(parts)] if parts else []
+
 def last_frame(stem):
     p = motion_mp4(stem); out = f"build/seam/{stem}_last.jpg"
-    if p: subprocess.run([FF, "-loglevel", "error", "-sseof", "-0.1", "-i", p, "-frames:v", "1", "-y", out], check=False)
-    else: subprocess.run([FF, "-loglevel", "error", "-i", f"clip/shots/{stem}.jpg", "-vf", "scale=896:-1", "-frames:v", "1", "-y", out], check=False)
+    if p: subprocess.run([FF, "-loglevel", "error", "-sseof", "-0.1", "-i", p, *_vf(stem), "-frames:v", "1", "-y", out], check=False)
+    else:
+        src = SHOTS.get(stem, {}).get("src") or stem + ".jpg"
+        subprocess.run([FF, "-loglevel", "error", "-i", f"clip/shots/{src}", *_vf(stem, True), "-frames:v", "1", "-y", out], check=False)
     return out
 
 def first_frame(stem):
     p = motion_mp4(stem); out = f"build/seam/{stem}_first.jpg"
-    if p: subprocess.run([FF, "-loglevel", "error", "-i", p, "-frames:v", "1", "-y", out], check=False)
-    else: subprocess.run([FF, "-loglevel", "error", "-i", f"clip/shots/{stem}.jpg", "-vf", "scale=896:-1", "-frames:v", "1", "-y", out], check=False)
+    if p: subprocess.run([FF, "-loglevel", "error", "-i", p, *_vf(stem), "-frames:v", "1", "-y", out], check=False)
+    else:
+        src = SHOTS.get(stem, {}).get("src") or stem + ".jpg"
+        subprocess.run([FF, "-loglevel", "error", "-i", f"clip/shots/{src}", *_vf(stem, True), "-frames:v", "1", "-y", out], check=False)
     return out
 
 def bridge(a, b, prompt, client, dur=1.5):

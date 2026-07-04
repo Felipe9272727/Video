@@ -3,49 +3,52 @@
 Videoclipe anime (~3:50) da música "Charlie's Inferno" (cover PT-BR). Estilo seinen
 sombrio, cel-shaded, câmera cinematográfica, ênfase nos refrões "Perdão, senhor".
 
-## ROTA ATUAL DE GERAÇÃO: MiniMax Hailuo (IMPORTANTE)
+## ROTA ATUAL: 100% GRÁTIS (orçamento zero — decisão do usuário 2026-07-04)
 
-A rota Kaggle/Wan foi abandonada (lenta demais, qualidade duvidosa do 5B, e o
-container remoto não tem CLI/token do Kaggle). A nova rota é a **API do MiniMax
-Hailuo**, escolhida porque:
-- **Hailuo 2.3** (image-to-video) tem qualidade de movimento muito superior e
-  suporta **comandos de câmera explícitos** (`[Push in]`, `[Truck left]`,
-  `[Shake]`…) que o modelo segue de verdade — já embutidos nos prompts.
-- **Hailuo-02** tem API de **primeiro+último frame (FLF)** — usada pras 31
-  pontes que "geram o meio" entre planos (match cut, motion continue,
-  dissolve), eliminando a cara de "vários cortes".
-- Custo total do episódio: **~US$24** (Hailuo 2.3) ou **~US$19** (`--fast`,
-  Hailuo 2.3-Fast), 768P 6s. Cada clipe sai em ~1 min (vs. 4-8h do Kaggle).
+Kaggle/Wan-5B abandonado (lento, qualidade fraca, sem CLI/token no container).
+MiniMax Hailuo (pago, ~US$19-24) fica de RESERVA — pipeline pronto em
+`clip/hailuo_pipeline.py` caso um dia haja verba. A rota ativa é:
 
-### O que falta: SÓ a chave da API
-Criar conta em https://platform.minimax.io → recarregar ~US$25 → API Key →
-`export MINIMAX_API_KEY=...` (ou salvar em `/root/.minimax_key`).
+1. **Clipes (55): ModelScope API-Inference — Wan 2.2 I2V-A14B** (o 14B de
+   qualidade máxima, que nem cabia no Kaggle!). Tier GRÁTIS: 2000 chamadas/dia,
+   sem cartão. `clip/modelscope_wan.py` (paralelo x4, resumável, usa os prompts
+   revisados de hailuo_prompts.json com comandos convertidos pra linguagem
+   natural).
+2. **Pontes (31): HF Space `multimodalart/wan-2-2-first-last-frame`** (grátis,
+   ZeroGPU). `clip/flf_bridge.py --auto` lê `clip/direction/bridge_plan.json`
+   (31 prompts de morph escritos pela direção). Flip de reusos corrigido.
+3. **Colab Pro do usuário** (já pago) = acelerador opcional pros planos-herói
+   em 14B local (`clip/colab/animate_wan.ipynb`).
 
-### Ordem de execução (tudo resumável, pode interromper)
+### O que o USUÁRIO precisa fazer (tudo grátis, sem cartão)
+- Conta em https://modelscope.cn → perfil → Access Tokens → colar o token
+  (chat, ou `export MODELSCOPE_KEY=...`, ou `/root/.modelscope_key`).
+- Conta em https://huggingface.co → Settings → Access Tokens (read) →
+  `/root/.hf_token` (dá quota ZeroGPU pras pontes; sem token a quota anônima é
+  minúscula).
+
+### Ordem de execução (tudo resumável)
 ```bash
-python3 clip/hailuo_pipeline.py --dry-run    # valida + mostra custo, não gasta
-python3 clip/hailuo_pipeline.py clips        # 55 clipes -> clip/motion/*.mp4
-python3 clip/hailuo_pipeline.py bridges      # 31 pontes -> clip/bridges/*.mp4  (APÓS clips!)
-python3 clip/qc_motion.py                    # QC de movimento dos clipes
-# pré-requisitos do render (container novo):
-pip install numpy pillow imageio_ffmpeg
+pip install numpy pillow imageio_ffmpeg gradio_client
+python3 clip/modelscope_wan.py s12_crash.jpg   # 1 teste de qualidade
+python3 clip/modelscope_wan.py --all           # 55 clipes -> clip/motion/
+python3 clip/flf_bridge.py --auto              # 31 pontes -> clip/bridges/
 FF=$(python3 -c "import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())")
 "$FF" -loglevel error -i "Charlie_s Inferno (Excuse Me Sir) - That Handsome Devil _ COVER PT-BR(MP3_160K)_1.mp3" -ac 1 -ar 22050 -f f32le -y build/audio_mono_22050.raw
-python3 clip/analyze.py 24                   # build/timeline.json
-python3 clip/assemble.py                     # -> out/charlie_inferno_cinematic.mp4
+python3 clip/analyze.py 24                     # build/timeline.json
+python3 clip/assemble.py                       # -> out/charlie_inferno_cinematic.mp4
 ```
 
-## Arquivos-chave da rota Hailuo
-- `clip/hailuo_pipeline.py` — pipeline completo (submit paralelo com throttle,
-  poll, download, estado em `build/hailuo_state.json`, `--status`, `--only`).
+## Arquivos-chave
 - `clip/hailuo_prompts.json` — 55 prompts finais (direção + comandos de câmera
-  derivados do storyboard + trava de design do personagem). Gerado por
-  `clip/hailuo_prompts_gen.py`, revisado por QC.
-- `clip/direction/bridge_plan.json` — 31 pontes FLF (a, b, tipo, prompt de
-  morph). Gerado por `clip/bridge_plan_gen.py`, prompts escritos pela direção.
-- `clip/assemble.py` — motor de render; agora toca as pontes de `clip/bridges/`
+  do storyboard + trava de design do personagem), revisados por QC Haiku.
+  Fonte única de prompts: o modelscope_wan converte na hora pro Wan.
+- `clip/direction/bridge_plan.json` — 31 pontes (a, b, tipo, prompt de morph
+  específico escrito pela direção de continuidade).
+- `clip/assemble.py` — motor de render; toca as pontes de `clip/bridges/`
   numa janela de ~0,72s cavalgando cada corte (fade nas bordas, sync musical
   intacto). Testado com ponte sintética (probe frames OK).
+- `clip/hailuo_pipeline.py` — rota paga de reserva (MiniMax, ~US$19-24 total).
 
 ## Pipeline (tudo pronto e testado)
 - `clip/assemble.py` — clipes de movimento (ou parallax 2.5D de fallback),
