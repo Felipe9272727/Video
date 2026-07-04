@@ -1,233 +1,119 @@
 #!/usr/bin/env python3
-"""
-QC Motion Analysis Script
-Analisa movimento em clipes de vídeo (image-to-video)
-Detecta clipes estáticos, fracos, com artefatos ou OK.
-"""
+"""QC de movimento dos clipes (image-to-video).
 
-import os
-import sys
-import subprocess
-import tempfile
-import numpy as np
+Mede movimento por diferença de pixels entre frames amostrados e classifica
+cada clipe. O ponto-chave: usa um PISO POR PLANO (clip/direction/motion_tiers.json,
+tier calm/medium/high/extreme) — assim um close contemplativo não é marcado como
+"estático" pela mesma régua de uma batida de carro. Sem o arquivo de tiers, cai
+num piso global.
+
+  python3 clip/qc_motion.py            # relatório + clip/qc/motion_report.json
+  python3 clip/qc_motion.py --regen    # imprime só a lista de stems a regerar
+"""
+import json, os, subprocess, sys, tempfile
 from pathlib import Path
+import numpy as np
 from PIL import Image
 
-# Configurar ffmpeg path
-FFMPEG_PATH = "/usr/local/lib/python3.11/dist-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2"
+ROOT = Path(__file__).resolve().parent.parent
+os.chdir(ROOT)
 
-def get_video_duration(mp4_path):
-    """Retorna duração do vídeo em segundos."""
-    cmd = [FFMPEG_PATH, '-i', mp4_path]
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
-        output = result.stderr
-        # Parse "Duration: HH:MM:SS.ms"
-        for line in output.split('\n'):
-            if 'Duration:' in line:
-                parts = line.split('Duration:')[1].split(',')[0].strip()
-                h, m, s = parts.split(':')
-                return int(h) * 3600 + int(m) * 60 + float(s)
-        return None
-    except:
-        return None
+try:
+    import imageio_ffmpeg
+    FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+except Exception:
+    FFMPEG = "ffmpeg"
 
-def extract_frames(mp4_path, num_frames=8):
-    """Extrai frames uniformemente espaçados ao longo do vídeo."""
-    duration = get_video_duration(mp4_path)
-    if duration is None or duration <= 0:
+# piso de movimento (score 0-100) por tier — abaixo disso o clipe está estático
+# DEMAIS pro que a cena pede e entra na lista de regeração
+TIER_FLOOR = {"calm": 4.0, "medium": 9.0, "high": 16.0, "extreme": 26.0}
+DEFAULT_TIER = "medium"
+
+try:
+    TIERS = json.load(open("clip/direction/motion_tiers.json"))["tiers"]
+except Exception:
+    TIERS = {}
+
+
+def duration(mp4):
+    r = subprocess.run([FFMPEG, "-i", mp4], capture_output=True, text=True)
+    for line in r.stderr.split("\n"):
+        if "Duration:" in line:
+            p = line.split("Duration:")[1].split(",")[0].strip()
+            h, m, s = p.split(":")
+            return int(h) * 3600 + int(m) * 60 + float(s)
+    return None
+
+
+def extract(mp4, n=8):
+    d = duration(mp4)
+    if not d or d <= 0:
         return []
+    out = []
+    with tempfile.TemporaryDirectory() as td:
+        for i, ts in enumerate(np.linspace(0, d * 0.95, n)):
+            op = os.path.join(td, f"f{i}.png")
+            subprocess.run([FFMPEG, "-v", "error", "-ss", str(ts), "-i", mp4,
+                            "-vf", "scale=320:180", "-vframes", "1", op],
+                           capture_output=True)
+            if os.path.exists(op):
+                out.append(np.asarray(Image.open(op).convert("RGB")))
+    return out
 
-    frames = []
-    with tempfile.TemporaryDirectory() as tmpdir:
-        # Calcular timestamps para frames uniformemente espaçados
-        timestamps = np.linspace(0, duration * 0.95, num_frames)
 
-        for i, ts in enumerate(timestamps):
-            output_path = os.path.join(tmpdir, f"frame_{i:02d}.png")
-            cmd = [
-                FFMPEG_PATH, '-v', 'error',
-                '-ss', str(ts),
-                '-i', mp4_path,
-                '-vf', 'scale=320:180',  # Dimensão reduzida para análise
-                '-vframes', '1',
-                output_path
-            ]
-            try:
-                subprocess.run(cmd, timeout=5, check=True, capture_output=True)
-                if os.path.exists(output_path):
-                    img = Image.open(output_path)
-                    frames.append(np.array(img))
-            except:
-                pass
-
-        return frames
-
-def calculate_motion_score(frames):
-    """
-    Calcula score de movimento (0-100).
-    Baseado na diferença média de pixels entre frames consecutivos.
-    """
+def analyze(frames):
     if len(frames) < 2:
-        return 0
+        return dict(score=0.0, frozen=100.0, artifact=None)
+    diffs = [np.mean(np.abs(frames[i].astype(np.float32) - frames[i + 1].astype(np.float32))) / 255 * 100
+             for i in range(len(frames) - 1)]
+    md, sd = float(np.mean(diffs)), float(np.std(diffs))
+    f0 = frames[0].astype(np.float32)
+    frozen = sum(np.mean(np.abs(f.astype(np.float32) - f0)) / 255 * 100 < 2.0
+                 for f in frames[1:]) / (len(frames) - 1) * 100
+    art = None
+    if sd > md * 1.5 and md > 3:
+        art = "flicker"
+    elif max(diffs) > md * 3 and md > 3:
+        art = "morphing"
+    return dict(score=min(md, 100.0), frozen=float(frozen), artifact=art)
 
-    differences = []
-    for i in range(len(frames) - 1):
-        frame1 = frames[i].astype(np.float32)
-        frame2 = frames[i + 1].astype(np.float32)
 
-        # Diferença absoluta média normalizada
-        diff = np.mean(np.abs(frame1 - frame2)) / 255.0 * 100
-        differences.append(diff)
+def verdict(stem, a):
+    tier = TIERS.get(stem, {}).get("tier", DEFAULT_TIER)
+    floor = TIER_FLOOR.get(tier, TIER_FLOOR[DEFAULT_TIER])
+    if a["artifact"]:
+        return "ARTEFATO", tier, floor
+    if a["score"] < floor or a["frozen"] > 40:
+        return ("ESTATICO" if a["score"] < floor * 0.5 else "FRACO"), tier, floor
+    return "OK", tier, floor
 
-    mean_diff = np.mean(differences) if differences else 0
-    std_diff = np.std(differences) if differences else 0
-
-    # Score: média + bonus se há variação no tempo (não é monotônico)
-    score = min(mean_diff, 100)
-
-    return score, mean_diff, std_diff
-
-def detect_frozen_frames(frames):
-    """
-    Detecta frames quase idênticos ao primeiro (congelamento).
-    Retorna percentual de frames congelados.
-    """
-    if len(frames) < 2:
-        return 0
-
-    first_frame = frames[0].astype(np.float32)
-    frozen_count = 0
-    threshold = 2.0  # Diferença máxima para considerar congelado
-
-    for i in range(1, len(frames)):
-        frame = frames[i].astype(np.float32)
-        diff = np.mean(np.abs(frame - first_frame)) / 255.0 * 100
-        if diff < threshold:
-            frozen_count += 1
-
-    return (frozen_count / (len(frames) - 1)) * 100
-
-def detect_artifacts(frames):
-    """
-    Detecta possíveis artefatos (morphing, flicker).
-    Analisa mudanças bruscas e globais entre frames.
-    Returns: (has_artifacts, artifact_info)
-    """
-    if len(frames) < 3:
-        return False, ""
-
-    differences = []
-    for i in range(len(frames) - 1):
-        frame1 = frames[i].astype(np.float32)
-        frame2 = frames[i + 1].astype(np.float32)
-        diff = np.mean(np.abs(frame1 - frame2)) / 255.0 * 100
-        differences.append(diff)
-
-    if not differences:
-        return False, ""
-
-    mean_diff = np.mean(differences)
-    std_diff = np.std(differences)
-
-    info = f"diffs: mean={mean_diff:.1f}, std={std_diff:.1f}"
-
-    # Artefato: variação muito alta (flicker) ou spike brusco (morphing)
-    if std_diff > mean_diff * 1.5:  # Muito instável
-        return True, info + " (FLICKER)"
-
-    max_diff = max(differences)
-    if max_diff > mean_diff * 3:  # Spike brusco
-        return True, info + " (MORPHING)"
-
-    return False, info
-
-def classify_clip(score, frozen_pct, has_artifacts):
-    """
-    Classifica o clipe em: OK, FRACO, ESTÁTICO ou ARTEFATO
-    """
-    if has_artifacts:
-        return "ARTEFATO"
-
-    if score < 5:
-        return "ESTÁTICO"
-    elif score < 20:
-        if frozen_pct > 30:
-            return "ESTÁTICO"
-        return "FRACO"
-    else:
-        return "OK"
 
 def main():
-    motion_dir = Path("/home/user/Video/clip/motion")
-    mp4_files = sorted(motion_dir.glob("*.mp4"))
-
-    if not mp4_files:
-        print("Nenhum arquivo .mp4 encontrado em clip/motion/")
+    mp4s = sorted(Path("clip/motion").glob("*.mp4"))
+    if not mp4s:
+        print("Nenhum clipe em clip/motion/ ainda.")
         return
-
-    results = []
-
-    print(f"Analisando {len(mp4_files)} clipes...")
-    print()
-
-    for mp4_path in mp4_files:
-        filename = mp4_path.name
-        stem = mp4_path.stem
-
-        print(f"Processando: {filename}...", end=" ")
-        sys.stdout.flush()
-
-        # Extrair frames
-        frames = extract_frames(str(mp4_path), num_frames=8)
-
-        if not frames:
-            print("ERRO: não conseguiu extrair frames")
-            continue
-
-        # Calcular métricas
-        score, mean_diff, std_diff = calculate_motion_score(frames)
-        frozen_pct = detect_frozen_frames(frames)
-        has_artifacts, artifact_info = detect_artifacts(frames)
-
-        # Classificar
-        classification = classify_clip(score, frozen_pct, has_artifacts)
-
-        results.append({
-            'filename': filename,
-            'stem': stem,
-            'score': score,
-            'mean_diff': mean_diff,
-            'frozen_pct': frozen_pct,
-            'has_artifacts': has_artifacts,
-            'artifact_info': artifact_info,
-            'classification': classification
-        })
-
-        print(f"Score: {score:.1f} | {classification}")
-
-    # Produzir relatório
-    print("\n" + "="*70)
-    print("RELATÓRIO DE QC - MOVIMENTO")
-    print("="*70)
-    print(f"{'Nome':<25} {'Score':<10} {'Classificação':<15}")
-    print("-"*70)
-
-    for result in results:
-        print(f"{result['filename']:<25} {result['score']:>6.1f}     {result['classification']:<15}")
-
-    print("="*70)
-
-    # Linha de REGENERAR
-    to_regenerate = [r['stem'] + '.jpg' for r in results
-                     if r['classification'] in ['ESTÁTICO', 'FRACO']]
-
-    if to_regenerate:
-        regenerate_line = "REGENERAR: " + " ".join(to_regenerate)
-        print()
-        print(regenerate_line)
+    rows = []
+    for p in mp4s:
+        a = analyze(extract(str(p)))
+        v, tier, floor = verdict(p.stem, a)
+        rows.append(dict(stem=p.stem, score=round(a["score"], 1), frozen=round(a["frozen"], 1),
+                         artifact=a["artifact"], tier=tier, floor=floor, verdict=v))
+        if "--regen" not in sys.argv:
+            print(f"{p.stem:<22} score={a['score']:5.1f} tier={tier:<7} piso={floor:<4} -> {v}")
+    regen = [r["stem"] for r in rows if r["verdict"] in ("ESTATICO", "FRACO", "ARTEFATO")]
+    os.makedirs("clip/qc", exist_ok=True)
+    json.dump({"clips": rows, "regen": regen}, open("clip/qc/motion_report.json", "w"), indent=1)
+    if "--regen" in sys.argv:
+        print(" ".join(regen))
     else:
-        print("\nREGENERAR: (nenhum clipe marcado para regeneração)")
+        print("\n" + "=" * 60)
+        print(f"{len(rows)} clipes | OK: {sum(r['verdict']=='OK' for r in rows)} | "
+              f"a regerar: {len(regen)}")
+        if regen:
+            print("REGERAR:", " ".join(regen))
+        print("relatório -> clip/qc/motion_report.json")
+
 
 if __name__ == "__main__":
     main()

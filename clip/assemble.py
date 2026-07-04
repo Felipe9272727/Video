@@ -217,10 +217,20 @@ def _bridge_frames(path):
         _bridge_cache[path] = np.frombuffer(raw[:n * AW * AH * 3], np.uint8).reshape(n, AH, AW, 3)
     return _bridge_cache[path]
 
+# auditoria de plausibilidade (Haiku): pontes marcadas "procedural" são
+# descartadas — a emenda ficaria um morph feio, melhor o corte procedural
+try:
+    _BQC = {(v["a"], v["b"]): v["suggest"]
+            for v in json.load(open("clip/direction/bridge_qc.json"))["verdicts"]}
+except Exception:
+    _BQC = {}
+
 BRIDGE_WIN = []          # (wstart, wend, path, si)
 for _si in range(1, len(SHOTS)):
     _a = os.path.splitext(SHOTS[_si - 1]["file"])[0]
     _b = os.path.splitext(SHOTS[_si]["file"])[0]
+    if _BQC.get((_a, _b)) == "procedural":
+        continue
     _p = f"clip/bridges/{_a}__{_b}.mp4"
     if os.path.exists(_p) and os.path.getsize(_p) > 150000:
         _bw = 0.72
