@@ -1,0 +1,221 @@
+{
+  "verdicts": [
+    {
+      "a": "s01_cemetery",
+      "b": "s02_funeral_low",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mergulho de escala mesma geografia, zoom contínuo em cinzento chuvoso."
+    },
+    {
+      "a": "s02_funeral_low",
+      "b": "s03_tombstone",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Match cut clássico de olhar, composição mantém eixo câmera."
+    },
+    {
+      "a": "s03_tombstone",
+      "b": "s04_funeral_wide",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Pull-back simétrico, lápide ancoragem visual central."
+    },
+    {
+      "a": "s13_stairs",
+      "b": "s14_pray_topdown",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Eco geométrico espiral→anel, mesma vista de cima."
+    },
+    {
+      "a": "s14_pray_topdown",
+      "b": "s15_wave",
+      "plausible": false,
+      "suggest": "procedural",
+      "reason": "Funeral anel cinzento→figura solitária dourada, morph confuso."
+    },
+    {
+      "a": "s15_wave",
+      "b": "s16_vertigo",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Personagem fixo nuvem, câmera desce eixo vertical contínuo."
+    },
+    {
+      "a": "s17_angel_gate",
+      "b": "s18_list",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mesmo anjo sujeito, zoom para livro contínuo."
+    },
+    {
+      "a": "s18_list",
+      "b": "hero",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Eyeline match: dedo→rosto reação imediata causal."
+    },
+    {
+      "a": "s21_beg",
+      "b": "s22_plead_ecu",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mesma pose súplica, câmera aproxima sem quebra gestual."
+    },
+    {
+      "a": "s22_plead_ecu",
+      "b": "s23_church",
+      "plausible": false,
+      "suggest": "procedural",
+      "reason": "ECU escuro inferno→interior Igreja quente, ambiental drástico."
+    },
+    {
+      "a": "s23_church",
+      "b": "s24_angels_door",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Retorno flashback clara, dissolve marca convenção narrativa."
+    },
+    {
+      "a": "s25_floor_opens",
+      "b": "s26_fall_storm",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Queda contínua, corpo orienta velocidade eixo profundidade."
+    },
+    {
+      "a": "s26_fall_storm",
+      "b": "s27_fall_red",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mesmo enquadramento, paleta azul→vermelho transição reino."
+    },
+    {
+      "a": "s27_fall_red",
+      "b": "s28_pit",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Echo geométrico escada celestial→poço, simetria invertida."
+    },
+    {
+      "a": "s29_hell_gate",
+      "b": "s30_gulp",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Portão refletido olhos, objeto mesmo novo enquadramento."
+    },
+    {
+      "a": "s30_gulp",
+      "b": "s31_hellscape",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Pull-back ECU panorama, figura expande contexto."
+    },
+    {
+      "a": "s33_mirrors",
+      "b": "s34_desires",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mesma cena espelhos, prolongamento beat tempo estica."
+    },
+    {
+      "a": "s35_market",
+      "b": "s36_market2",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Versão espelhada mercado, pivô perspectiva sem corte novo."
+    },
+    {
+      "a": "s37_elevator",
+      "b": "s38_corridor",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Portas abrem corredor, continuidade espacial direta contígua."
+    },
+    {
+      "a": "s38_corridor",
+      "b": "s39_run_gate",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Começa correr mesma profundidade, eixo perspectiva unificado."
+    },
+    {
+      "a": "s40_devil",
+      "b": "s41_demon_list",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Echo composição anjo, worm's-eye simétrica polaridade."
+    },
+    {
+      "a": "s46_uniform",
+      "b": "s47_not_belong",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mesma súplica, câmera espelhada prolonga gesto."
+    },
+    {
+      "a": "s49_dragged",
+      "b": "s50_thrown",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Arremesso contínuo, aterrissagem força física sem corte."
+    },
+    {
+      "a": "s54_they_walk",
+      "b": "s55_chase_loop",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Corrida espelhada loop mesmo corredor, repetição tortura."
+    },
+    {
+      "a": "s56_climb",
+      "b": "s57_angels_above",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Eyeline match ascendente, escada alinha revelação cima."
+    },
+    {
+      "a": "s57_angels_above",
+      "b": "s58_climb2",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Escalada espelhada retomada, movimento contínuo rejeição."
+    },
+    {
+      "a": "s59_final_beg",
+      "b": "s60_ash_list",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Terceiro echo livro/lista motivo, julgamento batidas."
+    },
+    {
+      "a": "s60_ash_list",
+      "b": "s61_hand_up",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Cinzas lista transformam chamas, partícula contínua."
+    },
+    {
+      "a": "s61_hand_up",
+      "b": "s62_eye",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Mão→rosto ECU, echo plano hero julgamento."
+    },
+    {
+      "a": "s63_last_scream",
+      "b": "s64_dissolve",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Silhueta dissolve brasas, forma conteúdo casados."
+    },
+    {
+      "a": "s65_grave_return",
+      "b": "s66_end",
+      "plausible": true,
+      "suggest": "keep",
+      "reason": "Lápide pullback cemitério, fecha espelho abertura."
+    }
+  ]
+}
