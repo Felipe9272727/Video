@@ -1,0 +1,514 @@
+{
+ "clips": [
+  {
+   "stem": "hero",
+   "score": 1.5,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s01_cemetery",
+   "score": 5.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s02_funeral_low",
+   "score": 2.2,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s03_tombstone",
+   "score": 1.2,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s04_funeral_wide",
+   "score": 0.7,
+   "frozen": 100.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s05_shower",
+   "score": 2.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s06_bike",
+   "score": 4.1,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s07_fishing",
+   "score": 1.6,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s08_flag",
+   "score": 5.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s09_ocean",
+   "score": 1.5,
+   "frozen": 28.6,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s10_rose",
+   "score": 1.0,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s11_questions",
+   "score": 2.8,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s12_crash",
+   "score": 5.1,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s13_stairs",
+   "score": 9.9,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s14_pray_topdown",
+   "score": 2.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s15_wave",
+   "score": 4.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s16_vertigo",
+   "score": 3.7,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s17_angel_gate",
+   "score": 3.6,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s18_list",
+   "score": 2.0,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s20_no_air",
+   "score": 18.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s21_beg",
+   "score": 3.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s22_plead_ecu",
+   "score": 2.8,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s23_church",
+   "score": 8.7,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s24_angels_door",
+   "score": 7.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s25_floor_opens",
+   "score": 11.7,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s26_fall_storm",
+   "score": 8.3,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s28_pit",
+   "score": 9.4,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s29_hell_gate",
+   "score": 4.7,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s30_gulp",
+   "score": 0.8,
+   "frozen": 100.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s31_hellscape",
+   "score": 5.1,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s32_gluttons",
+   "score": 7.2,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s33_mirrors",
+   "score": 5.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s35_market",
+   "score": 15.2,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s37_elevator",
+   "score": 1.8,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s38_corridor",
+   "score": 4.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s39_run_gate",
+   "score": 17.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s40_devil",
+   "score": 2.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s41_demon_list",
+   "score": 1.4,
+   "frozen": 28.6,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s42_denied",
+   "score": 8.8,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s44_heart_falls",
+   "score": 8.1,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s45_beg_devil",
+   "score": 0.8,
+   "frozen": 42.9,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s46_uniform",
+   "score": 5.1,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s48_demon_parade",
+   "score": 7.9,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s49_dragged",
+   "score": 8.6,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s50_thrown",
+   "score": 5.4,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s51_pound_door",
+   "score": 9.9,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s53_chase",
+   "score": 11.5,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s54_they_walk",
+   "score": 2.7,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "FRACO"
+  },
+  {
+   "stem": "s56_climb",
+   "score": 7.4,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s57_angels_above",
+   "score": 0.4,
+   "frozen": 100.0,
+   "artifact": null,
+   "tier": "calm",
+   "floor": 1.5,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s59_final_beg",
+   "score": 9.8,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s60_ash_list",
+   "score": 8.4,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "medium",
+   "floor": 2.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s61_hand_up",
+   "score": 1.5,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "ESTATICO"
+  },
+  {
+   "stem": "s63_last_scream",
+   "score": 4.1,
+   "frozen": 0.0,
+   "artifact": null,
+   "tier": "extreme",
+   "floor": 3.5,
+   "verdict": "OK"
+  },
+  {
+   "stem": "s64_dissolve",
+   "score": 4.1,
+   "frozen": 14.3,
+   "artifact": null,
+   "tier": "high",
+   "floor": 3.0,
+   "verdict": "OK"
+  }
+ ],
+ "regen": [
+  "hero",
+  "s03_tombstone",
+  "s04_funeral_wide",
+  "s09_ocean",
+  "s10_rose",
+  "s18_list",
+  "s22_plead_ecu",
+  "s30_gulp",
+  "s41_demon_list",
+  "s45_beg_devil",
+  "s54_they_walk",
+  "s57_angels_above",
+  "s61_hand_up"
+ ]
+}
