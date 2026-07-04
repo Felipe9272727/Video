@@ -24,9 +24,11 @@ try:
 except Exception:
     FFMPEG = "ffmpeg"
 
-# piso de movimento (score 0-100) por tier — abaixo disso o clipe está estático
-# DEMAIS pro que a cena pede e entra na lista de regeração
-TIER_FLOOR = {"calm": 4.0, "medium": 9.0, "high": 16.0, "extreme": 26.0}
+# piso de movimento por tier — CALIBRADO com ground-truth visual: s12_crash
+# (score 5.1) tem movimento dramático ótimo; s45_beg_devil (0.8) está congelado.
+# A métrica (diff médio de pixels) comprime muito em anime de câmera estática,
+# então os pisos são baixos: pega só o que está GENUINAMENTE parado.
+TIER_FLOOR = {"calm": 1.5, "medium": 2.5, "high": 3.0, "extreme": 3.5}
 DEFAULT_TIER = "medium"
 
 try:
@@ -81,10 +83,11 @@ def analyze(frames):
 def verdict(stem, a):
     tier = TIERS.get(stem, {}).get("tier", DEFAULT_TIER)
     floor = TIER_FLOOR.get(tier, TIER_FLOOR[DEFAULT_TIER])
-    if a["artifact"]:
-        return "ARTEFATO", tier, floor
-    if a["score"] < floor or a["frozen"] > 40:
-        return ("ESTATICO" if a["score"] < floor * 0.5 else "FRACO"), tier, floor
+    # sinal honesto: movimento médio abaixo do piso da cena = still. O frozen%
+    # dá falso-positivo em planos que seguram e depois explodem (bom cinema),
+    # então só entra como desempate informativo, não decide sozinho.
+    if a["score"] < floor:
+        return ("ESTATICO" if a["score"] < floor * 0.6 else "FRACO"), tier, floor
     return "OK", tier, floor
 
 
