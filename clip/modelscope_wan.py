@@ -16,7 +16,7 @@ import base64, json, mimetypes, os, re, sys, time, urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-BASE = "https://api-inference.modelscope.cn"
+BASE = os.environ.get("MODELSCOPE_BASE", "https://api-inference.modelscope.ai")
 MODEL_ID = "Wan-AI/Wan2.2-I2V-A14B"
 PAR = 4            # tasks simultâneas (gentil com o tier grátis)
 NEG = ("worst quality, static, still image, blurred, distorted, watermark, "
