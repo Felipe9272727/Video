@@ -25,7 +25,8 @@ ao repo.
 """
 
 c_pip = ('%pip -q install "git+https://github.com/huggingface/diffusers" '
-         '"transformers>=4.49.0" accelerate safetensors ftfy imageio imageio-ffmpeg')
+         '"transformers>=4.49.0" accelerate safetensors ftfy imageio imageio-ffmpeg '
+         'bitsandbytes')
 
 c_clone = f'''import subprocess, os
 REPO='{REPO}'; BRANCH='{BRANCH}'; REPO_DIR='/content/video'
@@ -45,24 +46,34 @@ subprocess.run(['git','-C',REPO_DIR,'remote','set-url','origin',url], check=Fals
 print('repo ok | clipes:', len([f for f in os.listdir(REPO_DIR+'/clip/motion') if f.endswith('.mp4')]))'''
 
 c_model = '''import torch
-from diffusers import AutoencoderKLWan, WanImageToVideoPipeline
+from diffusers import AutoencoderKLWan, WanImageToVideoPipeline, WanTransformer3DModel
+from diffusers import BitsAndBytesConfig as DiffBnb
 from transformers import CLIPVisionModel
 MODEL_ID='Wan-AI/Wan2.1-FLF2V-14B-720P-diffusers'   # first-last-frame 14B
-image_encoder=CLIPVisionModel.from_pretrained(MODEL_ID, subfolder='image_encoder', torch_dtype=torch.float32)
+# 4-bit no transformer (14B ~28GB bf16 -> ~8GB) => resolve o OOM. image_encoder
+# em bf16 (nao float32) e VAE tiling economizam mais VRAM.
+qcfg=DiffBnb(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_4bit_compute_dtype=torch.bfloat16)
+transformer=WanTransformer3DModel.from_pretrained(MODEL_ID, subfolder='transformer',
+              quantization_config=qcfg, torch_dtype=torch.bfloat16)
+image_encoder=CLIPVisionModel.from_pretrained(MODEL_ID, subfolder='image_encoder', torch_dtype=torch.bfloat16)
 vae=AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder='vae', torch_dtype=torch.float32)
-pipe=WanImageToVideoPipeline.from_pretrained(MODEL_ID, vae=vae, image_encoder=image_encoder, torch_dtype=torch.bfloat16)
-pipe.enable_model_cpu_offload()
-try: pipe.enable_vae_tiling()
+pipe=WanImageToVideoPipeline.from_pretrained(MODEL_ID, transformer=transformer, vae=vae,
+              image_encoder=image_encoder, torch_dtype=torch.bfloat16)
+try:
+    pipe.enable_model_cpu_offload()            # economiza VRAM movendo modulos ociosos p/ CPU
+except Exception as e:
+    print('offload indisponivel com 4-bit, indo direto p/ GPU:', str(e)[:80]); pipe.to('cuda')
+try: pipe.enable_vae_tiling(); pipe.vae.enable_slicing()
 except Exception: pass
 MOD=pipe.vae_scale_factor_spatial*pipe.transformer.config.patch_size[1]
-print('FLF 14B pronto | MOD=', MOD)'''
+print('FLF 14B 4-bit pronto | MOD=', MOD, '| VRAM livre GB:', round(torch.cuda.mem_get_info()[0]/1e9,1))'''
 
-c_gen = '''import os, json, glob, time, subprocess
+c_gen = '''import os, json, glob, time, gc, subprocess
 import numpy as np, imageio.v3 as iio
 from PIL import Image
 from diffusers.utils import export_to_video
 os.chdir(REPO_DIR)
-RES_AREA=480*832; NUM_FRAMES=49; STEPS=30; GUID=5.5; FPS=24
+RES_AREA=416*720; NUM_FRAMES=41; STEPS=30; GUID=5.5; FPS=24   # enxuto p/ caber; sobe se sobrar VRAM
 NEG='worst quality, static, blurred, distorted, watermark, text, extra limbs, deformed face, flickering, morphing'
 BR=json.load(open('clip/direction/bridge_plan.json'))['bridges']
 try: SKIP={(v['a'],v['b']) for v in json.load(open('clip/direction/bridge_qc.json'))['verdicts'] if v['suggest']=='procedural'}
@@ -78,9 +89,9 @@ def edge(plate, flip, which):
     jp=f'clip/shots/{plate}.jpg'
     return _flip(Image.open(jp).convert('RGB'), flip) if os.path.exists(jp) else None
 
-def dims(im):
+def dims(im, area=RES_AREA):
     ar=im.height/im.width
-    h=max(MOD,int(round(np.sqrt(RES_AREA*ar)))//MOD*MOD); w=max(MOD,int(round(np.sqrt(RES_AREA/ar)))//MOD*MOD)
+    h=max(MOD,int(round(np.sqrt(area*ar)))//MOD*MOD); w=max(MOD,int(round(np.sqrt(area/ar)))//MOD*MOD)
     return h,w
 
 def push():
@@ -99,11 +110,20 @@ for i,b in enumerate(BR,1):
     if os.path.exists(out) and os.path.getsize(out)>150000: print(f'[{i}/{len(BR)}] {a}->{bb} ja existe'); ok+=1; continue
     first=edge(b.get('pa',a), b.get('fa',False), 'last'); last=edge(b.get('pb',bb), b.get('fb',False), 'first')
     if first is None or last is None: print(f'[{i}/{len(BR)}] {a}->{bb} sem plate'); continue
-    h,w=dims(first); first=first.resize((w,h)); last=last.resize((w,h))
+    gc.collect(); torch.cuda.empty_cache()
     t0=time.time()
+    def _run(area, nf):
+        h,w=dims(first, area)
+        return pipe(image=first.resize((w,h)), last_image=last.resize((w,h)), prompt=b['prompt'],
+                    negative_prompt=NEG, height=h, width=w, num_frames=nf,
+                    guidance_scale=GUID, num_inference_steps=STEPS).frames[0]
     try:
-        fr=pipe(image=first, last_image=last, prompt=b['prompt'], negative_prompt=NEG,
-                height=h, width=w, num_frames=NUM_FRAMES, guidance_scale=GUID, num_inference_steps=STEPS).frames[0]
+        try:
+            fr=_run(RES_AREA, NUM_FRAMES)
+        except torch.cuda.OutOfMemoryError:
+            gc.collect(); torch.cuda.empty_cache()
+            print(f'   OOM em {a}->{bb}, tentando menor...')
+            fr=_run(320*576, 33)                       # fallback mais leve
         export_to_video(fr, out, fps=FPS); ok+=1
         print(f'[{i}/{len(BR)}] {a}->{bb} OK {os.path.getsize(out)//1024}KB {time.time()-t0:.0f}s')
         if ok%5==0: push()
