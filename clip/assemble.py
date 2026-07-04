@@ -196,6 +196,43 @@ def find_shot(t):
             return i, s
     return len(SHOTS) - 1, SHOTS[-1]
 
+# ------------------------------------------------------------------ pontes FLF
+# clip/bridges/<a>__<b>.mp4 (gerados por hailuo_pipeline.py bridges): vídeo
+# curto que "gera o meio" entre o fim do plano A e o início do plano B.
+# Toca retimado numa janela cavalgando o corte (t0 do plano B), com fade nas
+# bordas — a emenda vira movimento contínuo em vez de corte, sem mudar o
+# timing musical dos planos.
+_bridge_cache = {}
+def _bridge_frames(path):
+    if path not in _bridge_cache:
+        if len(_bridge_cache) > 2:
+            _bridge_cache.clear()
+        import imageio_ffmpeg, subprocess as sp
+        ff = imageio_ffmpeg.get_ffmpeg_exe()
+        cmd = [ff, "-loglevel", "error", "-i", path,
+               "-vf", f"scale={AW}:{AH}:force_original_aspect_ratio=increase,crop={AW}:{AH}",
+               "-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
+        raw = sp.run(cmd, capture_output=True).stdout
+        n = len(raw) // (AW * AH * 3)
+        _bridge_cache[path] = np.frombuffer(raw[:n * AW * AH * 3], np.uint8).reshape(n, AH, AW, 3)
+    return _bridge_cache[path]
+
+BRIDGE_WIN = []          # (wstart, wend, path, si)
+for _si in range(1, len(SHOTS)):
+    _a = os.path.splitext(SHOTS[_si - 1]["file"])[0]
+    _b = os.path.splitext(SHOTS[_si]["file"])[0]
+    _p = f"clip/bridges/{_a}__{_b}.mp4"
+    if os.path.exists(_p) and os.path.getsize(_p) > 150000:
+        _bw = 0.72
+        _t0 = SHOTS[_si]["t0"]
+        BRIDGE_WIN.append((_t0 - _bw * 0.45, _t0 + _bw * 0.55, _p, _si))
+
+def active_bridge(t):
+    for ws, we, p, si in BRIDGE_WIN:
+        if ws <= t < we:
+            return ws, we, p, si
+    return None
+
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
 def title(im, lines, y, size, fill, alpha, tracking=6):
     if not os.path.exists(FONT): return
@@ -407,10 +444,23 @@ def render_frame(gf):
         cur += GRAINS[gf % 7] * 18
         return _compose(cur, t, gf)
 
+    # ---- ponte FLF cavalgando o corte (substitui a transição procedural)
+    brg = active_bridge(t)
+    if brg is not None:
+        ws, we, bpath, bsi = brg
+        bf = _bridge_frames(bpath)
+        if len(bf):
+            u = (t - ws) / max(we - ws, 1e-6)
+            frame = bf[min(len(bf) - 1, int(u * len(bf)))].astype(np.float32)
+            al = min(1.0, u / 0.16, (1 - u) / 0.16)   # fade de entrada/saída da ponte
+            cur = cur * (1 - al) + frame * al
+
     # ---- transição de ENTRADA (mapa do diretor de continuidade)
     tr = TMAP.get(si, {})
     ttype = tr.get("in", s.get("in", "cut"))
     tdur = float(tr.get("dur") or TRDUR.get(ttype, 0.0))
+    if brg is not None and ttype in ("dissolve", "motion_continue", "match_cut", "whip"):
+        ttype = "cut"                                  # a ponte JÁ é a transição
     if si > 0 and ttype in ("dissolve", "motion_continue", "match_cut") and 0 <= tl < tdur:
         prev = SHOTS[si - 1]; pdur = prev["t1"] - prev["t0"]
         pcont = build_content(prev, si - 1, pdur + tl, pdur, gf)
