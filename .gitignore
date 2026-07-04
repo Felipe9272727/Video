@@ -3,3 +3,6 @@ out/
 __pycache__/
 clip/qc/
 clip/motion_ltx/
+
+# render full (500MB, acima do limite do GitHub) — usar a versao web
+out/charlie_inferno_cinematic.mp4
