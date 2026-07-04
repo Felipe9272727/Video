@@ -3,6 +3,22 @@
 Videoclipe anime (~3:50) da música "Charlie's Inferno" (cover PT-BR). Estilo seinen
 sombrio, cel-shaded, câmera cinematográfica, ênfase nos refrões "Perdão, senhor".
 
+## COMO RETOMAR (se a sessão caiu / limite estourou)
+
+Os clipes ficam DURÁVEIS na saída do kernel Kaggle — nunca se perdem, mesmo que
+o container morra. Pra finalizar tudo (baixar → commitar → renderizar → commitar),
+UM comando resolve, resumável:
+```bash
+export KAGGLE_API_TOKEN=$(cat /root/.kaggle_api_token)
+python3 clip/finish_from_kaggle.py            # faz tudo; se o kernel ainda roda, sai limpo
+```
+Estado do kernel: `python3 clip/finish_from_kaggle.py --status`. Se der ERROR,
+baixe o log (`kaggle kernels output felipe028382072/charlie-gen -p /tmp/ck`) e
+veja as primeiras linhas (torch/arch) e as linhas `[C x/55]`. Re-disparar após
+corrigir: `python3 clip/kaggle/build_dataset.py`.
+
+Tokens salvos: `/root/.kaggle_api_token`, `/root/.hf_token`, `/root/.modelscope_key`.
+
 ## ROTA ATUAL: 100% GRÁTIS (orçamento zero — decisão do usuário 2026-07-04)
 
 Kaggle/Wan-5B abandonado (lento, qualidade fraca, sem CLI/token no container).
