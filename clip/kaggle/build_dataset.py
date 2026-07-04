@@ -31,7 +31,9 @@ for p in sorted(glob.glob("clip/shots/*.jpg")):
     shutil.copy(p, D)
 
 prompts = {os.path.splitext(f)[0]: mw.wan_prompt(f) for f in sorted(mw.CLIPS)}
-bridges = [{"a": b["a"], "b": b["b"], "prompt": b["prompt"]}
+# carrega as pontes INTEIRAS (a,b,pa,fa,pb,fb,prompt) — o kernel precisa do
+# plate real + flip pra montar os frames de emenda dos planos reusados
+bridges = [{k: b[k] for k in ("a", "b", "pa", "fa", "pb", "fb", "prompt")}
            for b in json.load(open("clip/direction/bridge_plan.json"))["bridges"]]
 json.dump({"neg": NEG, "prompts": prompts, "bridges": bridges},
           open(f"{D}/prompts.json", "w"), indent=1, ensure_ascii=False)
