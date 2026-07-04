@@ -66,33 +66,36 @@ print('Drive livre:'); print(subprocess.run(['bash','-lc','df -h /content/drive/
 
 c_model = '''import torch
 from diffusers import AutoencoderKLWan, WanImageToVideoPipeline, WanTransformer3DModel
-from diffusers import BitsAndBytesConfig as DiffBnb
 from transformers import CLIPVisionModel
 MODEL_ID='Wan-AI/Wan2.1-FLF2V-14B-720P-diffusers'   # first-last-frame 14B
-# 4-bit no transformer (14B ~28GB bf16 -> ~8GB) => resolve o OOM. image_encoder
-# em bf16 (nao float32) e VAE tiling economizam mais VRAM.
-qcfg=DiffBnb(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_4bit_compute_dtype=torch.bfloat16)
-transformer=WanTransformer3DModel.from_pretrained(MODEL_ID, subfolder='transformer',
-              quantization_config=qcfg, torch_dtype=torch.bfloat16)
+QUANTIZE = False    # False = qualidade cheia (A100 c/ offload cabe). True = 4-bit se a VRAM apertar.
+if QUANTIZE:
+    from diffusers import BitsAndBytesConfig as DiffBnb
+    qcfg=DiffBnb(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_4bit_compute_dtype=torch.bfloat16)
+    transformer=WanTransformer3DModel.from_pretrained(MODEL_ID, subfolder='transformer',
+                  quantization_config=qcfg, torch_dtype=torch.bfloat16)
+else:
+    transformer=WanTransformer3DModel.from_pretrained(MODEL_ID, subfolder='transformer', torch_dtype=torch.bfloat16)
 image_encoder=CLIPVisionModel.from_pretrained(MODEL_ID, subfolder='image_encoder', torch_dtype=torch.bfloat16)
 vae=AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder='vae', torch_dtype=torch.float32)
 pipe=WanImageToVideoPipeline.from_pretrained(MODEL_ID, transformer=transformer, vae=vae,
               image_encoder=image_encoder, torch_dtype=torch.bfloat16)
 try:
-    pipe.enable_model_cpu_offload()            # economiza VRAM movendo modulos ociosos p/ CPU
+    pipe.enable_model_cpu_offload()            # move modulos ociosos p/ CPU -> 14B cheio cabe na A100
 except Exception as e:
-    print('offload indisponivel com 4-bit, indo direto p/ GPU:', str(e)[:80]); pipe.to('cuda')
+    print('offload indisponivel, indo direto p/ GPU:', str(e)[:80]); pipe.to('cuda')
 try: pipe.enable_vae_tiling(); pipe.vae.enable_slicing()
 except Exception: pass
 MOD=pipe.vae_scale_factor_spatial*pipe.transformer.config.patch_size[1]
-print('FLF 14B 4-bit pronto | MOD=', MOD, '| VRAM livre GB:', round(torch.cuda.mem_get_info()[0]/1e9,1))'''
+print('FLF 14B pronto ('+('4-bit' if QUANTIZE else 'full')+') | MOD=', MOD,
+      '| VRAM livre GB:', round(torch.cuda.mem_get_info()[0]/1e9,1))'''
 
 c_gen = '''import os, json, glob, time, gc, subprocess
 import numpy as np, imageio.v3 as iio
 from PIL import Image
 from diffusers.utils import export_to_video
 os.chdir(REPO_DIR)
-RES_AREA=416*720; NUM_FRAMES=41; STEPS=30; GUID=5.5; FPS=24   # enxuto p/ caber; sobe se sobrar VRAM
+RES_AREA=480*832; NUM_FRAMES=49; STEPS=30; GUID=5.5; FPS=24   # casa com os clipes (480x832); fallback auto se OOM
 NEG='worst quality, static, blurred, distorted, watermark, text, extra limbs, deformed face, flickering, morphing'
 BR=json.load(open('clip/direction/bridge_plan.json'))['bridges']
 try: SKIP={(v['a'],v['b']) for v in json.load(open('clip/direction/bridge_qc.json'))['verdicts'] if v['suggest']=='procedural'}
