@@ -38,7 +38,8 @@ nm = nb = 0
 for p in glob.glob(f"{K}/**/*.mp4", recursive=True):
     base = os.path.basename(p)
     if "/bridges/" in p or base.startswith("b_"):
-        shutil.copy(p, f"clip/bridges/{base}"); nb += 1
+        # kernel nomeia b_<a>__<b>.mp4; o assemble espera <a>__<b>.mp4
+        shutil.copy(p, "clip/bridges/" + (base[2:] if base.startswith("b_") else base)); nb += 1
     else:
         shutil.copy(p, f"clip/motion/{base}"); nm += 1
 print(f"clipes: {nm} em clip/motion | pontes: {nb} em clip/bridges")
