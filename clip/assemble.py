@@ -79,12 +79,23 @@ def shot_img(s):
 # reusos), o clipe animado substitui o still + camera path; o pós (flash,
 # aberração, tint, vinheta, grão, letterbox) continua por cima.
 _motion_cache = {}
+# QC: clipes quase-congelados degradam a imagem sem ganhar nada — melhor a
+# plate 2K nítida com câmera 2.5D. Pula o mp4 desses (verdict ESTATICO).
+try:
+    _MQC = {c["stem"]: c["verdict"]
+            for c in json.load(open("clip/qc/motion_report.json"))["clips"]}
+except Exception:
+    _MQC = {}
+
 def get_motion(s):
     import subprocess as sp
     for base in [s["file"], s.get("src") or ""]:
         if not base:
             continue
-        path = os.path.join("clip/motion", os.path.splitext(base)[0] + ".mp4")
+        stem = os.path.splitext(base)[0]
+        if _MQC.get(stem) == "ESTATICO":
+            continue
+        path = os.path.join("clip/motion", stem + ".mp4")
         if os.path.exists(path):
             if path not in _motion_cache:
                 if len(_motion_cache) > 2:
@@ -363,7 +374,10 @@ def build_content(s, si, tl, dur, gf):
     Sem vinheta/grão/grade — isso é global, aplicado depois."""
     mo = get_motion(s)
     if mo is not None:
-        idx = min(len(mo) - 1, max(0, int(tl / max(dur, 1e-6) * len(mo))))
+        # usa só os primeiros 76% do clipe: o Wan derrete rosto/anatomia no
+        # trecho final (degradação progressiva) — o rabo podre nunca vai pro ar
+        usable = max(1, int(len(mo) * 0.76))
+        idx = min(usable - 1, max(0, int(tl / max(dur, 1e-6) * usable)))
         frame = mo[idx]
         if s.get("flip"):
             frame = frame[:, ::-1]
