@@ -50,19 +50,18 @@ subprocess.run(['git','-C',REPO_DIR,'config','user.name','Colab Wan'], check=Fal
 subprocess.run(['git','-C',REPO_DIR,'remote','set-url','origin',url], check=False)
 print('repo ok | clipes:', len([f for f in os.listdir(REPO_DIR+'/clip/motion') if f.endswith('.mp4')]))'''
 
-c_storage = '''# ARMAZENAMENTO: joga o cache dos modelos no Google Drive (o disco do Colab enche
-# com os ~30-40GB do 14B). Precisa de ESPACO no Drive (~40GB livre -> plano Google
-# One; o Drive gratis de 15GB NAO cabe o 14B). Rode ANTES de carregar o modelo.
+c_storage = '''# ARMAZENAMENTO: baixa no DISCO LOCAL do Colab (na A100 e ~150-230GB, cabe o 14B).
+# NAO usar Drive: o mount FUSE do Drive bufferiza no disco local e TRAVA com modelo
+# grande ('Background writer channel closed' / only has 2.6GB). O disco local e
+# efemero (re-baixa a cada sessao, ~8min), mas funciona sem enrosco.
 import os, subprocess
-USE_DRIVE = True                      # False = usa o disco do Colab mesmo
+USE_DRIVE = False                     # deixe False. Local na A100 aguenta os ~90GB do FLF 14B.
 if USE_DRIVE:
     from google.colab import drive; drive.mount('/content/drive')
     HF='/content/drive/MyDrive/hf_cache'; os.makedirs(HF+'/hub', exist_ok=True)
-    os.environ['HF_HOME']=HF; os.environ['HF_HUB_CACHE']=HF+'/hub'
-    print('cache HF -> Drive:', HF)
-os.environ['HF_HUB_ENABLE_HF_TRANSFER']='1'   # download mais rapido/robusto
-print(subprocess.run(['df','-h'], capture_output=True, text=True).stdout)
-print('Drive livre:'); print(subprocess.run(['bash','-lc','df -h /content/drive/MyDrive 2>/dev/null || echo (Drive nao montado)'], capture_output=True, text=True).stdout)'''
+    os.environ['HF_HOME']=HF; os.environ['HF_HUB_CACHE']=HF+'/hub'; print('cache -> Drive')
+print('=== disco local (precisa ~100GB livres em /content ou /) ===')
+print(subprocess.run(['df','-h','/content','/'], capture_output=True, text=True).stdout)'''
 
 c_model = '''import torch
 from diffusers import AutoencoderKLWan, WanImageToVideoPipeline, WanTransformer3DModel
