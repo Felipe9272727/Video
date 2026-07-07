@@ -374,11 +374,18 @@ def build_content(s, si, tl, dur, gf):
     Sem vinheta/grão/grade — isso é global, aplicado depois."""
     mo = get_motion(s)
     if mo is not None:
-        # usa só os primeiros 76% do clipe: o Wan derrete rosto/anatomia no
-        # trecho final (degradação progressiva) — o rabo podre nunca vai pro ar
+        # 1) velocidade NATIVA (sem esticar = sem slow-motion artificial);
+        # 2) só os primeiros 76% dos frames (o Wan derrete no trecho final);
+        # 3) se a janela é maior que o clipe: segura o último frame bom com
+        #    leve punch-in de câmera (vida sem pop, sem slow-mo).
+        CLIP_FPS = 24.0
         usable = max(1, int(len(mo) * 0.76))
-        idx = min(usable - 1, max(0, int(tl / max(dur, 1e-6) * usable)))
+        idx = min(usable - 1, max(0, int(tl * CLIP_FPS)))
         frame = mo[idx]
+        extra = tl - usable / CLIP_FPS
+        if extra > 0:
+            frame = np.clip(zoom_center(frame.astype(np.float32),
+                                        1.0 + 0.035 * min(extra, 2.5)), 0, 255).astype(np.uint8)
         if s.get("flip"):
             frame = frame[:, ::-1]
         pic = Image.fromarray(np.ascontiguousarray(frame))
