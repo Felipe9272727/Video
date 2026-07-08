@@ -51,3 +51,9 @@ Demandas por severidade:
 4. **Mão-aranha em ECU**: dedos derretidos em s22/s49/s54/s60 — inpaint/regen dos closes.
 Protege (NÃO encostar): paleta em 2 atos (teal→laranja), rosto do hero, arquitetura do inferno (s28/s29/s38/s39).
 Régua: 1 rosto de Charlie em tudo + 1 acabamento + pontes fechadas + zero mão-aranha.
+
+## [Walter · Editor] — re-timing (ENTREGUE + IMPLEMENTADO)
+Diagnóstico: corte METRONÔMICO (66 planos ~3.3s fixos) = slideshow independente do conteúdo; abertura empilha 4 planos mortos em 18s. Fix implementado no storyboard.json:
+- Bimodal: ação/hero ~2.0-2.3s (corte rápido na batida), corpo ~4.3s, holds dramáticos ~5s (s01/s40/s45/s63/hero).
+- Cortes snapados nos onsets fortes (693). Desvio de duração 0.6→1.12.
+- Backup do edit antigo: clip/storyboard_metronome_bak.json.

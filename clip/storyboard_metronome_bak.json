@@ -2,7 +2,7 @@
  "shots": [
   {
    "t0": 0.0,
-   "t1": 5.0,
+   "t1": 6.2,
    "file": "s01_cemetery.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, wide establishing shot of a rainy hillside cemetery at dusk, crooked leafless trees, rows of old tombstones, a distant gray american suburb below, heavy storm clouds, cold blue-gray palette, rain streaks",
    "src": null,
@@ -38,8 +38,8 @@
    "flash": 0.5
   },
   {
-   "t0": 5.0,
-   "t1": 7.583,
+   "t0": 6.2,
+   "t1": 11.44,
    "file": "s02_funeral_low.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme low angle from the wet grass looking up at a row of mourners holding black umbrellas against a stormy sky, silhouettes, one open grave in the foreground, rain falling toward camera, dramatic dutch angle",
    "src": null,
@@ -75,8 +75,8 @@
    "flash": 0.5
   },
   {
-   "t0": 7.583,
-   "t1": 9.667,
+   "t0": 11.44,
+   "t1": 14.31,
    "file": "s03_tombstone.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, dramatic extreme close-up of a granite tombstone engraved with the name CHARLIE in bold letters, rain dripping down the carved letters, wilted flowers at the base, cold gray light, shallow depth of field",
    "src": null,
@@ -112,8 +112,8 @@
    "flash": 0.5
   },
   {
-   "t0": 9.667,
-   "t1": 12.125,
+   "t0": 14.31,
+   "t1": 17.92,
    "file": "s04_funeral_wide.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, perfectly symmetrical wide shot from behind a tombstone, a small bored funeral crowd with black umbrellas staring blankly at the grave, flat deadpan composition, rainy gray cemetery, dark comedy mood",
    "src": null,
@@ -149,8 +149,8 @@
    "flash": 0.5
   },
   {
-   "t0": 12.125,
-   "t1": 14.375,
+   "t0": 17.92,
+   "t1": 21.12,
    "file": "s05_shower.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme top-down overhead angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie shivering under a cold shower fully miserable, arms crossed, teal-blue palette, single dim lightbulb, cramped tiled bathroom, steam-less freezing water",
    "src": null,
@@ -184,8 +184,8 @@
    "flash": 0.5
   },
   {
-   "t0": 14.375,
-   "t1": 18.708,
+   "t0": 21.12,
+   "t1": 24.66,
    "file": "s06_bike.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme low angle from the asphalt, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pedaling an old rusty bicycle to work at dawn, front wheel huge in foreground, gray suburb, a gas station sign with high prices behind him, overcast morning",
    "src": null,
@@ -219,8 +219,8 @@
    "flash": 0.5
   },
   {
-   "t0": 18.708,
-   "t1": 20.958,
+   "t0": 24.66,
+   "t1": 27.79,
    "file": "s07_fishing.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, wide symmetric shot of a tiny rowboat on a vast flat gray lake at dawn, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie fishing alone with a stern judgmental scowl, morning mist, muted colors, lonely mood",
    "src": null,
@@ -254,8 +254,8 @@
    "flash": 0.5
   },
   {
-   "t0": 20.958,
-   "t1": 25.458,
+   "t0": 27.79,
+   "t1": 31.36,
    "file": "s08_flag.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, heroic worm's-eye low angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie with hand solemnly on his chest pledging to a large american flag waving on a suburban porch, exaggerated patriotic pose, morning god rays, slightly mocking grandeur",
    "src": null,
@@ -291,8 +291,8 @@
    "flash": 0.5
   },
   {
-   "t0": 25.458,
-   "t1": 29.75,
+   "t0": 31.36,
+   "t1": 34.4,
    "file": "s09_ocean.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, very high aerial angle looking down at a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing stiff in his suit at the edge of a dark vast ocean shoreline, a huge ominous shark shadow beneath the waves, he looks terrified, tiny figure, foam lines",
    "src": null,
@@ -326,8 +326,8 @@
    "flash": 0.5
   },
   {
-   "t0": 29.75,
-   "t1": 34.125,
+   "t0": 34.4,
+   "t1": 37.84,
    "file": "s10_rose.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, flat frontal deadpan tableau in a gloomy fluorescent kitchen, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie stiffly handing a single rose and a greeting card to his unimpressed deadpan wife in an apron, awkward silence, dark comedy framing",
    "src": null,
@@ -361,8 +361,8 @@
    "flash": 0.5
   },
   {
-   "t0": 34.125,
-   "t1": 36.542,
+   "t0": 37.84,
+   "t1": 41.21,
    "file": "s11_questions.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, tense dutch angle close-up at a dark dinner table, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sweating and looking away while shadowed faces lean in around him, harsh single overhead lamp, noir interrogation mood, high contrast",
    "src": null,
@@ -396,8 +396,8 @@
    "flash": 0.5
   },
   {
-   "t0": 36.542,
-   "t1": 38.833,
+   "t0": 41.21,
+   "t1": 44.68,
    "file": "s12_crash.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, frozen instant of a violent car crash at night, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie shocked face seen through the shattering windshield, glass shards suspended mid-air, headlights flaring, extreme dramatic angle, speed lines, high impact",
    "src": null,
@@ -431,8 +431,8 @@
    "flash": 0.9
   },
   {
-   "t0": 38.833,
-   "t1": 41.083,
+   "t0": 44.68,
+   "t1": 47.75,
    "file": "s13_stairs.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a colossal golden staircase spiraling up through towering sunset clouds, a tiny soul of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie ascending, god rays bursting between clouds, awe-inspiring scale, warm gold and white palette",
    "src": null,
@@ -468,8 +468,8 @@
    "flash": 0.5
   },
   {
-   "t0": 41.083,
-   "t1": 43.125,
+   "t0": 47.75,
+   "t1": 50.92,
    "file": "s14_pray_topdown.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme god's-eye top-down shot directly above a funeral, an open casket with a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie lying in it, a perfect ring of mourners with black umbrellas praying around it, wet grass, geometric composition",
    "src": null,
@@ -505,8 +505,8 @@
    "flash": 0.5
   },
   {
-   "t0": 43.125,
-   "t1": 47.458,
+   "t0": 50.92,
+   "t1": 53.95,
    "file": "s15_wave.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, low angle behind a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing smug on a cloud ledge, waving goodbye down at the tiny earth below, cocky grin over his shoulder, divine light rim, stars appearing, warm gold clouds",
    "src": null,
@@ -542,8 +542,8 @@
    "flash": 0.5
   },
   {
-   "t0": 47.458,
-   "t1": 51.792,
+   "t0": 53.95,
+   "t1": 57.42,
    "file": "s16_vertigo.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, vertigo shot looking straight down past a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie's shoes standing on transparent starlight, the earth a tiny marble far below between his feet, swirling galaxies and divine light around, dizzying scale",
    "src": null,
@@ -579,8 +579,8 @@
    "flash": 0.5
   },
   {
-   "t0": 51.792,
-   "t1": 56.083,
+   "t0": 57.42,
+   "t1": 60.89,
    "file": "s17_angel_gate.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme worm's-eye angle of a colossal marble angel with enormous glowing wings standing at towering golden gates, holding a giant open ledger book, cold indifferent face, tiny {CH} at the base looking up, god rays",
    "src": null,
@@ -616,8 +616,8 @@
    "flash": 0.5
   },
   {
-   "t0": 56.083,
-   "t1": 58.125,
+   "t0": 60.89,
+   "t1": 64.03,
    "file": "s18_list.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, over-the-shoulder close-up of a giant marble angel finger sliding down a glowing ledger page of names, none highlighted, the angel's cold face slowly shaking no, {CH} reflected small in the ledger's gold trim",
    "src": null,
@@ -651,8 +651,8 @@
    "flash": 0.5
   },
   {
-   "t0": 58.125,
-   "t1": 62.292,
+   "t0": 64.03,
+   "t1": 67.1,
    "file": "hero.jpg",
    "prompt": null,
    "src": null,
@@ -686,8 +686,8 @@
    "flash": 0.5
   },
   {
-   "t0": 62.292,
-   "t1": 64.542,
+   "t0": 67.1,
+   "t1": 70.8,
    "file": "s20_no_air.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, high angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie doubled over clutching his chest gasping, the cloud floor beneath him cracking open with blinding light shafts bursting through the cracks, wind-blown, despair, white-gold turning cold",
    "src": null,
@@ -723,8 +723,8 @@
    "flash": 0.5
   },
   {
-   "t0": 64.542,
-   "t1": 68.897,
+   "t0": 70.8,
+   "t1": 73.67,
    "file": "s21_beg.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, dramatic silhouette low angle behind a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie on his knees with clasped begging hands raised toward the towering radiant golden gates, blinding divine backlight, long shadow toward camera, embers of light floating",
    "src": null,
@@ -760,8 +760,8 @@
    "flash": 0.5
   },
   {
-   "t0": 68.897,
-   "t1": 71.083,
+   "t0": 73.67,
+   "t1": 76.88,
    "file": "s22_plead_ecu.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pleading desperately, exaggerated anime despair, huge glassy tearful eyes, gritted teeth, sweat drops flying, hands gesturing wildly toward camera, cold divine light, high emotion",
    "src": null,
@@ -795,8 +795,8 @@
    "flash": 0.5
   },
   {
-   "t0": 71.083,
-   "t1": 73.125,
+   "t0": 76.88,
+   "t1": 80.51,
    "file": "s23_church.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, warm flashback memory, tilted frame of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sliding late into a church pew checking his wristwatch, kaleidoscopic stained-glass light across the wooden pews, soft nostalgic glow, congregation silhouettes",
    "src": null,
@@ -834,8 +834,8 @@
    "flash": 0.5
   },
   {
-   "t0": 73.125,
-   "t1": 75.208,
+   "t0": 80.51,
+   "t1": 83.95,
    "file": "s24_angels_door.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, wide dutch angle of tall glowing indifferent angels filing through a radiant doorway of light, {CH} screaming and reaching, held back by an invisible barrier, his fingers pressed flat against glowing air, despair",
    "src": null,
@@ -871,8 +871,8 @@
    "flash": 0.5
   },
   {
-   "t0": 75.208,
-   "t1": 77.25,
+   "t0": 83.95,
+   "t1": 86.82,
    "file": "s25_floor_opens.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme top-down shot of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie falling away from camera through a hole broken in the cloud floor, arms reaching up toward the receding golden gates, perspective plunge, fisheye distortion, dramatic foreshortening",
    "src": null,
@@ -906,8 +906,8 @@
    "flash": 0.5
   },
   {
-   "t0": 77.25,
-   "t1": 79.292,
+   "t0": 86.82,
+   "t1": 90.03,
    "file": "s26_fall_storm.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, low angle looking up at a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie falling toward camera through dark storm clouds, suit flapping violently, screaming, lightning veins in the clouds, rain streaks shooting upward, extreme motion energy",
    "src": null,
@@ -943,8 +943,8 @@
    "flash": 0.5
   },
   {
-   "t0": 79.292,
-   "t1": 83.625,
+   "t0": 90.03,
+   "t1": 93.7,
    "file": "s27_fall_red.jpg",
    "prompt": null,
    "src": "s26_fall_storm.jpg",
@@ -984,8 +984,8 @@
    "flash": 0.5
   },
   {
-   "t0": 83.625,
-   "t1": 85.667,
+   "t0": 93.7,
+   "t1": 97.2,
    "file": "s28_pit.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, god's-eye view straight down at a glowing molten red pit mouth opening in a black scorched plain, {CH} tiny silhouette falling into it, spiraling smoke and embers rising, concentric rings of fire, vast scale",
    "src": null,
@@ -1021,8 +1021,8 @@
    "flash": 0.5
   },
   {
-   "t0": 85.667,
-   "t1": 90.0,
+   "t0": 97.2,
+   "t1": 100.28,
    "file": "s29_hell_gate.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, colossal obsidian gate covered in glowing molten inscriptions, extreme worm's-eye angle, tiny a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie standing at its base, rivers of embers, oppressive scale, black and infernal orange palette",
    "src": null,
@@ -1058,8 +1058,8 @@
    "flash": 0.5
   },
   {
-   "t0": 90.0,
-   "t1": 94.5,
+   "t0": 100.28,
+   "t1": 103.31,
    "file": "s30_gulp.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, horror underlighting extreme close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie gulping nervously looking up, face lit blood-red from below, the glowing gate reflected in his huge terrified eyes, sweat, embers drifting past",
    "src": null,
@@ -1095,8 +1095,8 @@
    "flash": 0.5
   },
   {
-   "t0": 94.5,
-   "t1": 98.625,
+   "t0": 103.31,
+   "t1": 107.02,
    "file": "s31_hellscape.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, breathtaking panorama of hell, twisted black spires, rivers of lava, storms of embers, endless chained crowds marching, a bruised red sky with a black sun, epic scale wide shot, painted matte background",
    "src": null,
@@ -1132,8 +1132,8 @@
    "flash": 0.5
   },
   {
-   "t0": 98.625,
-   "t1": 102.958,
+   "t0": 107.02,
+   "t1": 110.14,
    "file": "s32_gluttons.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, grotesque infernal banquet, obese wailing damned souls seated at an endless table with red apples stuffed in their mouths like trophies, demon waiters in tailcoats, bone chandeliers with candles, high angle",
    "src": null,
@@ -1169,8 +1169,8 @@
    "flash": 0.5
   },
   {
-   "t0": 102.958,
-   "t1": 107.25,
+   "t0": 110.14,
+   "t1": 113.51,
    "file": "s33_mirrors.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, corridor of tall ornate gilded mirrors in darkness, vain souls trapped inside the glass clawing and screaming at their own reflections, {CH} walking between them uneasy, dutch angle, candle-orange rim light",
    "src": null,
@@ -1204,8 +1204,8 @@
    "flash": 0.5
   },
   {
-   "t0": 107.25,
-   "t1": 111.792,
+   "t0": 113.51,
+   "t1": 116.9,
    "file": "s34_desires.jpg",
    "prompt": null,
    "src": "s33_mirrors.jpg",
@@ -1239,8 +1239,8 @@
    "flash": 0.5
   },
   {
-   "t0": 111.792,
-   "t1": 114.042,
+   "t0": 116.9,
+   "t1": 119.99,
    "file": "s35_market.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, busy infernal night market, demon merchants at stalls selling miniature burning worlds inside glass jars, hanging cages, glowing hellfire signage, crowds of damned souls shopping, smoky wide shot",
    "src": null,
@@ -1276,8 +1276,8 @@
    "flash": 0.5
   },
   {
-   "t0": 114.042,
-   "t1": 118.397,
+   "t0": 119.99,
+   "t1": 123.22,
    "file": "s36_market2.jpg",
    "prompt": null,
    "src": "s35_market.jpg",
@@ -1313,8 +1313,8 @@
    "flash": 0.5
   },
   {
-   "t0": 118.397,
-   "t1": 120.625,
+   "t0": 123.22,
+   "t1": 126.59,
    "file": "s37_elevator.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, claustrophobic shot inside a rusty caged industrial elevator descending, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pressed in a corner, a skeletal demon operator in a bellhop uniform at the lever, one flickering bulb, an old TV showing static, sparks",
    "src": null,
@@ -1348,8 +1348,8 @@
    "flash": 0.5
   },
   {
-   "t0": 120.625,
-   "t1": 124.958,
+   "t0": 126.59,
+   "t1": 129.83,
    "file": "s38_corridor.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, perfect one-point perspective of elevator doors opened onto an endless symmetric corridor of flame-lit black stone, tiny silhouette of {CH} stepping out alone, kubrick symmetry, oppressive geometry",
    "src": null,
@@ -1385,8 +1385,8 @@
    "flash": 0.5
   },
   {
-   "t0": 124.958,
-   "t1": 127.0,
+   "t0": 129.83,
+   "t1": 132.87,
    "file": "s39_run_gate.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, low tracking angle of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprinting desperately toward a distant burning gate, coat flying, anime speed lines, embers streaking horizontally, motion blur floor, extreme dynamic diagonal composition",
    "src": null,
@@ -1422,8 +1422,8 @@
    "flash": 0.5
   },
   {
-   "t0": 127.0,
-   "t1": 131.917,
+   "t0": 132.87,
+   "t1": 136.14,
    "file": "s40_devil.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, an elegant tall devil in a black pinstripe suit, dark red skin, slick curved horns, wide charming predatory grin, glowing amber eyes lounging sideways on an obsidian throne wreathed in smoke, low angle, hellfire rim light, one eyebrow raised in amused delight, cigar smoke curling, art-deco infernal throne room",
    "src": null,
@@ -1459,8 +1459,8 @@
    "flash": 0.5
   },
   {
-   "t0": 131.917,
-   "t1": 136.167,
+   "t0": 136.14,
+   "t1": 139.71,
    "file": "s41_demon_list.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme worm's-eye of a hulking demon clerk behind a towering desk made of skulls, ticking names in a burning ledger with a quill of fire, looking down over tiny {CH}, mirror composition of a heavenly gate check, embers",
    "src": null,
@@ -1496,8 +1496,8 @@
    "flash": 0.5
   },
   {
-   "t0": 136.167,
-   "t1": 138.292,
+   "t0": 139.71,
+   "t1": 143.14,
    "file": "s42_denied.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme close-up of the demon clerk's massive clawed fist slamming a glowing brand onto the ledger, sparks exploding, {CH} flinching small in the foreground bokeh, wide predatory grin of sharp teeth above, impact frame",
    "src": null,
@@ -1533,8 +1533,8 @@
    "flash": 0.5
   },
   {
-   "t0": 138.292,
-   "t1": 142.647,
+   "t0": 143.14,
+   "t1": 146.04,
    "file": "s43_tempt.jpg",
    "prompt": null,
    "src": "s33_mirrors.jpg",
@@ -1572,8 +1572,8 @@
    "flash": 0.5
   },
   {
-   "t0": 142.647,
-   "t1": 144.875,
+   "t0": 146.04,
+   "t1": 149.68,
    "file": "s44_heart_falls.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie dropping to his knees clutching his chest, mouth open gasping for air, embers swirling around him, blood-red light, camera slightly above, his shadow stretched long by firelight, raw despair",
    "src": null,
@@ -1609,8 +1609,8 @@
    "flash": 0.5
   },
   {
-   "t0": 144.875,
-   "t1": 149.475,
+   "t0": 149.68,
+   "t1": 152.55,
    "file": "s45_beg_devil.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, extreme low angle framed between the silhouetted horns of an elegant tall devil in a black pinstripe suit, dark red skin, slick curved horns, wide charming predatory grin, glowing amber eyes in the foreground, tiny a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie kneeling and begging far below, wall of fire behind, frame-within-frame composition, theatrical scale",
    "src": null,
@@ -1646,8 +1646,8 @@
    "flash": 0.5
   },
   {
-   "t0": 149.475,
-   "t1": 153.708,
+   "t0": 152.55,
+   "t1": 155.75,
    "file": "s46_uniform.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie desperately pulling his own collar and lapels showing his plain suit to a circle of looming demon guards with spears, fisheye-like curved perspective, torchlight ring, panic, sweat, wide angle distortion",
    "src": null,
@@ -1683,8 +1683,8 @@
    "flash": 0.5
   },
   {
-   "t0": 153.708,
-   "t1": 158.0,
+   "t0": 155.75,
+   "t1": 159.39,
    "file": "s47_not_belong.jpg",
    "prompt": null,
    "src": "s46_uniform.jpg",
@@ -1722,8 +1722,8 @@
    "flash": 0.5
   },
   {
-   "t0": 158.0,
-   "t1": 162.333,
+   "t0": 159.39,
+   "t1": 162.83,
    "file": "s48_demon_parade.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, wide shot of a parade of horned demons marching through a burning archway dragging chained souls, {CH} in the foreground screaming with his arms spread, ignored by all, ember storm, theatrical staging",
    "src": null,
@@ -1759,8 +1759,8 @@
    "flash": 0.5
   },
   {
-   "t0": 162.333,
-   "t1": 164.583,
+   "t0": 162.83,
+   "t1": 165.72,
    "file": "s49_dragged.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, two hulking demon brutes dragging a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie backwards by the arms, his heels scraping grooves in the ash floor, body sagging, yelling, low tracking side angle, fire wall background, embers, dynamic diagonal",
    "src": null,
@@ -1796,8 +1796,8 @@
    "flash": 0.5
   },
   {
-   "t0": 164.583,
-   "t1": 168.875,
+   "t0": 165.72,
+   "t1": 168.92,
    "file": "s50_thrown.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, god's-eye top-down of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprawled on the black ash floor where he was thrown, burning papers raining down around him like snow, he pushes himself up weakly, circle of demon feet surrounding, embers",
    "src": null,
@@ -1833,8 +1833,8 @@
    "flash": 0.5
   },
   {
-   "t0": 168.875,
-   "t1": 171.167,
+   "t0": 168.92,
+   "t1": 172.53,
    "file": "s51_pound_door.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, side profile silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie pounding both fists against a colossal iron door, fire glow seeping through the door seams, sparks on each impact, his head bowed, exhaustion and fury, chiaroscuro",
    "src": null,
@@ -1870,8 +1870,8 @@
    "flash": 0.5
   },
   {
-   "t0": 171.167,
-   "t1": 175.625,
+   "t0": 172.53,
+   "t1": 175.96,
    "file": "s52_scream_wide.jpg",
    "prompt": null,
    "src": "s48_demon_parade.jpg",
@@ -1907,8 +1907,8 @@
    "flash": 0.5
   },
   {
-   "t0": 175.625,
-   "t1": 179.792,
+   "t0": 175.96,
+   "t1": 179.53,
    "file": "s53_chase.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie sprinting straight toward camera down a collapsing corridor of fire, a horde of demon silhouettes with glowing eyes charging behind him, extreme anime speed lines, debris flying, floor cracking, adrenaline",
    "src": null,
@@ -1944,10 +1944,10 @@
    "flash": 0.5
   },
   {
-   "t0": 179.792,
-   "t1": 184.292,
+   "t0": 179.53,
+   "t1": 182.99,
    "file": "s54_they_walk.jpg",
-   "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie collapsed on hands and knees panting in the foreground, behind him the demons do not run \u2014 they walk slowly out of the shadows in a wide line, backlit by fire, glowing eyes, dread, horror pacing",
+   "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie collapsed on hands and knees panting in the foreground, behind him the demons do not run — they walk slowly out of the shadows in a wide line, backlit by fire, glowing eyes, dread, horror pacing",
    "src": null,
    "cam": {
     "z": [
@@ -1981,8 +1981,8 @@
    "flash": 0.5
   },
   {
-   "t0": 184.292,
-   "t1": 186.592,
+   "t0": 182.99,
+   "t1": 188.95,
    "file": "s55_chase_loop.jpg",
    "prompt": null,
    "src": "s53_chase.jpg",
@@ -2022,8 +2022,8 @@
    "flash": 0.5
   },
   {
-   "t0": 186.592,
-   "t1": 190.875,
+   "t0": 188.95,
+   "t1": 192.52,
    "file": "s56_climb.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, epic vertical composition of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie climbing crumbling black stone stairs toward a tiny distant shaft of white divine light piercing the cavern ceiling, embers falling past him like reverse snow, hope and exhaustion",
    "src": null,
@@ -2059,8 +2059,8 @@
    "flash": 0.5
   },
   {
-   "t0": 190.875,
-   "t1": 193.542,
+   "t0": 192.52,
+   "t1": 195.96,
    "file": "s57_angels_above.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, worm's-eye from deep in the pit, far above at the rim of the light shaft stand tiny indifferent angel silhouettes looking down, cold white light flaring around them, unreachable, cathedral scale verticality",
    "src": null,
@@ -2096,8 +2096,8 @@
    "flash": 0.5
   },
   {
-   "t0": 193.542,
-   "t1": 197.875,
+   "t0": 195.96,
+   "t1": 201.66,
    "file": "s58_climb2.jpg",
    "prompt": null,
    "src": "s56_climb.jpg",
@@ -2133,8 +2133,8 @@
    "flash": 0.5
   },
   {
-   "t0": 197.875,
-   "t1": 200.125,
+   "t0": 201.66,
+   "t1": 205.17,
    "file": "s59_final_beg.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, crane shot rising above a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie on his knees screaming at the sky with tears streaming, a closing ring of fire around him, arms spread wide, embers spiraling upward, operatic despair, red and black palette",
    "src": null,
@@ -2170,8 +2170,8 @@
    "flash": 0.5
   },
   {
-   "t0": 200.125,
-   "t1": 204.458,
+   "t0": 205.17,
+   "t1": 208.37,
    "file": "s60_ash_list.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, macro close-up of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie's trembling fingers clutching the edge of the burning ledger as the page with names crumbles into glowing ash between his fingers, shallow focus, ember particles, loss made physical",
    "src": null,
@@ -2207,8 +2207,8 @@
    "flash": 0.5
   },
   {
-   "t0": 204.458,
-   "t1": 206.708,
+   "t0": 208.37,
+   "t1": 212.01,
    "file": "s61_hand_up.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, wide shot of a single hand reaching up out of rising flames, silhouetted against a dying shaft of cold light from far above, embers and smoke, the rest of the body already swallowed, tragic minimalism",
    "src": null,
@@ -2244,8 +2244,8 @@
    "flash": 0.5
   },
   {
-   "t0": 206.708,
-   "t1": 211.25,
+   "t0": 212.01,
+   "t1": 215.44,
    "file": "s62_eye.jpg",
    "prompt": null,
    "src": "hero.jpg",
@@ -2285,8 +2285,8 @@
    "flash": 0.5
   },
   {
-   "t0": 211.25,
-   "t1": 216.167,
+   "t0": 215.44,
+   "t1": 218.32,
    "file": "s63_last_scream.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, full silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie head thrown back in a final scream against an enormous wall of flame, backlit pure black figure, fire filling the entire frame behind, embers like a blizzard, apocalyptic",
    "src": null,
@@ -2322,8 +2322,8 @@
    "flash": 0.5
   },
   {
-   "t0": 216.167,
-   "t1": 220.167,
+   "t0": 218.32,
+   "t1": 221.53,
    "file": "s64_dissolve.jpg",
    "prompt": "dark cinematic anime film still, hand-painted cel-shaded 2D animation, bold clean lineart, gritty seinen anime feature film aesthetic, moody chiaroscuro lighting, detailed painted background, film grain, the silhouette of a gaunt pale anime man in his 40s, sharp angular face, short slicked-back dark hair, sunken expressive eyes, rumpled charcoal-gray suit, white shirt, loosened crimson red tie dissolving into thousands of glowing embers that scatter upward into black smoke, only half his outline remains, fire dimming to deep red darkness, poetic and final",
    "src": null,
@@ -2359,8 +2359,8 @@
    "flash": 0.5
   },
   {
-   "t0": 220.167,
-   "t1": 224.167,
+   "t0": 221.53,
+   "t1": 225.4,
    "file": "s65_grave_return.jpg",
    "prompt": null,
    "src": "s03_tombstone.jpg",
@@ -2400,8 +2400,8 @@
    "flash": 0.5
   },
   {
-   "t0": 224.167,
-   "t1": 230.245,
+   "t0": 225.4,
+   "t1": 230.3,
    "file": "s66_end.jpg",
    "prompt": null,
    "src": "s01_cemetery.jpg",
