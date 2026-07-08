@@ -414,10 +414,22 @@ def build_content(s, si, tl, dur, gf):
         if raw < usable:
             frame = mo[raw]                       # velocidade nativa
         else:
-            # janela MAIOR que o clipe: SEM reverse (ping-pong ficou ruim) —
-            # câmera Ken Burns contínua sobre o último frame bom. Movimento de
-            # câmera de verdade, nunca congelado, nunca invertido.
-            frame = _ken_burns(mo[min(usable - 1, len(mo) - 1)], tl)
+            # janela MAIOR que o clipe: LOOP FORWARD com crossfade — replay do
+            # MOVIMENTO REAL do clipe em looping suave (sem reverse, sem still
+            # com câmera). Emenda o fim no começo com dissolve = sem pop.
+            cf = min(8, max(1, usable // 4))       # largura do crossfade (frames)
+            if usable <= cf + 1:
+                frame = mo[raw % usable]
+            else:
+                L = usable - cf                    # comprimento do loop sem costura
+                p = raw % L
+                if p >= cf:
+                    frame = mo[min(p, len(mo) - 1)]
+                else:                              # zona de costura: tail->head
+                    a = p / cf
+                    ft = mo[min(L + p, len(mo) - 1)].astype(np.float32)
+                    fh = mo[min(p, len(mo) - 1)].astype(np.float32)
+                    frame = ((1.0 - a) * ft + a * fh).astype(np.uint8)
         if s.get("flip"):
             frame = frame[:, ::-1]
         pic = Image.fromarray(np.ascontiguousarray(frame))
