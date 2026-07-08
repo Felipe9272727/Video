@@ -24,5 +24,16 @@ O Diretor (Virgílio) é o hub: relaciona as entradas e decide.
 ## [Bea · Overlays] — entregue
 - `clip/overlays/light_particles.py`: partículas de luz RGBA p/ `s57` (composição screen, alpha ~0.42). **Aprovado pelo Diretor** (sutil, no estilo, dá vida ao plano parado).
 
+## [Fio · FX Anime] — entregue
+- **Script**: `clip/overlays/anime_fx.py` (np + PIL apenas, SEM deps novas).
+  - `speed_lines(w=1920, h=816, frames=90, direction='horizontal', intensity=0.6, seed=3, out_dir=...)` — linhas de velocidade anime (motion blur radial/direcional). Fade in/hold/fade out (loop-friendly).
+  - `impact_flash(w=1920, h=816, frames=12, out_dir=...)` — clarão branco radial curto (1 beat = 0.5s @ 24fps). Pulso exponencial pra suavidade.
+- **Composição**: `compose_overlay(base_img, overlay_frames, blend_mode='screen', alpha=0.5)` — Screen blend recomendado (preserva sombras). `alpha` ajusta opacidade (0.4-0.7 típico).
+- **Aplicação (cluster de ação Kubrick)**: s39_run_gate, s35_market, s25, s12 (todos >11 de movimento).
+  - **speed_lines**: horizontal (pra movimento lateral) ou radial (pra impacto circular). Rodar em cada corte de ação ou na entrada (fade in forte).
+  - **impact_flash**: aplicar em hits/collisions de punho/queda (1 frame de pico, então decay).
+- **Samples** (aprovados, zero ghosting vs interpolação Caz): `/home/user/Video/build/overlays/fio_s39_compare.jpg` (3-tile: BASE | SPEED_LINES | IMPACT_FLASH). Contact sheets: `fio_s39_speed_contact.jpg`, `fio_s39_impact_contact.jpg`.
+- **Risco de poluição**: Baixo. Composição Screen blend é suave — não mancha cores base (a brasa em s31/s29/s28 fica intacta). Alpha <0.7 garante transparência. Testado visualmente em s39_run_gate (cel-shaded escuro).
+
 ---
 <!-- Novos membros: adicionem sua entrada abaixo -->
