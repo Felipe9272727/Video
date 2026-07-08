@@ -370,6 +370,20 @@ def parallax_frame(s, tl, dur, gf):
     out = PLX.parallax_view(rgb, depth, AW, AH, cx, cy, zoom, rot, tx, ty, dz)
     return Image.fromarray(out)
 
+# --- Overlays por plano (animados por CÓDIGO pelos Haikus do estúdio) ---
+# Registro extensível: stem -> (frames RGBA AWxAH, alpha). Composto em SCREEN no
+# build_content quando o plano toca. Adicionar um overlay = 1 linha _load_ovr().
+_OVR = {}
+def _load_ovr(stem, d, alpha=0.42):
+    import glob as _g
+    fs = sorted(_g.glob(os.path.join(d, "*.png")))
+    if not fs:
+        return
+    _OVR[stem] = ([np.asarray(Image.open(f).convert("RGBA").resize((AW, AH))) for f in fs], alpha)
+
+_load_ovr("s57_angels_above", "build/overlays/s57_light_full", 0.42)   # Bea: partículas de luz
+
+
 def _ken_burns(fr, t):
     """Pan+zoom contínuo sobre UM frame — usado quando a janela excede o clipe,
     pra a imagem NUNCA congelar (câmera viva mesmo num frame estático)."""
@@ -422,6 +436,13 @@ def build_content(s, si, tl, dur, gf):
         im = Image.fromarray(np.clip(fr, 0, 255).astype(np.uint8))
         add_rain(im, t, 1.0 if "rain" in fx else 0.4)
         fr = np.asarray(im).astype(np.float32)
+    ov = _OVR.get(os.path.splitext(s["file"])[0])
+    if ov:
+        frames, oa = ov
+        of = frames[int(tl * FPS) % len(frames)].astype(np.float32)
+        a = (of[..., 3:4] / 255.0) * oa
+        scr = 255.0 - (255.0 - fr) * (255.0 - of[..., :3]) / 255.0   # screen blend
+        fr = fr * (1.0 - a) + scr * a
     return fr
 
 def _compose(cur, t, gf):

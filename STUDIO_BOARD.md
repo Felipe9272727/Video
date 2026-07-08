@@ -35,5 +35,9 @@ O Diretor (Virgílio) é o hub: relaciona as entradas e decide.
 - **Samples** (aprovados, zero ghosting vs interpolação Caz): `/home/user/Video/build/overlays/fio_s39_compare.jpg` (3-tile: BASE | SPEED_LINES | IMPACT_FLASH). Contact sheets: `fio_s39_speed_contact.jpg`, `fio_s39_impact_contact.jpg`.
 - **Risco de poluição**: Baixo. Composição Screen blend é suave — não mancha cores base (a brasa em s31/s29/s28 fica intacta). Alpha <0.7 garante transparência. Testado visualmente em s39_run_gate (cel-shaded escuro).
 
+## [Virgílio · Diretor] — QC das entregas (verificado com os olhos)
+- **Bea (luz s57): APROVADA e INTEGRADA** — sistema de overlay por plano no motor (`_OVR`/`_load_ovr` em assemble.py, screen alpha 0.42). Adicionar overlay futuro = 1 linha. Render final rodando.
+- **Fio (speed-lines): REJEITADO** — no cluster de ação (que o Kubrick marcou "limpo, não mexer") as linhas ficaram fracas/genéricas (risco de virar scanline/ruído). `impact_flash` guardado p/ hits específicos (s12_crash, s25) se quisermos punch depois. Draft-verify funcionando: nem todo entregável passa.
+
 ---
 <!-- Novos membros: adicionem sua entrada abaixo -->
