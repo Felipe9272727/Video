@@ -19,9 +19,10 @@ import json, math, os, subprocess, sys
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw, ImageFilter
 
-W, H = 1280, 720
-AW, AH = 1280, 544            # active 21:9-ish picture area (even for yuv420)
+W, H = 1920, 1080
+AW, AH = 1920, 816            # active 21:9-ish picture area (even for yuv420)
 BAR = (H - AH) // 2
+SC = W / 1280.0               # fator de escala p/ tamanhos absolutos (fontes)
 FPS = 24
 MP3 = "Charlie_s Inferno (Excuse Me Sir) - That Handsome Devil _ COVER PT-BR(MP3_160K)_1.mp3"
 OUT = "out/charlie_inferno_cinematic.mp4"
@@ -430,12 +431,12 @@ def _compose(cur, t, gf):
     cv.paste(pic, (0, BAR))
     if t < 6.5:
         al = min(1.0, max(0.0, (t - 1.2) / 1.2)) * min(1.0, max(0.0, (6.5 - t) / 0.8))
-        title(cv, ["CHARLIE'S INFERNO"], H * 0.30, 64, (245, 228, 205), 255 * al)
-        title(cv, ["that handsome devil — cover pt-br"], H * 0.44, 22, (210, 180, 150), 220 * al)
+        title(cv, ["CHARLIE'S INFERNO"], H * 0.30, int(64 * SC), (245, 228, 205), 255 * al)
+        title(cv, ["that handsome devil — cover pt-br"], H * 0.44, int(22 * SC), (210, 180, 150), 220 * al)
     if t > DUR - 12.5:
         al = min(1.0, (t - (DUR - 12.5)) / 1.5)
-        title(cv, ["CHARLIE'S INFERNO"], H * 0.34, 58, (255, 210, 120), 255 * al)
-        title(cv, ["( excuse me sir )"], H * 0.47, 24, (230, 170, 120), 230 * al)
+        title(cv, ["CHARLIE'S INFERNO"], H * 0.34, int(58 * SC), (255, 210, 120), 255 * al)
+        title(cv, ["( excuse me sir )"], H * 0.47, int(24 * SC), (230, 170, 120), 230 * al)
     g = 1.0
     if t < 1.0: g = t / 1.0
     if t > DUR - 1.6: g = max(0.0, (DUR - t) / 1.6)
