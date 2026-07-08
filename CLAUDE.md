@@ -19,6 +19,14 @@ Regra absoluta: se economia conflitar com qualidade, **qualidade vence**.
 | Síntese média / edição contida | quando valer | Sonnet |
 | Decisão de arquitetura / trade-off | resolver direto | Opus (eu) |
 
+**Escala de modelos (rank do usuário — regem a delegação):**
+- **Haiku padrão** — a maior parte do trabalho braçal.
+- **Haiku (ultracode / max thinking)** — trabalhador geral pesado; **sempre verifico a saída
+  antes do final** (modelo pequeno → avaliar antes de assumir como bom = "draft-verify").
+- **Sonnet** — tarefas complexas, mas não tanto quanto as minhas; o que **menos** uso.
+- **Opus (eu)** — orquestrador: classifico, roteio, decido arquitetura/direção, verifico deltas.
+- **Fable** — teto de escalada: só quando **eu não consigo deixar realmente bom**.
+
 Preço/1M (input/output): Haiku $1/$5 · Sonnet $2–3/$10–15 · Opus $5/$25 · Fable $10/$50.
 Haiku é 5× mais barato que Opus no input. **Não** spawnar subagente pra tarefa trivial
 (cold start + re-derivação custa mais que fazer direto).
