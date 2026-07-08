@@ -369,23 +369,42 @@ def parallax_frame(s, tl, dur, gf):
     out = PLX.parallax_view(rgb, depth, AW, AH, cx, cy, zoom, rot, tx, ty, dz)
     return Image.fromarray(out)
 
+def _ken_burns(fr, t):
+    """Pan+zoom contínuo sobre UM frame — usado quando a janela excede o clipe,
+    pra a imagem NUNCA congelar (câmera viva mesmo num frame estático)."""
+    h, w = fr.shape[:2]
+    z = 1.09 + 0.03 * math.sin(t * 0.5)
+    cx = 0.5 + 0.06 * math.sin(t * 0.33)
+    cy = 0.5 + 0.045 * math.cos(t * 0.27)
+    cw, ch = w / z, h / z
+    x0 = min(max(cx * w - cw / 2.0, 0.0), w - cw)
+    y0 = min(max(cy * h - ch / 2.0, 0.0), h - ch)
+    crop = fr[int(y0):int(y0 + ch), int(x0):int(x0 + cw)]
+    return np.asarray(Image.fromarray(np.ascontiguousarray(crop.astype(np.uint8)))
+                      .resize((w, h), Image.BILINEAR))
+
+
 def build_content(s, si, tl, dur, gf):
     """Conteúdo do plano (motion clip OU câmera 2.5D sobre still) + embers/rays/chuva.
     Sem vinheta/grão/grade — isso é global, aplicado depois."""
     mo = get_motion(s)
     if mo is not None:
         # 1) velocidade NATIVA (sem esticar = sem slow-motion artificial);
-        # 2) só os primeiros 76% dos frames (o Wan derrete no trecho final);
-        # 3) se a janela é maior que o clipe: segura o último frame bom com
-        #    leve punch-in de câmera (vida sem pop, sem slow-mo).
+        # 2) só os primeiros 76% dos frames (o Wan/Seedance derrete no fim);
+        # 3) janela MAIOR que o clipe: NUNCA congela — PING-PONG dos frames úteis
+        #    (movimento real, ida-e-volta) + Ken Burns contínuo por cima.
         CLIP_FPS = 24.0
         usable = max(1, int(len(mo) * 0.76))
-        idx = min(usable - 1, max(0, int(tl * CLIP_FPS)))
-        frame = mo[idx]
-        extra = tl - usable / CLIP_FPS
-        if extra > 0:
-            frame = np.clip(zoom_center(frame.astype(np.float32),
-                                        1.0 + 0.035 * min(extra, 2.5)), 0, 255).astype(np.uint8)
+        raw = max(0, int(tl * CLIP_FPS))
+        if raw < usable:
+            frame = mo[raw]
+        elif usable > 1:
+            period = 2 * (usable - 1)
+            m = raw % period
+            idx = m if m < usable else period - m
+            frame = _ken_burns(mo[idx], tl)
+        else:
+            frame = _ken_burns(mo[0], tl)
         if s.get("flip"):
             frame = frame[:, ::-1]
         pic = Image.fromarray(np.ascontiguousarray(frame))
