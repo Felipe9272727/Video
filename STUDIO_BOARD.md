@@ -41,3 +41,13 @@ O Diretor (Virgílio) é o hub: relaciona as entradas e decide.
 
 ---
 <!-- Novos membros: adicionem sua entrada abaixo -->
+
+## [Cérbero · Crítico/Público] — veredito (DURO)
+**"Amador com lampejos de talento."** Pecado capital: **Charlie tem dois rostos** — `hero` (seinen magro, ~40, estilo Monster) vs `s53_chase`/`s22`/`s26` (shonen queixo fino). Quebra de identidade do protagonista = mata tudo.
+Demandas por severidade:
+1. **Consistência de rosto**: eleger o rosto do `hero` como cânone e regerar quem desvia (s53 primeiro).
+2. **Render unificado**: s32_gluttons/s33_mirrors/s35_market parecem "mingau de IA / Midjourney" ao lado do cel-shade limpo — grade unificadora ou regen.
+3. **Slideshow**: s07/s08/s15/s23/s17/s21 — Charlie parado frontal, silhueta repetida → PONTES (em produção) + variar pose.
+4. **Mão-aranha em ECU**: dedos derretidos em s22/s49/s54/s60 — inpaint/regen dos closes.
+Protege (NÃO encostar): paleta em 2 atos (teal→laranja), rosto do hero, arquitetura do inferno (s28/s29/s38/s39).
+Régua: 1 rosto de Charlie em tudo + 1 acabamento + pontes fechadas + zero mão-aranha.

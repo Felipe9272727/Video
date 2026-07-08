@@ -8,6 +8,7 @@ interpolação, params do motor) — não gera vídeo. É assim que os Haikus "a
 | Nome | Modelo | Cargo | Quando age |
 |---|---|---|---|
 | **Dante** | Fable | Showrunner / teto de qualidade | SÓ no fim; quando o Diretor não consegue deixar bom. Provavelmente não hoje. |
+| **Cérbero** | Opus (reasoning médio) | **Crítico / o Público** | Implacável. Não é da equipe — é o público bravo. Reclama de tudo abaixo de AAA; o Diretor tem que responder ao que ele aponta. |
 | **Virgílio (eu)** | Opus | **Diretor Geral** | Sempre. Classifico, decido arquitetura do motor, roteio, verifico, integro. |
 | **Kubrick** | Sonnet | Diretor de cena + Storyboard | Plano-a-plano: o que cada shot precisa (movimento/câmera/regen), continuidade, ritmo. |
 | **Lean** | Sonnet | Editor / Fotografia | Ritmo, transições, cor, onde entram pontes, direção de fluidez. |
