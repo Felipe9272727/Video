@@ -412,14 +412,12 @@ def build_content(s, si, tl, dur, gf):
         usable = max(1, int(len(mo) * 0.76))
         raw = max(0, int(tl * CLIP_FPS))
         if raw < usable:
-            frame = mo[raw]
-        elif usable > 1:
-            period = 2 * (usable - 1)
-            m = raw % period
-            idx = m if m < usable else period - m
-            frame = _ken_burns(mo[idx], tl)
+            frame = mo[raw]                       # velocidade nativa
         else:
-            frame = _ken_burns(mo[0], tl)
+            # janela MAIOR que o clipe: SEM reverse (ping-pong ficou ruim) —
+            # câmera Ken Burns contínua sobre o último frame bom. Movimento de
+            # câmera de verdade, nunca congelado, nunca invertido.
+            frame = _ken_burns(mo[min(usable - 1, len(mo) - 1)], tl)
         if s.get("flip"):
             frame = frame[:, ::-1]
         pic = Image.fromarray(np.ascontiguousarray(frame))
