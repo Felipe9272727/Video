@@ -16,6 +16,11 @@ interpolação, params do motor) — não gera vídeo. É assim que os Haikus "a
 | **Caz** | Haiku | Fluidez / interpolação | RIFE/minterpolate/deflicker por clipe; testa e mede o ganho. |
 | **Deni** | Haiku | QC / continuidade | Caça freeze, artefato, corte seco (folhas de contato, segmentos). |
 | **Emi** | Haiku | Assets / keyframes | Extrai keyframes limpos (EbSynth/pontes), afina prompts, prepara plates. |
+| **Fio** | Haiku | FX de anime | Speed-lines, impact-flash, trilhas de movimento (overlay por código) p/ os planos de ação. |
+
+## Comunicação do estúdio
+Hub-and-spoke pelo Diretor + **mural compartilhado** `STUDIO_BOARD.md`: todo agente LÊ antes de agir
+e ESCREVE ao terminar (memória async). O Diretor pode reativar um agente com contexto (SendMessage).
 
 ## Regras (economia — Sonnets são caros)
 - **Sonnets (Kubrick/Lean): rédea curta.** Contexto mínimo, saída só estruturada (tabela/JSON),
